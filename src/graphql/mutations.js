@@ -4,71 +4,71 @@
 export const createCollection = /* GraphQL */ `
   mutation CreateCollection($input: CreateCollectionInput!) {
     createCollection(input: $input) {
-      id
-      title
-      identifier
-      description
-      creator
-      source
-      circa
-      start_date
-      end_date
-      subject
-      location
-      rights_statement
-      language
-      related_url
-      provenance
       belongs_to
       bibliographic_citation
-      rights_holder
-      custom_key
+      circa
       collection_category
-      visibility
-      thumbnail_path
-      parent_collection
-      display_date
-      create_date
-      modified_date
-      heirarchy_path
       collectionmap_id
+      create_date
+      creator
+      custom_key
+      description
+      display_date
+      end_date
+      heirarchy_path
+      id
+      identifier
+      language
+      location
+      modified_date
       ownerinfo
+      parent_collection
+      provenance
+      related_url
+      rights_holder
+      rights_statement
+      source
+      start_date
+      subject
+      thumbnail_path
+      title
+      visibility
       collectionmap {
-        id
         collection_id
-        map_object
         create_date
+        id
+        map_object
         modified_date
         collection {
-          id
-          title
-          identifier
-          description
-          creator
-          source
-          circa
-          start_date
-          end_date
-          subject
-          location
-          rights_statement
-          language
-          related_url
-          provenance
           belongs_to
           bibliographic_citation
-          rights_holder
-          custom_key
+          circa
           collection_category
-          visibility
-          thumbnail_path
-          parent_collection
-          display_date
-          create_date
-          modified_date
-          heirarchy_path
           collectionmap_id
+          create_date
+          creator
+          custom_key
+          description
+          display_date
+          end_date
+          heirarchy_path
+          id
+          identifier
+          language
+          location
+          modified_date
           ownerinfo
+          parent_collection
+          provenance
+          related_url
+          rights_holder
+          rights_statement
+          source
+          start_date
+          subject
+          thumbnail_path
+          title
+          visibility
           createdAt
           updatedAt
         }
@@ -79,42 +79,43 @@ export const createCollection = /* GraphQL */ `
       updatedAt
       archives {
         items {
-          id
-          title
-          identifier
-          description
-          tags
-          creator
-          source
-          circa
-          start_date
-          end_date
-          subject
-          rights_statement
-          language
-          resource_type
           belongs_to
-          location
-          medium
           bibliographic_citation
-          rights_holder
-          format
-          related_url
-          provenance
-          repository
-          reference
+          circa
           contributor
-          custom_key
-          parent_collection
-          item_category
-          visibility
-          thumbnail_path
-          manifest_url
-          heirarchy_path
-          display_date
           create_date
-          modified_date
+          creator
+          custom_key
+          description
+          display_date
+          end_date
           explicit
+          extent
+          format
+          heirarchy_path
+          id
+          identifier
+          item_category
+          language
+          location
+          manifest_url
+          medium
+          modified_date
+          parent_collection
+          provenance
+          reference
+          related_url
+          repository
+          resource_type
+          rights_holder
+          rights_statement
+          source
+          start_date
+          subject
+          tags
+          thumbnail_path
+          title
+          visibility
           createdAt
           updatedAt
         }
@@ -126,71 +127,71 @@ export const createCollection = /* GraphQL */ `
 export const updateCollection = /* GraphQL */ `
   mutation UpdateCollection($input: UpdateCollectionInput!) {
     updateCollection(input: $input) {
-      id
-      title
-      identifier
-      description
-      creator
-      source
-      circa
-      start_date
-      end_date
-      subject
-      location
-      rights_statement
-      language
-      related_url
-      provenance
       belongs_to
       bibliographic_citation
-      rights_holder
-      custom_key
+      circa
       collection_category
-      visibility
-      thumbnail_path
-      parent_collection
-      display_date
-      create_date
-      modified_date
-      heirarchy_path
       collectionmap_id
+      create_date
+      creator
+      custom_key
+      description
+      display_date
+      end_date
+      heirarchy_path
+      id
+      identifier
+      language
+      location
+      modified_date
       ownerinfo
+      parent_collection
+      provenance
+      related_url
+      rights_holder
+      rights_statement
+      source
+      start_date
+      subject
+      thumbnail_path
+      title
+      visibility
       collectionmap {
-        id
         collection_id
-        map_object
         create_date
+        id
+        map_object
         modified_date
         collection {
-          id
-          title
-          identifier
-          description
-          creator
-          source
-          circa
-          start_date
-          end_date
-          subject
-          location
-          rights_statement
-          language
-          related_url
-          provenance
           belongs_to
           bibliographic_citation
-          rights_holder
-          custom_key
+          circa
           collection_category
-          visibility
-          thumbnail_path
-          parent_collection
-          display_date
-          create_date
-          modified_date
-          heirarchy_path
           collectionmap_id
+          create_date
+          creator
+          custom_key
+          description
+          display_date
+          end_date
+          heirarchy_path
+          id
+          identifier
+          language
+          location
+          modified_date
           ownerinfo
+          parent_collection
+          provenance
+          related_url
+          rights_holder
+          rights_statement
+          source
+          start_date
+          subject
+          thumbnail_path
+          title
+          visibility
           createdAt
           updatedAt
         }
@@ -201,42 +202,43 @@ export const updateCollection = /* GraphQL */ `
       updatedAt
       archives {
         items {
-          id
-          title
-          identifier
-          description
-          tags
-          creator
-          source
-          circa
-          start_date
-          end_date
-          subject
-          rights_statement
-          language
-          resource_type
           belongs_to
-          location
-          medium
           bibliographic_citation
-          rights_holder
-          format
-          related_url
-          provenance
-          repository
-          reference
+          circa
           contributor
-          custom_key
-          parent_collection
-          item_category
-          visibility
-          thumbnail_path
-          manifest_url
-          heirarchy_path
-          display_date
           create_date
-          modified_date
+          creator
+          custom_key
+          description
+          display_date
+          end_date
           explicit
+          extent
+          format
+          heirarchy_path
+          id
+          identifier
+          item_category
+          language
+          location
+          manifest_url
+          medium
+          modified_date
+          parent_collection
+          provenance
+          reference
+          related_url
+          repository
+          resource_type
+          rights_holder
+          rights_statement
+          source
+          start_date
+          subject
+          tags
+          thumbnail_path
+          title
+          visibility
           createdAt
           updatedAt
         }
@@ -248,71 +250,71 @@ export const updateCollection = /* GraphQL */ `
 export const deleteCollection = /* GraphQL */ `
   mutation DeleteCollection($input: DeleteCollectionInput!) {
     deleteCollection(input: $input) {
-      id
-      title
-      identifier
-      description
-      creator
-      source
-      circa
-      start_date
-      end_date
-      subject
-      location
-      rights_statement
-      language
-      related_url
-      provenance
       belongs_to
       bibliographic_citation
-      rights_holder
-      custom_key
+      circa
       collection_category
-      visibility
-      thumbnail_path
-      parent_collection
-      display_date
-      create_date
-      modified_date
-      heirarchy_path
       collectionmap_id
+      create_date
+      creator
+      custom_key
+      description
+      display_date
+      end_date
+      heirarchy_path
+      id
+      identifier
+      language
+      location
+      modified_date
       ownerinfo
+      parent_collection
+      provenance
+      related_url
+      rights_holder
+      rights_statement
+      source
+      start_date
+      subject
+      thumbnail_path
+      title
+      visibility
       collectionmap {
-        id
         collection_id
-        map_object
         create_date
+        id
+        map_object
         modified_date
         collection {
-          id
-          title
-          identifier
-          description
-          creator
-          source
-          circa
-          start_date
-          end_date
-          subject
-          location
-          rights_statement
-          language
-          related_url
-          provenance
           belongs_to
           bibliographic_citation
-          rights_holder
-          custom_key
+          circa
           collection_category
-          visibility
-          thumbnail_path
-          parent_collection
-          display_date
-          create_date
-          modified_date
-          heirarchy_path
           collectionmap_id
+          create_date
+          creator
+          custom_key
+          description
+          display_date
+          end_date
+          heirarchy_path
+          id
+          identifier
+          language
+          location
+          modified_date
           ownerinfo
+          parent_collection
+          provenance
+          related_url
+          rights_holder
+          rights_statement
+          source
+          start_date
+          subject
+          thumbnail_path
+          title
+          visibility
           createdAt
           updatedAt
         }
@@ -323,42 +325,43 @@ export const deleteCollection = /* GraphQL */ `
       updatedAt
       archives {
         items {
-          id
-          title
-          identifier
-          description
-          tags
-          creator
-          source
-          circa
-          start_date
-          end_date
-          subject
-          rights_statement
-          language
-          resource_type
           belongs_to
-          location
-          medium
           bibliographic_citation
-          rights_holder
-          format
-          related_url
-          provenance
-          repository
-          reference
+          circa
           contributor
-          custom_key
-          parent_collection
-          item_category
-          visibility
-          thumbnail_path
-          manifest_url
-          heirarchy_path
-          display_date
           create_date
-          modified_date
+          creator
+          custom_key
+          description
+          display_date
+          end_date
           explicit
+          extent
+          format
+          heirarchy_path
+          id
+          identifier
+          item_category
+          language
+          location
+          manifest_url
+          medium
+          modified_date
+          parent_collection
+          provenance
+          reference
+          related_url
+          repository
+          resource_type
+          rights_holder
+          rights_statement
+          source
+          start_date
+          subject
+          tags
+          thumbnail_path
+          title
+          visibility
           createdAt
           updatedAt
         }
@@ -370,46 +373,46 @@ export const deleteCollection = /* GraphQL */ `
 export const createCollectionmap = /* GraphQL */ `
   mutation CreateCollectionmap($input: CreateCollectionmapInput!) {
     createCollectionmap(input: $input) {
-      id
       collection_id
-      map_object
       create_date
+      id
+      map_object
       modified_date
       collection {
-        id
-        title
-        identifier
-        description
-        creator
-        source
-        circa
-        start_date
-        end_date
-        subject
-        location
-        rights_statement
-        language
-        related_url
-        provenance
         belongs_to
         bibliographic_citation
-        rights_holder
-        custom_key
+        circa
         collection_category
-        visibility
-        thumbnail_path
-        parent_collection
-        display_date
-        create_date
-        modified_date
-        heirarchy_path
         collectionmap_id
+        create_date
+        creator
+        custom_key
+        description
+        display_date
+        end_date
+        heirarchy_path
+        id
+        identifier
+        language
+        location
+        modified_date
         ownerinfo
+        parent_collection
+        provenance
+        related_url
+        rights_holder
+        rights_statement
+        source
+        start_date
+        subject
+        thumbnail_path
+        title
+        visibility
         collectionmap {
-          id
           collection_id
-          map_object
           create_date
+          id
+          map_object
           modified_date
           createdAt
           updatedAt
@@ -428,46 +431,46 @@ export const createCollectionmap = /* GraphQL */ `
 export const updateCollectionmap = /* GraphQL */ `
   mutation UpdateCollectionmap($input: UpdateCollectionmapInput!) {
     updateCollectionmap(input: $input) {
-      id
       collection_id
-      map_object
       create_date
+      id
+      map_object
       modified_date
       collection {
-        id
-        title
-        identifier
-        description
-        creator
-        source
-        circa
-        start_date
-        end_date
-        subject
-        location
-        rights_statement
-        language
-        related_url
-        provenance
         belongs_to
         bibliographic_citation
-        rights_holder
-        custom_key
+        circa
         collection_category
-        visibility
-        thumbnail_path
-        parent_collection
-        display_date
-        create_date
-        modified_date
-        heirarchy_path
         collectionmap_id
+        create_date
+        creator
+        custom_key
+        description
+        display_date
+        end_date
+        heirarchy_path
+        id
+        identifier
+        language
+        location
+        modified_date
         ownerinfo
+        parent_collection
+        provenance
+        related_url
+        rights_holder
+        rights_statement
+        source
+        start_date
+        subject
+        thumbnail_path
+        title
+        visibility
         collectionmap {
-          id
           collection_id
-          map_object
           create_date
+          id
+          map_object
           modified_date
           createdAt
           updatedAt
@@ -486,46 +489,46 @@ export const updateCollectionmap = /* GraphQL */ `
 export const deleteCollectionmap = /* GraphQL */ `
   mutation DeleteCollectionmap($input: DeleteCollectionmapInput!) {
     deleteCollectionmap(input: $input) {
-      id
       collection_id
-      map_object
       create_date
+      id
+      map_object
       modified_date
       collection {
-        id
-        title
-        identifier
-        description
-        creator
-        source
-        circa
-        start_date
-        end_date
-        subject
-        location
-        rights_statement
-        language
-        related_url
-        provenance
         belongs_to
         bibliographic_citation
-        rights_holder
-        custom_key
+        circa
         collection_category
-        visibility
-        thumbnail_path
-        parent_collection
-        display_date
-        create_date
-        modified_date
-        heirarchy_path
         collectionmap_id
+        create_date
+        creator
+        custom_key
+        description
+        display_date
+        end_date
+        heirarchy_path
+        id
+        identifier
+        language
+        location
+        modified_date
         ownerinfo
+        parent_collection
+        provenance
+        related_url
+        rights_holder
+        rights_statement
+        source
+        start_date
+        subject
+        thumbnail_path
+        title
+        visibility
         collectionmap {
-          id
           collection_id
-          map_object
           create_date
+          id
+          map_object
           modified_date
           createdAt
           updatedAt
@@ -544,77 +547,78 @@ export const deleteCollectionmap = /* GraphQL */ `
 export const createArchive = /* GraphQL */ `
   mutation CreateArchive($input: CreateArchiveInput!) {
     createArchive(input: $input) {
-      id
-      title
-      identifier
-      description
-      tags
-      creator
-      source
-      circa
-      start_date
-      end_date
-      subject
-      rights_statement
-      language
-      resource_type
       belongs_to
-      location
-      medium
       bibliographic_citation
-      rights_holder
-      format
-      related_url
-      provenance
-      repository
-      reference
+      circa
       contributor
-      custom_key
-      parent_collection
-      item_category
-      visibility
-      thumbnail_path
-      manifest_url
-      heirarchy_path
-      display_date
       create_date
-      modified_date
+      creator
+      custom_key
+      description
+      display_date
+      end_date
       explicit
+      extent
+      format
+      heirarchy_path
+      id
+      identifier
+      item_category
+      language
+      location
+      manifest_url
+      medium
+      modified_date
+      parent_collection
+      provenance
+      reference
+      related_url
+      repository
+      resource_type
+      rights_holder
+      rights_statement
+      source
+      start_date
+      subject
+      tags
+      thumbnail_path
+      title
+      visibility
       collection {
-        id
-        title
-        identifier
-        description
-        creator
-        source
-        circa
-        start_date
-        end_date
-        subject
-        location
-        rights_statement
-        language
-        related_url
-        provenance
         belongs_to
         bibliographic_citation
-        rights_holder
-        custom_key
+        circa
         collection_category
-        visibility
-        thumbnail_path
-        parent_collection
-        display_date
-        create_date
-        modified_date
-        heirarchy_path
         collectionmap_id
+        create_date
+        creator
+        custom_key
+        description
+        display_date
+        end_date
+        heirarchy_path
+        id
+        identifier
+        language
+        location
+        modified_date
         ownerinfo
+        parent_collection
+        provenance
+        related_url
+        rights_holder
+        rights_statement
+        source
+        start_date
+        subject
+        thumbnail_path
+        title
+        visibility
         collectionmap {
-          id
           collection_id
-          map_object
           create_date
+          id
+          map_object
           modified_date
           createdAt
           updatedAt
@@ -633,77 +637,78 @@ export const createArchive = /* GraphQL */ `
 export const updateArchive = /* GraphQL */ `
   mutation UpdateArchive($input: UpdateArchiveInput!) {
     updateArchive(input: $input) {
-      id
-      title
-      identifier
-      description
-      tags
-      creator
-      source
-      circa
-      start_date
-      end_date
-      subject
-      rights_statement
-      language
-      resource_type
       belongs_to
-      location
-      medium
       bibliographic_citation
-      rights_holder
-      format
-      related_url
-      provenance
-      repository
-      reference
+      circa
       contributor
-      custom_key
-      parent_collection
-      item_category
-      visibility
-      thumbnail_path
-      manifest_url
-      heirarchy_path
-      display_date
       create_date
-      modified_date
+      creator
+      custom_key
+      description
+      display_date
+      end_date
       explicit
+      extent
+      format
+      heirarchy_path
+      id
+      identifier
+      item_category
+      language
+      location
+      manifest_url
+      medium
+      modified_date
+      parent_collection
+      provenance
+      reference
+      related_url
+      repository
+      resource_type
+      rights_holder
+      rights_statement
+      source
+      start_date
+      subject
+      tags
+      thumbnail_path
+      title
+      visibility
       collection {
-        id
-        title
-        identifier
-        description
-        creator
-        source
-        circa
-        start_date
-        end_date
-        subject
-        location
-        rights_statement
-        language
-        related_url
-        provenance
         belongs_to
         bibliographic_citation
-        rights_holder
-        custom_key
+        circa
         collection_category
-        visibility
-        thumbnail_path
-        parent_collection
-        display_date
-        create_date
-        modified_date
-        heirarchy_path
         collectionmap_id
+        create_date
+        creator
+        custom_key
+        description
+        display_date
+        end_date
+        heirarchy_path
+        id
+        identifier
+        language
+        location
+        modified_date
         ownerinfo
+        parent_collection
+        provenance
+        related_url
+        rights_holder
+        rights_statement
+        source
+        start_date
+        subject
+        thumbnail_path
+        title
+        visibility
         collectionmap {
-          id
           collection_id
-          map_object
           create_date
+          id
+          map_object
           modified_date
           createdAt
           updatedAt
@@ -722,77 +727,78 @@ export const updateArchive = /* GraphQL */ `
 export const deleteArchive = /* GraphQL */ `
   mutation DeleteArchive($input: DeleteArchiveInput!) {
     deleteArchive(input: $input) {
-      id
-      title
-      identifier
-      description
-      tags
-      creator
-      source
-      circa
-      start_date
-      end_date
-      subject
-      rights_statement
-      language
-      resource_type
       belongs_to
-      location
-      medium
       bibliographic_citation
-      rights_holder
-      format
-      related_url
-      provenance
-      repository
-      reference
+      circa
       contributor
-      custom_key
-      parent_collection
-      item_category
-      visibility
-      thumbnail_path
-      manifest_url
-      heirarchy_path
-      display_date
       create_date
-      modified_date
+      creator
+      custom_key
+      description
+      display_date
+      end_date
       explicit
+      extent
+      format
+      heirarchy_path
+      id
+      identifier
+      item_category
+      language
+      location
+      manifest_url
+      medium
+      modified_date
+      parent_collection
+      provenance
+      reference
+      related_url
+      repository
+      resource_type
+      rights_holder
+      rights_statement
+      source
+      start_date
+      subject
+      tags
+      thumbnail_path
+      title
+      visibility
       collection {
-        id
-        title
-        identifier
-        description
-        creator
-        source
-        circa
-        start_date
-        end_date
-        subject
-        location
-        rights_statement
-        language
-        related_url
-        provenance
         belongs_to
         bibliographic_citation
-        rights_holder
-        custom_key
+        circa
         collection_category
-        visibility
-        thumbnail_path
-        parent_collection
-        display_date
-        create_date
-        modified_date
-        heirarchy_path
         collectionmap_id
+        create_date
+        creator
+        custom_key
+        description
+        display_date
+        end_date
+        heirarchy_path
+        id
+        identifier
+        language
+        location
+        modified_date
         ownerinfo
+        parent_collection
+        provenance
+        related_url
+        rights_holder
+        rights_statement
+        source
+        start_date
+        subject
+        thumbnail_path
+        title
+        visibility
         collectionmap {
-          id
           collection_id
-          map_object
           create_date
+          id
+          map_object
           modified_date
           createdAt
           updatedAt
@@ -811,14 +817,14 @@ export const deleteArchive = /* GraphQL */ `
 export const createSite = /* GraphQL */ `
   mutation CreateSite($input: CreateSiteInput!) {
     createSite(input: $input) {
-      id
-      groups
       analyticsID
       assetBasePath
       browseCollections
       contact
       displayedAttributes
+      groups
       homePage
+      id
       lang
       miradorOptions
       searchPage
@@ -835,14 +841,14 @@ export const createSite = /* GraphQL */ `
 export const updateSite = /* GraphQL */ `
   mutation UpdateSite($input: UpdateSiteInput!) {
     updateSite(input: $input) {
-      id
-      groups
       analyticsID
       assetBasePath
       browseCollections
       contact
       displayedAttributes
+      groups
       homePage
+      id
       lang
       miradorOptions
       searchPage
@@ -859,14 +865,14 @@ export const updateSite = /* GraphQL */ `
 export const deleteSite = /* GraphQL */ `
   mutation DeleteSite($input: DeleteSiteInput!) {
     deleteSite(input: $input) {
-      id
-      groups
       analyticsID
       assetBasePath
       browseCollections
       contact
       displayedAttributes
+      groups
       homePage
+      id
       lang
       miradorOptions
       searchPage
@@ -883,11 +889,11 @@ export const deleteSite = /* GraphQL */ `
 export const createHistory = /* GraphQL */ `
   mutation CreateHistory($input: CreateHistoryInput!) {
     createHistory(input: $input) {
-      id
-      groups
-      userEmail
-      siteID
       event
+      groups
+      id
+      siteID
+      userEmail
       createdAt
       updatedAt
     }
@@ -896,11 +902,11 @@ export const createHistory = /* GraphQL */ `
 export const updateHistory = /* GraphQL */ `
   mutation UpdateHistory($input: UpdateHistoryInput!) {
     updateHistory(input: $input) {
-      id
-      groups
-      userEmail
-      siteID
       event
+      groups
+      id
+      siteID
+      userEmail
       createdAt
       updatedAt
     }
@@ -909,11 +915,11 @@ export const updateHistory = /* GraphQL */ `
 export const deleteHistory = /* GraphQL */ `
   mutation DeleteHistory($input: DeleteHistoryInput!) {
     deleteHistory(input: $input) {
-      id
-      groups
-      userEmail
-      siteID
       event
+      groups
+      id
+      siteID
+      userEmail
       createdAt
       updatedAt
     }

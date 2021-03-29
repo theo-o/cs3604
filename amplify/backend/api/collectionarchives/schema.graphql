@@ -1,30 +1,30 @@
 interface Object {
-  id: ID!
-  title: String!
-  identifier: String!
-  description: String
-  creator: [String!]
-  source: [String!]
-  circa: String
-  start_date: String
-  end_date: String
-  subject: [String!]
-  location: [String!]
-  rights_statement: String
-  language: [String!]
-  related_url: [String!]
-  provenance: [String!]
   belongs_to: [String!]
   bibliographic_citation: String
-  rights_holder: String
-  custom_key: String
-  visibility: Boolean!
-  heirarchy_path: [String!]
-  thumbnail_path: String
-  parent_collection: [String!]
-  display_date: String
+  circa: String
   create_date: String
+  creator: [String!]
+  custom_key: String
+  description: String
+  display_date: String
+  end_date: String
+  heirarchy_path: [String!]
+  id: ID!
+  identifier: String!
+  language: [String!]
+  location: [String!]
   modified_date: String
+  parent_collection: [String!]
+  provenance: [String!]
+  related_url: [String!]
+  rights_holder: String
+  rights_statement: String
+  source: [String!]
+  start_date: String
+  subject: [String!]
+  thumbnail_path: String
+  title: String!
+  visibility: Boolean!
 }
 
 type Collection implements Object
@@ -35,35 +35,35 @@ type Collection implements Object
     name: "Identifier"
     queryField: "collectionByIdentifier"
   ) {
-  id: ID!
-  title: String!
-  identifier: String!
-  description: String
-  creator: [String!]
-  source: [String!]
-  circa: String
-  start_date: String
-  end_date: String
-  subject: [String!]
-  location: [String!]
-  rights_statement: String
-  language: [String!]
-  related_url: [String!]
-  provenance: [String!]
   belongs_to: [String!]
   bibliographic_citation: String
-  rights_holder: String
-  custom_key: String
+  circa: String
   collection_category: String!
-  visibility: Boolean!
-  thumbnail_path: String
-  parent_collection: [String!]
-  display_date: String
-  create_date: String
-  modified_date: String
-  heirarchy_path: [String!]
   collectionmap_id: String
+  create_date: String
+  creator: [String!]
+  custom_key: String
+  description: String
+  display_date: String
+  end_date: String
+  heirarchy_path: [String!]
+  id: ID!
+  identifier: String!
+  language: [String!]
+  location: [String!]
+  modified_date: String
   ownerinfo: AWSJSON
+  parent_collection: [String!]
+  provenance: [String!]
+  related_url: [String!]
+  rights_holder: String
+  rights_statement: String
+  source: [String!]
+  start_date: String
+  subject: [String!]
+  thumbnail_path: String
+  title: String!
+  visibility: Boolean!
   collectionmap: Collectionmap @connection(name: "CollectionCollectionMap")
   archives: [Archive] @connection(name: "CollectionArchives")
 }
@@ -72,10 +72,10 @@ type Collectionmap
   @model
   @searchable
   {
-    id: ID!
     collection_id: String!
-    map_object: String!
     create_date: String
+    id: ID!
+    map_object: String!
     modified_date: String
     collection: Collection @connection(name: "CollectionCollectionMap")
   }
@@ -93,42 +93,43 @@ type Archive implements Object
     { allow: groups, groups: ["Admin", "Editor"] },
     { allow: groups, groupsField: "item_category" }
   ]){
-  id: ID!
-  title: String!
-  identifier: String!
-  description: String
-  tags: [String!]
-  creator: [String!]
-  source: [String!]
-  circa: String
-  start_date: String
-  end_date: String
-  subject: [String!]
-  rights_statement: String
-  language: [String!]
-  resource_type: [String!]
   belongs_to: [String!]
-  location: [String!]
-  medium: [String!]
   bibliographic_citation: String
-  rights_holder: String
-  format: [String!]
-  related_url: [String!]
-  provenance: [String!]
-  repository: [String!]
-  reference: [String!]
+  circa: String
   contributor: [String!]
-  custom_key: String
-  parent_collection: [String!]
-  item_category: String!
-  visibility: Boolean!
-  thumbnail_path: String
-  manifest_url: String!
-  heirarchy_path: [String!]
-  display_date: String
   create_date: String
-  modified_date: String
+  creator: [String!]
+  custom_key: String
+  description: String
+  display_date: String
+  end_date: String
   explicit: Boolean
+  extent: String
+  format: [String!]
+  heirarchy_path: [String!]
+  id: ID!
+  identifier: String!
+  item_category: String!
+  language: [String!]
+  location: [String!]
+  manifest_url: String!
+  medium: [String!]
+  modified_date: String
+  parent_collection: [String!]
+  provenance: [String!]
+  reference: [String!]
+  related_url: [String!]
+  repository: [String!]
+  resource_type: [String!]
+  rights_holder: String
+  rights_statement: String
+  source: [String!]
+  start_date: String
+  subject: [String!]
+  tags: [String!]
+  thumbnail_path: String
+  title: String!
+  visibility: Boolean!
   collection: Collection @connection(name: "CollectionArchives")
 }
 
@@ -139,14 +140,14 @@ type Site
     { allow: public, operations: [read] },
     { allow: groups, groupsField: "groups" }
     ]) {
-  id: ID!
-  groups: [String]!
   analyticsID: String
   assetBasePath: String
   browseCollections: AWSJSON!
   contact: [AWSJSON!]!
   displayedAttributes: AWSJSON!
+  groups: [String]!
   homePage: AWSJSON!
+  id: ID!
   lang: String
   miradorOptions: AWSJSON
   searchPage: AWSJSON!
@@ -163,11 +164,11 @@ type History
     { allow: groups, groups: ["Admin"] },
     { allow: groups, groupsField: "groups", operations: [read, create] }
   ]) {
-  id: ID!
-  groups: [String]!
-  userEmail: AWSEmail!
-  siteID: ID!
   event: AWSJSON!
+  groups: [String]!
+  id: ID!
+  siteID: ID!
+  userEmail: AWSEmail!
 }
 
 type Query {
