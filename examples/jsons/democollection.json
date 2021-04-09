@@ -1,0 +1,48 @@
+{
+  "collection_category": {
+    "S": "demo"
+  },
+  "collectionmap_id": {
+    "S": "19"
+  },
+  "create_date": {
+    "S": "2020/07/14 14:43:26"
+  },
+  "createdAt": {
+    "S": "2020-07-14T14:43:26.000Z"
+  },
+  "custom_key": {
+    "S": "ark:/53696/j22hdemo"
+  },
+  "description": {
+    "S": "A demo collection"
+  },
+  "heirarchy_path": {
+    "L": [
+      {
+        "S": "692555a6-c794-11ea-87d0-0242ac130003"
+      }
+    ]
+  },
+  "id": {
+    "S": "692555a6-c794-11ea-87d0-0242ac130003"
+  },
+  "identifier": {
+    "S": "democollection"
+  },
+  "modified_date": {
+    "S": "2020/07/14 19:33:51"
+  },
+  "thumbnail_path": {
+    "S": "https://hokiesports.com/images/2018/10/11/271f4e06b61983fba5c37bad7586f2e8.jpg"
+  },
+  "title": {
+    "S": "Demo collection"
+  },
+  "updatedAt": {
+    "S": "2020-07-14T19:33:51.000Z"
+  },
+  "visibility": {
+    "BOOL": true
+  }
+}
