@@ -46,6 +46,7 @@ type Collection implements Object
   description: String
   display_date: String
   end_date: String
+  explicit_content: Boolean
   heirarchy_path: [String!]
   id: ID!
   identifier: String!
@@ -112,6 +113,7 @@ type Archive implements Object
   item_category: String!
   language: [String!]
   location: [String!]
+  manifest_file_characterization: AWSJSON
   manifest_url: String!
   medium: [String!]
   modified_date: String

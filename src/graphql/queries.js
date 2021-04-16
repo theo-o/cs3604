@@ -46,6 +46,7 @@ export const searchObjects = /* GraphQL */ `
         ... on Collection {
           collection_category
           collectionmap_id
+          explicit_content
           ownerinfo
           collectionmap {
             collection_id
@@ -68,6 +69,7 @@ export const searchObjects = /* GraphQL */ `
           extent
           format
           item_category
+          manifest_file_characterization
           manifest_url
           medium
           reference
@@ -86,6 +88,7 @@ export const searchObjects = /* GraphQL */ `
             description
             display_date
             end_date
+            explicit_content
             heirarchy_path
             id
             identifier
@@ -143,6 +146,7 @@ export const fulltextCollections = /* GraphQL */ `
         description
         display_date
         end_date
+        explicit_content
         heirarchy_path
         id
         identifier
@@ -216,6 +220,7 @@ export const fulltextArchives = /* GraphQL */ `
         item_category
         language
         location
+        manifest_file_characterization
         manifest_url
         medium
         modified_date
@@ -246,6 +251,7 @@ export const fulltextArchives = /* GraphQL */ `
           description
           display_date
           end_date
+          explicit_content
           heirarchy_path
           id
           identifier
@@ -289,6 +295,7 @@ export const getCollection = /* GraphQL */ `
       description
       display_date
       end_date
+      explicit_content
       heirarchy_path
       id
       identifier
@@ -325,6 +332,7 @@ export const getCollection = /* GraphQL */ `
           description
           display_date
           end_date
+          explicit_content
           heirarchy_path
           id
           identifier
@@ -372,6 +380,7 @@ export const getCollection = /* GraphQL */ `
           item_category
           language
           location
+          manifest_file_characterization
           manifest_url
           medium
           modified_date
@@ -417,6 +426,7 @@ export const listCollections = /* GraphQL */ `
         description
         display_date
         end_date
+        explicit_content
         heirarchy_path
         id
         identifier
@@ -474,6 +484,7 @@ export const getCollectionmap = /* GraphQL */ `
         description
         display_date
         end_date
+        explicit_content
         heirarchy_path
         id
         identifier
@@ -537,6 +548,7 @@ export const listCollectionmaps = /* GraphQL */ `
           description
           display_date
           end_date
+          explicit_content
           heirarchy_path
           id
           identifier
@@ -592,6 +604,7 @@ export const collectionByIdentifier = /* GraphQL */ `
         description
         display_date
         end_date
+        explicit_content
         heirarchy_path
         id
         identifier
@@ -656,6 +669,7 @@ export const searchCollections = /* GraphQL */ `
         description
         display_date
         end_date
+        explicit_content
         heirarchy_path
         id
         identifier
@@ -727,6 +741,7 @@ export const searchCollectionmaps = /* GraphQL */ `
           description
           display_date
           end_date
+          explicit_content
           heirarchy_path
           id
           identifier
@@ -778,6 +793,7 @@ export const getArchive = /* GraphQL */ `
       item_category
       language
       location
+      manifest_file_characterization
       manifest_url
       medium
       modified_date
@@ -808,6 +824,7 @@ export const getArchive = /* GraphQL */ `
         description
         display_date
         end_date
+        explicit_content
         heirarchy_path
         id
         identifier
@@ -873,6 +890,7 @@ export const listArchives = /* GraphQL */ `
         item_category
         language
         location
+        manifest_file_characterization
         manifest_url
         medium
         modified_date
@@ -903,6 +921,7 @@ export const listArchives = /* GraphQL */ `
           description
           display_date
           end_date
+          explicit_content
           heirarchy_path
           id
           identifier
@@ -966,6 +985,7 @@ export const archiveByIdentifier = /* GraphQL */ `
         item_category
         language
         location
+        manifest_file_characterization
         manifest_url
         medium
         modified_date
@@ -996,6 +1016,7 @@ export const archiveByIdentifier = /* GraphQL */ `
           description
           display_date
           end_date
+          explicit_content
           heirarchy_path
           id
           identifier
@@ -1059,6 +1080,7 @@ export const searchArchives = /* GraphQL */ `
         item_category
         language
         location
+        manifest_file_characterization
         manifest_url
         medium
         modified_date
@@ -1089,6 +1111,7 @@ export const searchArchives = /* GraphQL */ `
           description
           display_date
           end_date
+          explicit_content
           heirarchy_path
           id
           identifier

@@ -15,6 +15,7 @@ export const createCollection = /* GraphQL */ `
       description
       display_date
       end_date
+      explicit_content
       heirarchy_path
       id
       identifier
@@ -51,6 +52,7 @@ export const createCollection = /* GraphQL */ `
           description
           display_date
           end_date
+          explicit_content
           heirarchy_path
           id
           identifier
@@ -98,6 +100,7 @@ export const createCollection = /* GraphQL */ `
           item_category
           language
           location
+          manifest_file_characterization
           manifest_url
           medium
           modified_date
@@ -138,6 +141,7 @@ export const updateCollection = /* GraphQL */ `
       description
       display_date
       end_date
+      explicit_content
       heirarchy_path
       id
       identifier
@@ -174,6 +178,7 @@ export const updateCollection = /* GraphQL */ `
           description
           display_date
           end_date
+          explicit_content
           heirarchy_path
           id
           identifier
@@ -221,6 +226,7 @@ export const updateCollection = /* GraphQL */ `
           item_category
           language
           location
+          manifest_file_characterization
           manifest_url
           medium
           modified_date
@@ -261,6 +267,7 @@ export const deleteCollection = /* GraphQL */ `
       description
       display_date
       end_date
+      explicit_content
       heirarchy_path
       id
       identifier
@@ -297,6 +304,7 @@ export const deleteCollection = /* GraphQL */ `
           description
           display_date
           end_date
+          explicit_content
           heirarchy_path
           id
           identifier
@@ -344,6 +352,7 @@ export const deleteCollection = /* GraphQL */ `
           item_category
           language
           location
+          manifest_file_characterization
           manifest_url
           medium
           modified_date
@@ -390,6 +399,7 @@ export const createCollectionmap = /* GraphQL */ `
         description
         display_date
         end_date
+        explicit_content
         heirarchy_path
         id
         identifier
@@ -448,6 +458,7 @@ export const updateCollectionmap = /* GraphQL */ `
         description
         display_date
         end_date
+        explicit_content
         heirarchy_path
         id
         identifier
@@ -506,6 +517,7 @@ export const deleteCollectionmap = /* GraphQL */ `
         description
         display_date
         end_date
+        explicit_content
         heirarchy_path
         id
         identifier
@@ -566,6 +578,7 @@ export const createArchive = /* GraphQL */ `
       item_category
       language
       location
+      manifest_file_characterization
       manifest_url
       medium
       modified_date
@@ -596,6 +609,7 @@ export const createArchive = /* GraphQL */ `
         description
         display_date
         end_date
+        explicit_content
         heirarchy_path
         id
         identifier
@@ -656,6 +670,7 @@ export const updateArchive = /* GraphQL */ `
       item_category
       language
       location
+      manifest_file_characterization
       manifest_url
       medium
       modified_date
@@ -686,6 +701,7 @@ export const updateArchive = /* GraphQL */ `
         description
         display_date
         end_date
+        explicit_content
         heirarchy_path
         id
         identifier
@@ -746,6 +762,7 @@ export const deleteArchive = /* GraphQL */ `
       item_category
       language
       location
+      manifest_file_characterization
       manifest_url
       medium
       modified_date
@@ -776,6 +793,7 @@ export const deleteArchive = /* GraphQL */ `
         description
         display_date
         end_date
+        explicit_content
         heirarchy_path
         id
         identifier
