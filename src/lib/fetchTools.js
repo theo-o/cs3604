@@ -1,13 +1,34 @@
 import { API, graphqlOperation, Storage } from "aws-amplify";
 import * as queries from "../graphql/queries";
 
-export function getFile(copyURL, type, component) {
+export function getFile(copyURL, type, component, attr) {
+  if (
+    type === "image" &&
+    copyURL &&
+    copyURL.indexOf("img.cloud.lib.vt.edu") !== -1
+  ) {
+    const stateObj = {};
+    const stateAttr = attr || "copy";
+    stateObj[stateAttr] = copyURL;
+    component.setState(stateObj);
+  } else {
+    try {
+      fetchCopyFile(copyURL, type, component, attr);
+    } catch (error) {
+      console.error("Error setting copy for component");
+    }
+  }
+}
+
+export const asyncGetFile = async (copyURL, type, component, attr) => {
+  let response = null;
   try {
-    fetchCopyFile(copyURL, type, component);
+    response = await fetchCopyFile(copyURL, type, component, attr);
   } catch (error) {
     console.error("Error setting copy for component");
   }
-}
+  return response;
+};
 
 export const mintNOID = async () => {
   const apiKey = process.env.REACT_APP_MINT_API_KEY;
@@ -38,10 +59,9 @@ export const mintNOID = async () => {
   return retVal;
 };
 
-const fetchCopyFile = async (copyURL, type, component) => {
+const fetchCopyFile = async (copyURL, type, component, attr) => {
   let data = null;
   let filename = copyURL;
-  console.log(copyURL);
   let prefix = `public/sitecontent/${type}/${process.env.REACT_APP_REP_TYPE.toLowerCase()}/`;
   if (copyURL.indexOf("https") === 0) {
     filename = copyURL.split("/").pop();
@@ -50,13 +70,8 @@ const fetchCopyFile = async (copyURL, type, component) => {
       .replace(`https://${bucket}.s3.amazonaws.com/`, "")
       .replace(filename, "");
   }
-  try {
-    data = sessionStorage.getItem(copyURL);
-  } catch (error) {
-    console.log(`${copyURL} not in sessionStorage`);
-  }
+
   if (!data) {
-    console.log(prefix);
     try {
       Storage.configure({
         customPrefix: {
@@ -79,8 +94,13 @@ const fetchCopyFile = async (copyURL, type, component) => {
     }
   }
   if (data) {
-    sessionStorage.setItem(filename, data);
-    component.setState({ copy: data });
+    const stateObj = {};
+    const stateAttr = attr || "copy";
+    stateObj[stateAttr] = data;
+    component.setState(stateObj);
+    return { success: true };
+  } else {
+    return { success: false };
   }
 };
 

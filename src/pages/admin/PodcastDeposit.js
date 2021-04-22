@@ -21,8 +21,8 @@ const initialFormState = {
   source_link: "",
   source_text: "",
   publication_date: "",
-  explicit: false,
-  visibility: false
+  visibility: false,
+  manifest_file_characterization: {}
 };
 
 class PodcastDeposit extends Component {
@@ -88,6 +88,28 @@ class PodcastDeposit extends Component {
     return `https://${bucket}.s3.amazonaws.com/${pathPrefix}${value}`;
   }
 
+  setFileCharacterization(context, file) {
+    let fileDetails = {};
+    fileDetails.name = file.name;
+    fileDetails.type = file.type;
+    fileDetails.size = file.size;
+    let audio = new Audio();
+    audio.addEventListener(
+      "loadedmetadata",
+      function() {
+        fileDetails.duration = new Date(audio.duration * 1000)
+          .toISOString()
+          .substr(11, 8);
+        let event = { target: {} };
+        event.target.name = "manifest_file_characterization";
+        event.target.value = JSON.stringify(fileDetails);
+        context.updateInputValue(event);
+      },
+      false
+    );
+    audio.src = window.URL.createObjectURL(file);
+  }
+
   updateInputValue = event => {
     const { name, type } = event.target;
     let value = type === "checkbox" ? event.target.checked : event.target.value;
@@ -145,11 +167,13 @@ class PodcastDeposit extends Component {
       custom_key: customKey,
       parent_collection: [selectedCollection.id],
       item_category: "podcasts",
+      resource_type: ["podcast"],
       visibility: this.state.formState.visibility || false,
       thumbnail_path: this.state.formState.thumbnail_path,
       manifest_url: this.state.formState.manifest_url,
-      heirarchy_path: [selectedCollection.heirarchy_path],
-      explicit: this.state.formState.explicit || false,
+      manifest_file_characterization: this.state.formState
+        .manifest_file_characterization,
+      heirarchy_path: selectedCollection.heirarchy_path,
       create_date: modifiedPubDate,
       modified_date: modifiedPubDate
     };
@@ -282,17 +306,6 @@ class PodcastDeposit extends Component {
 
             {input(
               {
-                outerClass: "field explicit-checkbox",
-                label: "Explicit:",
-                name: "explicit",
-                id: "explicit-checkbox",
-                onChange: this.updateInputValue,
-                checked: this.state.formState.explicit
-              },
-              "checkBox"
-            )}
-            {input(
-              {
                 outerClass: "field visibility-checkbox",
                 label: "Visibility:",
                 name: "visibility",
@@ -311,7 +324,9 @@ class PodcastDeposit extends Component {
                 id: "manifest_url_upload",
                 name: "manifest_url",
                 placeholder: "Audio file",
+                context: this,
                 setSrc: this.updateInputValue,
+                setFileCharacterization: this.setFileCharacterization,
                 fileType: "audio"
               },
               "file"
@@ -415,7 +430,7 @@ class PodcastDeposit extends Component {
               ? this.newPodcastForm()
               : this.view()}
           </div>
-          <div class="signout-wrapper">
+          <div className="signout-wrapper">
             <AmplifySignOut />
           </div>
         </div>

@@ -1,8 +1,16 @@
 import React, { Component } from "react";
 
+import { getFile } from "../lib/fetchTools";
 import "../css/Thumbnail.scss";
 
 class Thumbnail extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      thumbnailImg: null
+    };
+  }
+
   labelDisplay() {
     if (this.props.label) {
       return (
@@ -15,13 +23,19 @@ class Thumbnail extends Component {
     }
   }
 
+  componentDidMount() {
+    if (this.props.item.thumbnail_path) {
+      getFile(this.props.item.thumbnail_path, "image", this, "thumbnailImg");
+    }
+  }
+
   render() {
     return (
       <div className="image-container">
         {this.labelDisplay()}
         <img
           className={this.props.className}
-          src={this.props.item.thumbnail_path}
+          src={this.state.thumbnailImg}
           alt={this.props.altText ? this.props.item.title : ""}
         />
       </div>

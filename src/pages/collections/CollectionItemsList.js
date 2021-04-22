@@ -15,7 +15,7 @@ class CollectionItemsList extends Component {
           aria-roledescription="Collection items"
         >
           {this.props.items.map(item => (
-            <div className="collection-item" key={item.custom_key}>
+            <div className="collection-item" key={item.identifier}>
               <div className="collection-item-wrapper">
                 <a href={`/archive/${arkLinkFormatted(item.custom_key)}`}>
                   <div className="item-image">

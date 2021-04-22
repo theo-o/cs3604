@@ -5,13 +5,16 @@ import "mediaelement";
 
 import "mediaelement/build/mediaelementplayer.min.css";
 import "mediaelement/build/mediaelement-flash-video.swf";
+import { asyncGetFile } from "../lib/fetchTools";
 import "../css/podcastMediaElement.scss";
 
 export default class PodcastMediaElement extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      player: null
+      player: null,
+      audioImg: null,
+      audioSrc: null
     };
   }
 
@@ -23,7 +26,22 @@ export default class PodcastMediaElement extends Component {
     console.log(media);
   }
 
+  async getAssetFiles() {
+    const sources = JSON.parse(this.props.sources);
+    let audioResponse = null;
+    if (sources[0].src) {
+      const audioUrl = sources[0].src.split("/").pop();
+      audioResponse = await asyncGetFile(audioUrl, "audio", this, "audioSrc");
+    }
+    if (audioResponse.success && this.props.poster) {
+      const imgUrl = this.props.poster.split("/").pop();
+      await asyncGetFile(imgUrl, "image", this, "audioImg");
+    }
+  }
+
   componentDidMount() {
+    this.getAssetFiles();
+
     const { MediaElementPlayer } = global;
     if (!MediaElementPlayer) {
       return;
@@ -52,7 +70,7 @@ export default class PodcastMediaElement extends Component {
       <div className="audio-img-wrapper">
         <img
           className="audio-img"
-          src={this.props.poster}
+          src={this.state.audioImg}
           alt={this.props.title}
         />
       </div>
@@ -70,15 +88,17 @@ export default class PodcastMediaElement extends Component {
   }
 
   render() {
+    if (!this.state.audioSrc || !this.state.audioImg) {
+      return <></>;
+    }
     const props = this.props,
-      sources = JSON.parse(props.sources),
       tracks = JSON.parse(props.tracks),
       sourceTags = [],
       tracksTags = [];
-    for (let i = 0, total = sources.length; i < total; i++) {
-      const source = sources[i];
-      sourceTags.push(`<source src="${source.src}" type="${source.type}">`);
-    }
+    const sources = JSON.parse(this.props.sources);
+    sourceTags.push(
+      `<source src="${this.state.audioSrc}" type="${sources[0].type}">`
+    );
 
     for (let i = 0, total = tracks.length; i < total; i++) {
       const track = tracks[i];
@@ -115,7 +135,7 @@ export default class PodcastMediaElement extends Component {
           <div className="media-buttons">
             {this.transcriptButton()}
             <a
-              href={sources[0].src}
+              href={this.state.audioSrc}
               className="download-link"
               download
               aria-label="Download episode"

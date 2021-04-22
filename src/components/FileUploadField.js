@@ -107,6 +107,16 @@ class FileUploadField extends Component {
             evt
           );
         }
+        if (
+          this.props.context &&
+          typeof this.props.setFileCharacterization === "function"
+        ) {
+          this.props.setFileCharacterization(
+            this.props.context,
+            this.state.file,
+            evt
+          );
+        }
         this.props.setSrc(evt);
       });
 

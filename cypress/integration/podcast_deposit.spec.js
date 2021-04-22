@@ -31,21 +31,19 @@ describe("Creates Podcast Archive record", () => {
     const source_link = "https://sites.google.com/vt.edu/test/home";
     const source_text = "Test podcast";
     it("Adds Podcast metadata and files. Displays results.", () => {
-        cy.get("input[name='title']", { timeout: 10000 })
+        cy.get("input[name='title']")
           .clear()
           .type(title);
-        cy.get("textarea[name='description']", { timeout: 2000 })
+        cy.get("textarea[name='description']")
           .clear()
           .type(description);
-        cy.get("input[name='source_link']", { timeout: 2000 })
+        cy.get("input[name='source_link']")
           .clear()
           .type(source_link);
-        cy.get("input[name='source_text']", { timeout: 2000 })
+        cy.get("input[name='source_text']")
           .clear()
           .type(source_text);
-        cy.get("input[name='explicit']", { timeout: 2000 })
-          .check();
-        cy.get("input[name='visibility']", { timeout: 2000 })
+        cy.get("input[name='visibility']")
           .uncheck()
 
 
@@ -53,18 +51,21 @@ describe("Creates Podcast Archive record", () => {
         cy.get("input#manifest_url_upload").attachFile(imgPath).trigger('change', { force: true });
         cy.get("button#manifest_url_upload_button")
           .click({ force: true });
-        cy.wait(5 * 1000);
-        cy.get('#manifest_url_upload_upload_message', { timeout: (10 * 1000) })
+        cy.get('#manifest_url_upload_upload_message', { timeout: (5 * 1000) })
           .should('have.attr', 'style', 'color: green;')
           .invoke("text")
           .should("include", "uploaded successfully");
   
         cy.get("button.submit").contains("Submit Podcast Episode").click();
-        cy.get("#title_value", { timeout: 10000 })
+        cy.get("#title_value", { timeout: 2 * 1000 })
           .invoke("text")
           .should("include", title);
-        });
 
+        cy.get("#manifest_file_characterization_key")
+          .invoke("text")
+          .should("include", "manifest_file_characterization:");
+        });
+        
     });
 
   afterEach("User signout:", () => {

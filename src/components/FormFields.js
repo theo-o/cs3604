@@ -75,9 +75,9 @@ const textAreaInput = options => {
 const dateInput = options => {
   const { outerClass, innerClass, label, id, name, onChange } = options;
   return (
-    <div class={outerClass} key={id || name}>
+    <div className={outerClass} key={id || name}>
       <label htmlFor={id || name}>{label}</label>
-      <div class={innerClass}>
+      <div className={innerClass}>
         <input
           type="date"
           id={id || name}
@@ -92,7 +92,7 @@ const dateInput = options => {
 const checkBox = options => {
   const { outerClass, label, id, name, onChange, checked } = options;
   return (
-    <div class={outerClass}>
+    <div className={outerClass}>
       <label htmlFor={id || name}>
         {label}
         <input
@@ -117,6 +117,7 @@ const fileInput = options => {
     setSrc,
     fileType,
     setFileFolder,
+    setFileCharacterization,
     context
   } = options;
   return (
@@ -129,6 +130,7 @@ const fileInput = options => {
       setSrc={setSrc}
       fileType={fileType}
       setFileFolder={setFileFolder}
+      setFileCharacterization={setFileCharacterization}
       context={context}
     />
   );
