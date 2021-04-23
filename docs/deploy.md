@@ -18,7 +18,7 @@
 
 <img src="images/deployapp.png" width="80%"/>
 
-* Check the status and click the `Continue` button
+* Check the status and click the `Save and Deploy` button
 
 <img src="images/creatingapp.png" width="80%"/>
 
@@ -43,7 +43,7 @@ In the Cloudformation, select `Stacks` and type the name of the backend environm
 
 * Tables in the DynamoDB
 
-There are five tables been created after deployment. These table name are all contains the name of the backend envionment. You can list all these table by issue a query in the DynamoDB. See below:
+There are five tables being created after deployment. Find those tables containing the same name, which is the backend environment. You can list all these tables by searching with the backend environment name. See below:
 
 <img src="images/ddbtables.png" width="80%"/>
 
@@ -91,6 +91,6 @@ You will see a list of demo items in the `Demo collection` page
 
 <img src="images/democollectionitems.png" width="80%"/>
 
-Currently we support image, video, audio, IIIF image, PDF, podcast, X3D, and VT Kaltura Video.  
+Currently the file types we support are images, IIIF images, PDFs, audio(mp3, ogg, wav) , video (mp4, mov, VT Kaltura Video), X3D, etc.
 
 <img src="images/iiifdemo.png" width="80%"/>
