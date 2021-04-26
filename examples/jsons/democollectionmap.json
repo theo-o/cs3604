@@ -1,0 +1,23 @@
+{
+  "collection_id": {
+    "S": "692555a6-c794-11ea-87d0-0242ac130003"
+  },
+  "create_date": {
+    "S": "2020/04/23 22:46:04"
+  },
+  "createdAt": {
+    "S": "2020-04-23T22:46:04.000Z"
+  },
+  "id": {
+    "S": "19"
+  },
+  "map_object": {
+    "S": "{\"id\": \"692555a6-c794-11ea-87d0-0242ac130003\", \"name\": \"Demo collection\", \"custom_key\": \"xxxxj22hdemo\"}"
+  },
+  "modified_date": {
+    "S": "2020/04/23 22:46:04"
+  },
+  "updatedAt": {
+    "S": "2020-04-23T22:46:04.000Z"
+  }
+}

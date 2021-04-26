@@ -1,0 +1,79 @@
+{
+  "create_date": {
+    "S": "2020/03/23 22:46:09"
+  },
+  "createdAt": {
+    "S": "2020-03-23T22:46:09.000Z"
+  },
+  "creator": {
+    "L": [
+      {
+        "S": "W3C Web Accessibility Initiative (WAI)"
+      }
+    ]
+  },
+  "custom_key": {
+    "S": "ark:/53696/m69xyh01"
+  },
+  "description": {
+    "S": "An audio file item"
+  },
+  "heirarchy_path": {
+    "L": [
+      {
+        "S": "692555a6-c794-11ea-87d0-0242ac130003"
+      }
+    ]
+  },
+  "id": {
+    "S": "audiodemo"
+  },
+  "identifier": {
+    "S": "audiodemo"
+  },
+  "item_category": {
+    "S": "demo"
+  },
+  "language": {
+    "L": [
+      {
+        "S": "en"
+      }
+    ]
+  },
+  "manifest_url": {
+    "S": "https://vtdlp-lee-test.s3.amazonaws.com/English_Web_Accessibility_Perspectives.mp3"
+  },
+  "modified_date": {
+    "S": "2020/03/23 22:46:09"
+  },
+  "parent_collection": {
+    "L": [
+      {
+        "S": "692555a6-c794-11ea-87d0-0242ac130003"
+      }
+    ]
+  },
+  "source": {
+    "L": [
+      {
+        "S": "<a href=\"https://www.youtube.com/watch?v=iWO5N3n1DXU&list=PLhDEeYUfW02QndusXXtQtuMbMYhK7TMBT\">Web Accessibility Perspectives: Video Captions</a>."
+      }
+    ]
+  },
+  "start_date": {
+    "S": "2020/03/23"
+  },
+  "thumbnail_path": {
+    "S": "http://i3.ytimg.com/vi/iWO5N3n1DXU/hqdefault.jpg"
+  },
+  "title": {
+    "S": "An Audio Item"
+  },
+  "updatedAt": {
+    "S": "2020-03-23T22:46:09.000Z"
+  },
+  "visibility": {
+    "BOOL": true
+  }
+}

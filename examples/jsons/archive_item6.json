@@ -1,0 +1,83 @@
+{
+  "create_date": {
+    "S": "2020/01/23 22:46:09"
+  },
+  "createdAt": {
+    "S": "2020-01-23T22:46:09.000Z"
+  },
+  "creator": {
+    "L": [
+      {
+        "S": "MFAngle"
+      }
+    ]
+  },
+  "custom_key": {
+    "S": "ark:/53696/m69bbh01"
+  },
+  "description": {
+    "S": "A podcast demo item"
+  },
+  "heirarchy_path": {
+    "L": [
+      {
+        "S": "692555a6-c794-11ea-87d0-0242ac130003"
+      }
+    ]
+  },
+  "id": {
+    "S": "podcastdemo"
+  },
+  "identifier": {
+    "S": "podcastdemo"
+  },
+  "item_category": {
+    "S": "demo"
+  },
+  "language": {
+    "L": [
+      {
+        "S": "en"
+      }
+    ]
+  },
+  "manifest_url": {
+    "S": "https://vtdlp-lee-test.s3.amazonaws.com/mfaau001001001.mp3"
+  },
+  "modified_date": {
+    "S": "2020/01/23 22:46:09"
+  },
+  "parent_collection": {
+    "L": [
+      {
+        "S": "692555a6-c794-11ea-87d0-0242ac130003"
+      }
+    ]
+  },
+  "resource_type": {
+    "L": [
+      {
+        "S": "podcast"
+      }
+    ]
+  },
+  "source": {
+    "L": [
+      {
+        "S": "<a href=\"https://sites.google.com/vt.edu/mfanglepodcast/home\">MFAngle Podcast</a>."
+      }
+    ]
+  },
+  "thumbnail_path": {
+    "S": "https://vtdlp-lee-test.s3.amazonaws.com/mfast001001001.jpg"
+  },
+  "title": {
+    "S": "A Podcast Demo"
+  },
+  "updatedAt": {
+    "S": "2020-01-23T22:46:09.000Z"
+  },
+  "visibility": {
+    "BOOL": true
+  }
+}

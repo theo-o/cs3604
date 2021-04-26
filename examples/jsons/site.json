@@ -1,0 +1,1145 @@
+{
+  "__typename": {
+    "S": "Site"
+  },
+  "analyticsID": {
+    "S": "demo"
+  },
+  "assetBasePath": {
+    "S": "https://img.cloud.lib.vt.edu/sites/html/default"
+  },
+  "browseCollections": {
+    "M": {
+      "filter": {
+        "M": {
+          "field": {
+            "S": "subject"
+          },
+          "values": {
+            "L": [
+              {
+                "S": "All"
+              },
+              {
+                "S": "Architectural drawing -- 20th century and this time"
+              },
+              {
+                "S": "Architecture"
+              },
+              {
+                "S": "History of Women in Architecture"
+              },
+              {
+                "S": "International Archive of Women in Architecture (IAWA)"
+              },
+              {
+                "S": "Women architects"
+              }
+            ]
+          }
+        }
+      },
+      "sort": {
+        "L": [
+          {
+            "M": {
+              "direction": {
+                "S": "asc"
+              },
+              "field": {
+                "S": "title"
+              }
+            }
+          },
+          {
+            "M": {
+              "direction": {
+                "S": "desc"
+              },
+              "field": {
+                "S": "title"
+              }
+            }
+          },
+          {
+            "M": {
+              "direction": {
+                "S": "desc"
+              },
+              "field": {
+                "S": "start_date"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  "contact": {
+    "L": [
+      {
+        "M": {
+          "cityStateZip": {
+            "S": "Blacksburg, VA 24061"
+          },
+          "department": {
+            "S": "University Libraries (0434)"
+          },
+          "email": {
+            "S": "specref@vt.edu"
+          },
+          "group": {
+            "S": "Special Collections"
+          },
+          "phone": {
+            "S": "(540)231-6308"
+          },
+          "streetAddress": {
+            "S": "560 Drillfield Drive"
+          },
+          "title": {
+            "S": "IAWA Archivist"
+          }
+        }
+      },
+      {
+        "M": {
+          "cityStateZip": {
+            "S": "Blacksburg, VA 24061"
+          },
+          "department": {
+            "S": "201 Cowgill Hall (0205)"
+          },
+          "email": {
+            "S": "ddunay@vt.edu"
+          },
+          "group": {
+            "S": "IAWA Center"
+          },
+          "phone": {
+            "S": "(540)231-5512"
+          },
+          "streetAddress": {
+            "S": "1325 Perry St."
+          },
+          "title": {
+            "S": "Board Chair"
+          }
+        }
+      }
+    ]
+  },
+  "createdAt": {
+    "S": "2020-10-05T23:58:52.198Z"
+  },
+  "displayedAttributes": {
+    "M": {
+      "archive": {
+        "L": [
+          {
+            "M": {
+              "field": {
+                "S": "identifier"
+              },
+              "label": {
+                "S": "Identifier"
+              }
+            }
+          },
+          {
+            "M": {
+              "field": {
+                "S": "belongs_to"
+              },
+              "label": {
+                "S": "Belongs to"
+              }
+            }
+          },
+          {
+            "M": {
+              "field": {
+                "S": "bibliographic_citation"
+              },
+              "label": {
+                "S": "Bibliographic citation"
+              }
+            }
+          },
+          {
+            "M": {
+              "field": {
+                "S": "creator"
+              },
+              "label": {
+                "S": "Creator"
+              }
+            }
+          },
+          {
+            "M": {
+              "field": {
+                "S": "custom_key"
+              },
+              "label": {
+                "S": "Permanent Link"
+              }
+            }
+          },
+          {
+            "M": {
+              "field": {
+                "S": "display_date"
+              },
+              "label": {
+                "S": "Date"
+              }
+            }
+          },
+          {
+            "M": {
+              "field": {
+                "S": "format"
+              },
+              "label": {
+                "S": "Format"
+              }
+            }
+          },
+          {
+            "M": {
+              "field": {
+                "S": "language"
+              },
+              "label": {
+                "S": "Language"
+              }
+            }
+          },
+          {
+            "M": {
+              "field": {
+                "S": "location"
+              },
+              "label": {
+                "S": "Location"
+              }
+            }
+          },
+          {
+            "M": {
+              "field": {
+                "S": "medium"
+              },
+              "label": {
+                "S": "Medium"
+              }
+            }
+          },
+          {
+            "M": {
+              "field": {
+                "S": "resource_type"
+              },
+              "label": {
+                "S": "Type"
+              }
+            }
+          },
+          {
+            "M": {
+              "field": {
+                "S": "related_url"
+              },
+              "label": {
+                "S": "Related URL"
+              }
+            }
+          },
+          {
+            "M": {
+              "field": {
+                "S": "rights_holder"
+              },
+              "label": {
+                "S": "Rights holder"
+              }
+            }
+          },
+          {
+            "M": {
+              "field": {
+                "S": "rights_statement"
+              },
+              "label": {
+                "S": "Rights"
+              }
+            }
+          },
+          {
+            "M": {
+              "field": {
+                "S": "tags"
+              },
+              "label": {
+                "S": "Tags"
+              }
+            }
+          }
+        ]
+      },
+      "collection": {
+        "L": [
+          {
+            "M": {
+              "field": {
+                "S": "size"
+              },
+              "label": {
+                "S": "Size"
+              }
+            }
+          },
+          {
+            "M": {
+              "field": {
+                "S": "creator"
+              },
+              "label": {
+                "S": "Creator"
+              }
+            }
+          },
+          {
+            "M": {
+              "field": {
+                "S": "rights_statement"
+              },
+              "label": {
+                "S": "Rights"
+              }
+            }
+          },
+          {
+            "M": {
+              "field": {
+                "S": "date"
+              },
+              "label": {
+                "S": "Date"
+              }
+            }
+          },
+          {
+            "M": {
+              "field": {
+                "S": "subject"
+              },
+              "label": {
+                "S": "Subject"
+              }
+            }
+          },
+          {
+            "M": {
+              "field": {
+                "S": "language"
+              },
+              "label": {
+                "S": "Language"
+              }
+            }
+          },
+          {
+            "M": {
+              "field": {
+                "S": "identifier"
+              },
+              "label": {
+                "S": "Identifier"
+              }
+            }
+          },
+          {
+            "M": {
+              "field": {
+                "S": "bibliographic_citation"
+              },
+              "label": {
+                "S": "Bibliographic citation"
+              }
+            }
+          },
+          {
+            "M": {
+              "field": {
+                "S": "rights_holder"
+              },
+              "label": {
+                "S": "Rights holder"
+              }
+            }
+          },
+          {
+            "M": {
+              "field": {
+                "S": "related_url"
+              },
+              "label": {
+                "S": "Related URL"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  "groups": {
+    "L": [
+      {
+        "S": "demoSiteAdmin"
+      }
+    ]
+  },
+  "homePage": {
+    "M": {
+      "collectionHighlights": {
+        "L": [
+          {
+            "M": {
+              "itemCount": {
+                "S": "51"
+              },
+              "link": {
+                "S": "/search?q=&field=description&view=Gallery&category=archive&resource_type=Travel+sketches"
+              },
+              "src": {
+                "S": "highlights/highlight1.jpg"
+              },
+              "title": {
+                "S": "Travel sketches by IAWA architects"
+              }
+            }
+          },
+          {
+            "M": {
+              "itemCount": {
+                "S": "294"
+              },
+              "link": {
+                "S": "/search/?category=archive&field=tags&q=Educational%20and%20research&view=Gallery"
+              },
+              "src": {
+                "S": "highlights/highlight2.jpg"
+              },
+              "title": {
+                "S": "Educational and Research Facilities"
+              }
+            }
+          },
+          {
+            "M": {
+              "itemCount": {
+                "S": "85"
+              },
+              "link": {
+                "S": "/search/?category=archive&field=tags&q=Student%20work&view=Gallery"
+              },
+              "src": {
+                "S": "highlights/highlight3.jpg"
+              },
+              "title": {
+                "S": "Student work by IAWA architects"
+              }
+            }
+          }
+        ]
+      },
+      "featuredItems": {
+        "L": [
+          {
+            "M": {
+              "altText": {
+                "S": "Piper, Robert Ryland Kearfott (American, 1890-1969)"
+              },
+              "cardTitle": {
+                "S": "Piper"
+              },
+              "link": {
+                "S": "https://swva-dev.cloud.lib.vt.edu/archive/j5081t6w"
+              },
+              "src": {
+                "S": "featuredItems/featured_item1.jpg"
+              }
+            }
+          },
+          {
+            "M": {
+              "altText": {
+                "S": "Portrait of Norah Gribble, John Singer Sargent (American, 1856-1925)"
+              },
+              "cardTitle": {
+                "S": "Portrait of Norah Gribble"
+              },
+              "link": {
+                "S": "https://swva-dev.cloud.lib.vt.edu/archive/dq15ch4x"
+              },
+              "src": {
+                "S": "featuredItems/featured_item2.jpg"
+              }
+            }
+          },
+          {
+            "M": {
+              "altText": {
+                "S": "Curtsey, E. Antoinette Hale (American, Contemporary)"
+              },
+              "cardTitle": {
+                "S": "Curtsey"
+              },
+              "link": {
+                "S": "https://swva-dev.cloud.lib.vt.edu/archive/d464fm8m"
+              },
+              "src": {
+                "S": "featuredItems/featured_item3.jpg"
+              }
+            }
+          }
+        ]
+      },
+      "homeStatement": {
+        "M": {
+          "heading": {
+            "S": "Welcome"
+          },
+          "statement": {
+            "S": "A visual exhibit of selected items from the International Archive of Women in Architecture, a joint partnership between the College of Architecture and Urban Studies and the University Libraries at Virginia Tech"
+          }
+        }
+      },
+      "mediaSection": {
+        "M": {
+          "link": {
+            "S": "https://lib.vt.edu/"
+          },
+          "mediaEmbed": {
+            "S": "<iframe src=\"https://www.youtube.com/embed/8fswmAtvCqI\" frameborder=\"0\" allow=\"accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>"
+          },
+          "text": {
+            "S": "The University Libraries play an essential role in furthering Virginia Tech’s mission as a global land-grant university by providing a diversity of resources to produce, disseminate, use, share and sustain data and information."
+          },
+          "title": {
+            "S": "Test titleTest titleome to the University Libraries at Virginia Tech"
+          }
+        }
+      },
+      "sponsors": {
+        "L": [
+          {
+            "M": {
+              "alt": {
+                "S": "CLIR"
+              },
+              "link": {
+                "S": "https://clir.org/"
+              },
+              "src": {
+                "S": "sponsors/sponsor1.png"
+              }
+            }
+          },
+          {
+            "M": {
+              "alt": {
+                "S": "IAWA"
+              },
+              "link": {
+                "S": "https://spec.lib.vt.edu/iawa/"
+              },
+              "src": {
+                "S": "sponsors/sponsor2.png"
+              }
+            }
+          },
+          {
+            "M": {
+              "alt": {
+                "S": "Virginia Tech Libraries"
+              },
+              "link": {
+                "S": "https://lib.vt.edu/"
+              },
+              "src": {
+                "S": "sponsors/sponsor3.png"
+              }
+            }
+          }
+        ]
+      },
+      "statement": {
+        "S": "<div><h1>Virginia Tech Digital Library Platform</h1><p>Welcome to VTDLP. VTDLP is a cloud-native, digital libraries solution supporting preservation and access while taking advantage of the efficiencies of Amazon Web Services.</p></div>"
+      },
+      "staticImage": {
+        "M": {
+          "altText": {
+            "S": ""
+          },
+          "showTitle": {
+            "BOOL": true
+          },
+          "src": {
+            "S": "cover_image.jpg"
+          }
+        }
+      }
+    }
+  },
+  "id": {
+    "S": "633f1277-e948-409f-afc9-671dc606d897"
+  },
+  "lang": {
+    "S": "https://vtdlp-dev-site-data.s3.amazonaws.com"
+  },
+  "miradorOptions": {
+    "M": {
+      "id": {
+        "S": "mirador_viewer"
+      },
+      "language": {
+        "S": "en"
+      },
+      "selectedTheme": {
+        "S": "light"
+      },
+      "thumbnailNavigation": {
+        "M": {
+          "defaultPosition": {
+            "S": "far-bottom"
+          },
+          "displaySettings": {
+            "BOOL": true
+          },
+          "height": {
+            "N": "130"
+          },
+          "width": {
+            "N": "100"
+          }
+        }
+      },
+      "window": {
+        "M": {
+          "allowClose": {
+            "BOOL": false
+          },
+          "allowFullscreen": {
+            "BOOL": true
+          },
+          "allowMaximize": {
+            "BOOL": false
+          },
+          "allowTopMenuButton": {
+            "BOOL": true
+          },
+          "allowWindowSideBar": {
+            "BOOL": true
+          },
+          "defaultView": {
+            "S": "single"
+          },
+          "panels": {
+            "M": {
+              "annotations": {
+                "BOOL": true
+              },
+              "attribution": {
+                "BOOL": true
+              },
+              "canvas": {
+                "BOOL": false
+              },
+              "info": {
+                "BOOL": true
+              },
+              "layers": {
+                "BOOL": false
+              },
+              "search": {
+                "BOOL": false
+              }
+            }
+          },
+          "sideBarOpen": {
+            "BOOL": false
+          },
+          "sideBarPanel": {
+            "S": "info"
+          }
+        }
+      },
+      "windows": {
+        "L": [
+          {
+            "M": {
+              "manifestId": {
+                "S": ""
+              }
+            }
+          }
+        ]
+      },
+      "workspace": {
+        "M": {
+          "allowNewWindows": {
+            "BOOL": false
+          },
+          "draggingEnabled": {
+            "BOOL": false
+          },
+          "isWorkspaceAddVisible": {
+            "BOOL": false
+          },
+          "showZoomControls": {
+            "BOOL": true
+          },
+          "type": {
+            "S": "mosaic"
+          }
+        }
+      },
+      "workspaceControlPanel": {
+        "M": {
+          "enabled": {
+            "BOOL": false
+          }
+        }
+      }
+    }
+  },
+  "searchPage": {
+    "M": {
+      "facets": {
+        "M": {
+          "category": {
+            "M": {
+              "label": {
+                "S": "Category"
+              },
+              "values": {
+                "L": [
+                  {
+                    "S": "collection"
+                  },
+                  {
+                    "S": "archive"
+                  }
+                ]
+              }
+            }
+          },
+          "creator": {
+            "M": {
+              "label": {
+                "S": "Creator"
+              },
+              "values": {
+                "L": [
+                  {
+                    "S": "Demo"
+                  },
+                  {
+                    "S": "Pfeiffer, Alberta Raffl, 1899-1994"
+                  },
+                  {
+                    "S": "King, Dorothee Stelzer"
+                  },
+                  {
+                    "S": "Alexander, Dorothy Baxter"
+                  },
+                  {
+                    "S": "Roth, E. Maria"
+                  },
+                  {
+                    "S": "Young, Jean Linden (1922-1997)"
+                  },
+                  {
+                    "S": "Rudoff, Lorraine (1920- )"
+                  },
+                  {
+                    "S": "Cochrane, Margaret Ann"
+                  },
+                  {
+                    "S": "Crawford, Martha J. (1925-1994)"
+                  },
+                  {
+                    "S": "Rodeck, Melita (1914-2011)"
+                  },
+                  {
+                    "S": "creator new value 13"
+                  },
+                  {
+                    "S": "creator new value 13"
+                  }
+                ]
+              }
+            }
+          },
+          "date": {
+            "M": {
+              "label": {
+                "S": "Date"
+              },
+              "values": {
+                "L": [
+                  {
+                    "S": "1920 - 1939"
+                  },
+                  {
+                    "S": "1940 - 1959"
+                  },
+                  {
+                    "S": "1960 - 1979"
+                  },
+                  {
+                    "S": "1980 - 1999"
+                  },
+                  {
+                    "S": "2000 - 2019"
+                  }
+                ]
+              }
+            }
+          },
+          "format": {
+            "M": {
+              "label": {
+                "S": "Format"
+              },
+              "values": {
+                "L": [
+                  {
+                    "S": "8 in. x 10 in."
+                  },
+                  {
+                    "S": "12 in. x 17 in."
+                  },
+                  {
+                    "S": "12 in. x 18 in."
+                  },
+                  {
+                    "S": "13.5 in. x 16 in."
+                  },
+                  {
+                    "S": "20 cm x 25 cm"
+                  },
+                  {
+                    "S": "30.48 cm x 43.18 cm"
+                  },
+                  {
+                    "S": "30.48 cm x 45.72 cm"
+                  },
+                  {
+                    "S": "34.29 cm x 40.64 cm"
+                  },
+                  {
+                    "S": "Scale: 1/8 in. = 1 ft."
+                  },
+                  {
+                    "S": "Scale: 1/16 in. = 1 ft."
+                  }
+                ]
+              }
+            }
+          },
+          "language": {
+            "M": {
+              "label": {
+                "S": "Language"
+              },
+              "values": {
+                "L": [
+                  {
+                    "S": "en"
+                  },
+                  {
+                    "S": "fr"
+                  }
+                ]
+              }
+            }
+          },
+          "medium": {
+            "M": {
+              "label": {
+                "S": "Medium"
+              },
+              "values": {
+                "L": [
+                  {
+                    "S": "Blueprints"
+                  },
+                  {
+                    "S": "Colored pencil"
+                  },
+                  {
+                    "S": "Diazotypes (copies)"
+                  },
+                  {
+                    "S": "Graphite"
+                  },
+                  {
+                    "S": "Ink"
+                  },
+                  {
+                    "S": "Photographic Print - Black and White"
+                  },
+                  {
+                    "S": "Photographic print - Color"
+                  },
+                  {
+                    "S": "Printed ink"
+                  },
+                  {
+                    "S": "Watercolors"
+                  }
+                ]
+              }
+            }
+          },
+          "resource_type": {
+            "M": {
+              "label": {
+                "S": "Type"
+              },
+              "values": {
+                "L": [
+                  {
+                    "S": "Architectural drawings (visual works)"
+                  },
+                  {
+                    "S": "Articles"
+                  },
+                  {
+                    "S": "Clippings"
+                  },
+                  {
+                    "S": "Conceptual drawings"
+                  },
+                  {
+                    "S": "Correspondence"
+                  },
+                  {
+                    "S": "Curriculum Vitae"
+                  },
+                  {
+                    "S": "Detail drawings (drawings)"
+                  },
+                  {
+                    "S": "Documents"
+                  },
+                  {
+                    "S": "Electrical drawings"
+                  },
+                  {
+                    "S": "Electrical plans"
+                  },
+                  {
+                    "S": "Elevations (orthographic projections)"
+                  },
+                  {
+                    "S": "Ephemera"
+                  },
+                  {
+                    "S": "Floor plans (orthographic projections)"
+                  },
+                  {
+                    "S": "Foundation plans"
+                  },
+                  {
+                    "S": "Framing plans"
+                  },
+                  {
+                    "S": "Photographs"
+                  },
+                  {
+                    "S": "Presentation drawings (proposals)"
+                  },
+                  {
+                    "S": "Reflected ceiling plans"
+                  },
+                  {
+                    "S": "Roofs"
+                  },
+                  {
+                    "S": "Scale models"
+                  },
+                  {
+                    "S": "Schedules (architectural records)"
+                  },
+                  {
+                    "S": "Sections (orthographic projections)"
+                  },
+                  {
+                    "S": "Site plans"
+                  },
+                  {
+                    "S": "Sketches"
+                  }
+                ]
+              }
+            }
+          },
+          "tags": {
+            "M": {
+              "label": {
+                "S": "Tags"
+              },
+              "values": {
+                "L": [
+                  {
+                    "S": "Awards"
+                  },
+                  {
+                    "S": "Biographical information"
+                  },
+                  {
+                    "S": "Commercial and office"
+                  },
+                  {
+                    "S": "Educational and research"
+                  },
+                  {
+                    "S": "Industrial"
+                  },
+                  {
+                    "S": "Reference files"
+                  },
+                  {
+                    "S": "Religious building spaces"
+                  },
+                  {
+                    "S": "Renovations"
+                  },
+                  {
+                    "S": "Residential"
+                  },
+                  {
+                    "S": "Residential-single-family"
+                  },
+                  {
+                    "S": "Two-story"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      "sort": {
+        "L": [
+          {
+            "M": {
+              "direction": {
+                "S": "asc"
+              },
+              "field": {
+                "S": "title"
+              }
+            }
+          },
+          {
+            "M": {
+              "direction": {
+                "S": "desc"
+              },
+              "field": {
+                "S": "title"
+              }
+            }
+          },
+          {
+            "M": {
+              "direction": {
+                "S": "desc"
+              },
+              "field": {
+                "S": "start_date"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  "siteColor": {
+    "S": ""
+  },
+  "siteId": {
+    "S": "demo"
+  },
+  "siteName": {
+    "S": "Demo Site"
+  },
+  "sitePages": {
+    "M": {
+      "about": {
+        "M": {
+          "assets": {
+            "M": {
+              "download": {
+                "S": "about.html"
+              }
+            }
+          },
+          "component": {
+            "S": "AboutPage"
+          },
+          "data_url": {
+            "S": "about.html"
+          },
+          "local_url": {
+            "S": "/about"
+          },
+          "pageName": {
+            "S": "about"
+          },
+          "text": {
+            "S": "About"
+          }
+        }
+      },
+      "terms": {
+        "M": {
+          "assets": {
+            "M": {
+              "download": {
+                "S": "PubPermission.doc"
+              }
+            }
+          },
+          "component": {
+            "S": "PermissionsPage"
+          },
+          "data_url": {
+            "S": "terms.html"
+          },
+          "local_url": {
+            "S": "/permissions"
+          },
+          "pageName": {
+            "S": "terms"
+          },
+          "text": {
+            "S": "Permissions"
+          }
+        }
+      }
+    }
+  },
+  "siteTitle": {
+    "S": "DEMO"
+  },
+  "updatedAt": {
+    "S": "2021-04-09T16:27:11.662Z"
+  }
+}
