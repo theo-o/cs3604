@@ -26,5 +26,9 @@
     {
         "groupName": "demoSiteAdmin",
         "precedence": 7
+    },
+    {
+        "groupName": "hokiesSiteAdmin",
+        "precedence": 8
     }
 ]

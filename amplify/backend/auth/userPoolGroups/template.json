@@ -419,6 +419,60 @@
         },
      
     
+        "hokiesSiteAdminGroup": {
+          "Type" : "AWS::Cognito::UserPoolGroup",
+          "Properties" : {
+              "GroupName" : "hokiesSiteAdmin",
+              "Precedence" : 8,
+              
+              "RoleArn" : {
+                "Fn::GetAtt": [
+                    "hokiesSiteAdminGroupRole",
+                    "Arn"
+                ]
+              },
+              
+              "UserPoolId" : {
+                "Ref": "authiawav2658176f3UserPoolId"
+              }
+            }
+        },
+        
+        "hokiesSiteAdminGroupRole": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+                "RoleName":{
+                    "Fn::Join": [
+                        "",
+                        [
+                          {
+                            "Ref": "authiawav2658176f3UserPoolId"
+                          },
+                          "-hokiesSiteAdminGroupRole"
+                        ]
+                    ]
+                },
+                "AssumeRolePolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Sid": "",
+                            "Effect": "Allow",
+                            "Principal": {
+                                "Federated": "cognito-identity.amazonaws.com"
+                            },
+                            "Action": "sts:AssumeRoleWithWebIdentity",
+                            "Condition": {
+                              "StringEquals": {"cognito-identity.amazonaws.com:aud": {"Ref":"authiawav2658176f3IdentityPoolId"}},
+                              "ForAnyValue:StringLike": {"cognito-identity.amazonaws.com:amr": "authenticated"}
+                            }
+                        }
+                    ]
+                }
+            }
+        },
+     
+    
     
         "LambdaExecutionRole": {
             "Type": "AWS::IAM::Role",
@@ -689,6 +743,17 @@
             "Value": {
                 "Fn::GetAtt": [
                     "demoSiteAdminGroupRole",
+                    "Arn"
+                ]
+            }
+        
+        },
+        
+      
+        "hokiesSiteAdminGroupRole": {
+            "Value": {
+                "Fn::GetAtt": [
+                    "hokiesSiteAdminGroupRole",
                     "Arn"
                 ]
             }
