@@ -26,6 +26,7 @@ class CollectionHighlights extends Component {
   render() {
     if (
       this.props.collectionHighlights &&
+      this.props.collectionHighlights.length > 0 &&
       this.props.collectionHighlights.length === this.state.highlightImgs.length
     ) {
       const tiles = this.props.collectionHighlights.map((item, index) => {

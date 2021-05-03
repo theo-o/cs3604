@@ -49,7 +49,7 @@ class FeaturedItems extends Component {
   }
 
   render() {
-    if (this.props.featuredItems) {
+    if (this.props.featuredItems && this.props.featuredItems.length > 0) {
       const tiles = this.props.featuredItems
         .slice(this.state.startIndex, this.state.endIndex)
         .map((item, index) => {
