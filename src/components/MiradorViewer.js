@@ -57,6 +57,13 @@ class MiradorViewer extends Component {
     return config;
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.item.manifest_url !== prevProps.item.manifest_url) {
+      this.miradorConfig();
+      window.Mirador.viewer(this.miradorConfig());
+    }
+  }
+
   componentDidMount() {
     this.miradorConfig();
     window.Mirador.viewer(this.miradorConfig());
