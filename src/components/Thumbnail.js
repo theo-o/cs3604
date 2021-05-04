@@ -24,8 +24,9 @@ class Thumbnail extends Component {
   }
 
   componentDidMount() {
-    if (this.props.item.thumbnail_path) {
-      getFile(this.props.item.thumbnail_path, "image", this, "thumbnailImg");
+    const imgUrl = this.props.imgURL || this.props.item.thumbnail_path;
+    if (imgUrl) {
+      getFile(imgUrl, "image", this, "thumbnailImg");
     }
   }
 

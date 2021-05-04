@@ -20,6 +20,7 @@ import {
 import { searchArchives } from "../../graphql/queries";
 import RelatedItems from "../../components/RelatedItems";
 import Citation from "../../components/Citation";
+import Thumbnail from "../../components/Thumbnail";
 import MtlElement from "../../components/MtlElement";
 import X3DElement from "../../components/X3DElement";
 
@@ -148,7 +149,12 @@ class ArchivePage extends Component {
       display = <MiradorViewer item={item} site={this.props.site} />;
     } else if (this.isImgURL(item.manifest_url)) {
       display = (
-        <img className="item-img" src={item.manifest_url} alt={item.title} />
+        <Thumbnail
+          className="item-img"
+          item={item}
+          imgURL={item.manifest_url}
+          altText={item.title}
+        />
       );
     } else if (this.isAudioURL(item.manifest_url)) {
       const track = this.buildTrack(item.manifest_url, item.thumbnail_path);

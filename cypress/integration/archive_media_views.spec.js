@@ -1,9 +1,8 @@
 describe('Archive static img view', () => {
   it('shows correct img tag', () => {
     cy.visit('/archive/m58xyh90');
-    cy.get('#content-wrapper > div > div.item-image-section > div.row > div > img')
+    cy.get('img.item-img')
       .eq(0)
-      .should('have.class', 'item-img')
       .should('be.visible');
   });
 });

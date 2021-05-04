@@ -7,6 +7,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
+import Thumbnail from "./Thumbnail.js";
 import "../css/RelatedItems.scss";
 
 class RelatedItems extends Component {
@@ -67,15 +68,15 @@ class RelatedItems extends Component {
 
   render() {
     if (this.state.items != null) {
-      const featuredItems = this.state.items.map(item => {
+      const featuredItems = this.state.items.map((item, idx) => {
         return (
           <div key={item.custom_key}>
             <NavLink to={`/archive/${arkLinkFormatted(item.custom_key)}`}>
               <div className="card">
-                <img
-                  className="card-img-top"
-                  src={item.thumbnail_path}
-                  alt={item.title}
+                <Thumbnail
+                  item={item}
+                  className={"card-img-top"}
+                  altText={item.title}
                 />
                 <div className="card-body">
                   <h4 className="card-title crop-text-4">{item.title}</h4>

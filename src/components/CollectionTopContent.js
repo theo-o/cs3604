@@ -1,13 +1,15 @@
 import React, { Component } from "react";
 import { addNewlineInDesc } from "../lib/MetadataRenderer";
 
+import { getFile } from "../lib/fetchTools";
 import "../css/CollectionsShowPage.scss";
 
 class CollectionTopContent extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      descriptionTruncated: true
+      descriptionTruncated: true,
+      collectionThumbnail: ""
     };
   }
 
@@ -67,6 +69,18 @@ class CollectionTopContent extends Component {
     }
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.collectionImg !== prevProps.collectionImg) {
+      getFile(this.props.collectionImg, "image", this, "collectionThumbnail");
+    }
+  }
+
+  componentDidMount() {
+    if (this.props.collectionImg) {
+      getFile(this.props.collectionImg, "image", this, "collectionThumbnail");
+    }
+  }
+
   render() {
     return (
       <div
@@ -75,7 +89,7 @@ class CollectionTopContent extends Component {
         aria-labelledby="collection-page-title"
       >
         <div className="collection-img-col col-sm-4">
-          <img src={this.props.collectionImg} alt="" />
+          <img src={this.state.collectionThumbnail} alt="" />
         </div>
         <div className="collection-details-col col-sm-8">
           <h1 className="collection-title" id="collection-page-title">

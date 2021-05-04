@@ -3,6 +3,7 @@ import flvjs from "flv.js";
 import hlsjs from "hls.js";
 import "mediaelement";
 
+import { getFile } from "../lib/fetchTools";
 import "mediaelement/build/mediaelementplayer.min.css";
 import "mediaelement/build/mediaelement-flash-video.swf";
 
@@ -10,7 +11,8 @@ export default class MediaElement extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      player: null
+      player: null,
+      audioImg: ""
     };
   }
 
@@ -23,6 +25,10 @@ export default class MediaElement extends Component {
   }
 
   componentDidMount() {
+    if (this.props.poster) {
+      getFile(this.props.poster, "image", this, "audioImg");
+    }
+
     const { MediaElementPlayer } = global;
     if (!MediaElementPlayer) {
       return;
@@ -51,7 +57,7 @@ export default class MediaElement extends Component {
       <div className="audio-img-wrapper">
         <img
           className="audio-img"
-          src={this.props.poster}
+          src={this.state.audioImg}
           alt={this.props.title}
         />
       </div>

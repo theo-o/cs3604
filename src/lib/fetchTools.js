@@ -3,9 +3,10 @@ import * as queries from "../graphql/queries";
 
 export function getFile(copyURL, type, component, attr) {
   if (
-    type === "image" &&
+    (type === "image" || type === "audio") &&
     copyURL &&
-    copyURL.indexOf("img.cloud.lib.vt.edu") !== -1
+    copyURL.indexOf("http") === 0 &&
+    copyURL.indexOf(Storage._config.AWSS3.bucket) === -1
   ) {
     const stateObj = {};
     const stateAttr = attr || "copy";
@@ -21,13 +22,70 @@ export function getFile(copyURL, type, component, attr) {
 }
 
 export const asyncGetFile = async (copyURL, type, component, attr) => {
-  let response = null;
-  try {
-    response = await fetchCopyFile(copyURL, type, component, attr);
-  } catch (error) {
-    console.error("Error setting copy for component");
+  let response = {};
+  if (
+    (type === "image" || type === "audio") &&
+    copyURL &&
+    copyURL.indexOf("http") === 0 &&
+    copyURL.indexOf(Storage._config.AWSS3.bucket) === -1
+  ) {
+    response.success = true;
+    response.data = copyURL;
+    const stateObj = {};
+    const stateAttr = attr || "copy";
+    stateObj[stateAttr] = response.data;
+    component.setState(stateObj);
+  } else {
+    try {
+      response = await fetchCopyFile(copyURL, type, component, attr);
+    } catch (error) {
+      console.error("Error setting copy for component");
+    }
   }
   return response;
+};
+
+const fetchCopyFile = async (copyURL, type, component, attr) => {
+  let data = null;
+  let filename = copyURL;
+  let prefix = `public/sitecontent/${type}/${process.env.REACT_APP_REP_TYPE.toLowerCase()}/`;
+  if (copyURL.indexOf("https") === 0) {
+    filename = copyURL.split("/").pop();
+    const bucket = Storage._config.AWSS3.bucket;
+    prefix = copyURL
+      .replace(`https://${bucket}.s3.amazonaws.com/`, "")
+      .replace(filename, "");
+  }
+
+  try {
+    Storage.configure({
+      customPrefix: {
+        public: prefix
+      }
+    });
+    const copyLink = await Storage.get(filename);
+    console.log(`fetching copy from: ${copyLink}`);
+    if (type === "html") {
+      const response = await fetch(copyLink);
+      data = await response.text();
+    } else {
+      data = copyLink;
+    }
+  } catch (error) {
+    console.error(
+      `Error fetching html for ${component.constructor.name} component`
+    );
+    console.error(error);
+  }
+  if (data) {
+    const stateObj = {};
+    const stateAttr = attr || "copy";
+    stateObj[stateAttr] = data;
+    component.setState(stateObj);
+    return { success: true, data: data };
+  } else {
+    return { success: false };
+  }
 };
 
 export const mintNOID = async () => {
@@ -57,51 +115,6 @@ export const mintNOID = async () => {
     }
   }
   return retVal;
-};
-
-const fetchCopyFile = async (copyURL, type, component, attr) => {
-  let data = null;
-  let filename = copyURL;
-  let prefix = `public/sitecontent/${type}/${process.env.REACT_APP_REP_TYPE.toLowerCase()}/`;
-  if (copyURL.indexOf("https") === 0) {
-    filename = copyURL.split("/").pop();
-    const bucket = Storage._config.AWSS3.bucket;
-    prefix = copyURL
-      .replace(`https://${bucket}.s3.amazonaws.com/`, "")
-      .replace(filename, "");
-  }
-
-  if (!data) {
-    try {
-      Storage.configure({
-        customPrefix: {
-          public: prefix
-        }
-      });
-      const copyLink = await Storage.get(filename);
-      console.log(`fetching copy from: ${copyLink}`);
-      if (type === "html") {
-        const response = await fetch(copyLink);
-        data = await response.text();
-      } else {
-        data = copyLink;
-      }
-    } catch (error) {
-      console.error(
-        `Error fetching html for ${component.constructor.name} component`
-      );
-      console.error(error);
-    }
-  }
-  if (data) {
-    const stateObj = {};
-    const stateAttr = attr || "copy";
-    stateObj[stateAttr] = data;
-    component.setState(stateObj);
-    return { success: true };
-  } else {
-    return { success: false };
-  }
 };
 
 export const fetchAvailableDisplayedAttributes = async site => {

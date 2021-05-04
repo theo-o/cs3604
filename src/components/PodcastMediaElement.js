@@ -30,12 +30,11 @@ export default class PodcastMediaElement extends Component {
     const sources = JSON.parse(this.props.sources);
     let audioResponse = null;
     if (sources[0].src) {
-      const audioUrl = sources[0].src.split("/").pop();
+      const audioUrl = sources[0].src;
       audioResponse = await asyncGetFile(audioUrl, "audio", this, "audioSrc");
     }
     if (audioResponse.success && this.props.poster) {
-      const imgUrl = this.props.poster.split("/").pop();
-      await asyncGetFile(imgUrl, "image", this, "audioImg");
+      await asyncGetFile(this.props.poster, "image", this, "audioImg");
     }
   }
 
