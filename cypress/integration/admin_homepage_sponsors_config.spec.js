@@ -37,9 +37,9 @@ describe("Update sponsors fields and revert", function () {
             .click();
         cy.get("#s0_link")
             .clear()
-            .type("https://www.lib.vt.edu");
+            .type("https://lib.vt.edu/");
         cy.contains("Update Config").click();
-        cy.contains("URL: https://www.lib.vt.edu").should("be.visible");
+        cy.contains("URL: https://lib.vt.edu/").should("be.visible");
     });
 
     it("Reverses update", () => {

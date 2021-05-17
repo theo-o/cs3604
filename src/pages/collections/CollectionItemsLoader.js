@@ -153,8 +153,8 @@ class CollectionItemsLoader extends Component {
           </div>
         </div>
       );
-    } else if (this.state.total === 0) {
-      return <div></div>;
+    } else if (this.state.items !== null) {
+      return <div>Items in Collection ({this.state.items.length})</div>;
     } else {
       return <div>Loading...</div>;
     }

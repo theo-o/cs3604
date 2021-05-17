@@ -26,7 +26,7 @@ class Header extends Component {
           <div className="row vt-one-headerRow">
             <div className="col header-col">
               <div id="vt_logo" className="vt-logo">
-                <a href="https://www.lib.vt.edu/" className="vt-logo-link">
+                <a href="https://lib.vt.edu/" className="vt-logo-link">
                   <img
                     alt=""
                     className="vt-logo-image"
@@ -107,7 +107,7 @@ class Header extends Component {
                     <li className="vt-currentSiteTitle">
                       <a
                         className="vt-currentSiteTitle-link"
-                        href="https://www.lib.vt.edu/"
+                        href="https://lib.vt.edu/"
                         tabIndex="-1"
                       >
                         University Libraries
