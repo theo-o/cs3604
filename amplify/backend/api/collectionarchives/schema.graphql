@@ -34,7 +34,12 @@ type Collection implements Object
     fields: ["identifier"]
     name: "Identifier"
     queryField: "collectionByIdentifier"
-  ) {
+  )
+  @auth(rules: [
+    { allow: public, operations: [read] },
+    { allow: groups, groups: ["Admin", "Editor"] },
+    { allow: groups, groupsField: "collection_category" }
+  ]){
   belongs_to: [String!]
   bibliographic_citation: String
   circa: String

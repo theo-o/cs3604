@@ -1,6 +1,183 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const createCollectionmap = /* GraphQL */ `
+  mutation CreateCollectionmap($input: CreateCollectionmapInput!) {
+    createCollectionmap(input: $input) {
+      collection_id
+      create_date
+      id
+      map_object
+      modified_date
+      createdAt
+      updatedAt
+      collection {
+        belongs_to
+        bibliographic_citation
+        circa
+        collection_category
+        collectionmap_id
+        create_date
+        creator
+        custom_key
+        description
+        display_date
+        end_date
+        explicit_content
+        heirarchy_path
+        id
+        identifier
+        language
+        location
+        modified_date
+        ownerinfo
+        parent_collection
+        provenance
+        related_url
+        rights_holder
+        rights_statement
+        source
+        start_date
+        subject
+        thumbnail_path
+        title
+        visibility
+        collectionmap {
+          collection_id
+          create_date
+          id
+          map_object
+          modified_date
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+        archives {
+          nextToken
+        }
+      }
+    }
+  }
+`;
+export const updateCollectionmap = /* GraphQL */ `
+  mutation UpdateCollectionmap($input: UpdateCollectionmapInput!) {
+    updateCollectionmap(input: $input) {
+      collection_id
+      create_date
+      id
+      map_object
+      modified_date
+      createdAt
+      updatedAt
+      collection {
+        belongs_to
+        bibliographic_citation
+        circa
+        collection_category
+        collectionmap_id
+        create_date
+        creator
+        custom_key
+        description
+        display_date
+        end_date
+        explicit_content
+        heirarchy_path
+        id
+        identifier
+        language
+        location
+        modified_date
+        ownerinfo
+        parent_collection
+        provenance
+        related_url
+        rights_holder
+        rights_statement
+        source
+        start_date
+        subject
+        thumbnail_path
+        title
+        visibility
+        collectionmap {
+          collection_id
+          create_date
+          id
+          map_object
+          modified_date
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+        archives {
+          nextToken
+        }
+      }
+    }
+  }
+`;
+export const deleteCollectionmap = /* GraphQL */ `
+  mutation DeleteCollectionmap($input: DeleteCollectionmapInput!) {
+    deleteCollectionmap(input: $input) {
+      collection_id
+      create_date
+      id
+      map_object
+      modified_date
+      createdAt
+      updatedAt
+      collection {
+        belongs_to
+        bibliographic_citation
+        circa
+        collection_category
+        collectionmap_id
+        create_date
+        creator
+        custom_key
+        description
+        display_date
+        end_date
+        explicit_content
+        heirarchy_path
+        id
+        identifier
+        language
+        location
+        modified_date
+        ownerinfo
+        parent_collection
+        provenance
+        related_url
+        rights_holder
+        rights_statement
+        source
+        start_date
+        subject
+        thumbnail_path
+        title
+        visibility
+        collectionmap {
+          collection_id
+          create_date
+          id
+          map_object
+          modified_date
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+        archives {
+          nextToken
+        }
+      }
+    }
+  }
+`;
 export const createCollection = /* GraphQL */ `
   mutation CreateCollection($input: CreateCollectionInput!) {
     createCollection(input: $input) {
@@ -40,6 +217,8 @@ export const createCollection = /* GraphQL */ `
         id
         map_object
         modified_date
+        createdAt
+        updatedAt
         collection {
           belongs_to
           bibliographic_citation
@@ -74,8 +253,6 @@ export const createCollection = /* GraphQL */ `
           createdAt
           updatedAt
         }
-        createdAt
-        updatedAt
       }
       createdAt
       updatedAt
@@ -166,6 +343,8 @@ export const updateCollection = /* GraphQL */ `
         id
         map_object
         modified_date
+        createdAt
+        updatedAt
         collection {
           belongs_to
           bibliographic_citation
@@ -200,8 +379,6 @@ export const updateCollection = /* GraphQL */ `
           createdAt
           updatedAt
         }
-        createdAt
-        updatedAt
       }
       createdAt
       updatedAt
@@ -292,6 +469,8 @@ export const deleteCollection = /* GraphQL */ `
         id
         map_object
         modified_date
+        createdAt
+        updatedAt
         collection {
           belongs_to
           bibliographic_citation
@@ -326,8 +505,6 @@ export const deleteCollection = /* GraphQL */ `
           createdAt
           updatedAt
         }
-        createdAt
-        updatedAt
       }
       createdAt
       updatedAt
@@ -379,183 +556,6 @@ export const deleteCollection = /* GraphQL */ `
     }
   }
 `;
-export const createCollectionmap = /* GraphQL */ `
-  mutation CreateCollectionmap($input: CreateCollectionmapInput!) {
-    createCollectionmap(input: $input) {
-      collection_id
-      create_date
-      id
-      map_object
-      modified_date
-      collection {
-        belongs_to
-        bibliographic_citation
-        circa
-        collection_category
-        collectionmap_id
-        create_date
-        creator
-        custom_key
-        description
-        display_date
-        end_date
-        explicit_content
-        heirarchy_path
-        id
-        identifier
-        language
-        location
-        modified_date
-        ownerinfo
-        parent_collection
-        provenance
-        related_url
-        rights_holder
-        rights_statement
-        source
-        start_date
-        subject
-        thumbnail_path
-        title
-        visibility
-        collectionmap {
-          collection_id
-          create_date
-          id
-          map_object
-          modified_date
-          createdAt
-          updatedAt
-        }
-        createdAt
-        updatedAt
-        archives {
-          nextToken
-        }
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const updateCollectionmap = /* GraphQL */ `
-  mutation UpdateCollectionmap($input: UpdateCollectionmapInput!) {
-    updateCollectionmap(input: $input) {
-      collection_id
-      create_date
-      id
-      map_object
-      modified_date
-      collection {
-        belongs_to
-        bibliographic_citation
-        circa
-        collection_category
-        collectionmap_id
-        create_date
-        creator
-        custom_key
-        description
-        display_date
-        end_date
-        explicit_content
-        heirarchy_path
-        id
-        identifier
-        language
-        location
-        modified_date
-        ownerinfo
-        parent_collection
-        provenance
-        related_url
-        rights_holder
-        rights_statement
-        source
-        start_date
-        subject
-        thumbnail_path
-        title
-        visibility
-        collectionmap {
-          collection_id
-          create_date
-          id
-          map_object
-          modified_date
-          createdAt
-          updatedAt
-        }
-        createdAt
-        updatedAt
-        archives {
-          nextToken
-        }
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const deleteCollectionmap = /* GraphQL */ `
-  mutation DeleteCollectionmap($input: DeleteCollectionmapInput!) {
-    deleteCollectionmap(input: $input) {
-      collection_id
-      create_date
-      id
-      map_object
-      modified_date
-      collection {
-        belongs_to
-        bibliographic_citation
-        circa
-        collection_category
-        collectionmap_id
-        create_date
-        creator
-        custom_key
-        description
-        display_date
-        end_date
-        explicit_content
-        heirarchy_path
-        id
-        identifier
-        language
-        location
-        modified_date
-        ownerinfo
-        parent_collection
-        provenance
-        related_url
-        rights_holder
-        rights_statement
-        source
-        start_date
-        subject
-        thumbnail_path
-        title
-        visibility
-        collectionmap {
-          collection_id
-          create_date
-          id
-          map_object
-          modified_date
-          createdAt
-          updatedAt
-        }
-        createdAt
-        updatedAt
-        archives {
-          nextToken
-        }
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
 export const createArchive = /* GraphQL */ `
   mutation CreateArchive($input: CreateArchiveInput!) {
     createArchive(input: $input) {
@@ -597,6 +597,8 @@ export const createArchive = /* GraphQL */ `
       thumbnail_path
       title
       visibility
+      createdAt
+      updatedAt
       collection {
         belongs_to
         bibliographic_citation
@@ -643,8 +645,6 @@ export const createArchive = /* GraphQL */ `
           nextToken
         }
       }
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -689,6 +689,8 @@ export const updateArchive = /* GraphQL */ `
       thumbnail_path
       title
       visibility
+      createdAt
+      updatedAt
       collection {
         belongs_to
         bibliographic_citation
@@ -735,8 +737,6 @@ export const updateArchive = /* GraphQL */ `
           nextToken
         }
       }
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -781,6 +781,8 @@ export const deleteArchive = /* GraphQL */ `
       thumbnail_path
       title
       visibility
+      createdAt
+      updatedAt
       collection {
         belongs_to
         bibliographic_citation
@@ -827,8 +829,6 @@ export const deleteArchive = /* GraphQL */ `
           nextToken
         }
       }
-      createdAt
-      updatedAt
     }
   }
 `;
