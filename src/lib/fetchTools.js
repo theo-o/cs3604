@@ -285,6 +285,27 @@ export const fetchSearchResults = async (
   return searchResults;
 };
 
+export const getAllCollections = async () => {
+  let collections = [];
+  let nextToken = null;
+  let items = null;
+  do {
+    try {
+      const results = await fetchObjects(queries.listCollections, {
+        nextToken: nextToken
+      });
+      items = results.data.listCollections.items;
+      nextToken = results.data.listCollections.nextToken;
+    } catch (error) {
+      console.error(`Error fetching all collections: ${error}`);
+    }
+    if (items) {
+      collections = collections.concat(items);
+    }
+  } while (nextToken);
+  return collections;
+};
+
 const fetchObjects = async (
   gqlQuery,
   { filter, sort, limit, nextToken, otherArgs }
@@ -433,4 +454,25 @@ export const getArchiveByIdentifier = async identifier => {
   } = apiData;
   const archive = items[0];
   return archive;
+};
+
+export const getCollectionByIdentifier = async identifier => {
+  const REP_TYPE = process.env.REACT_APP_REP_TYPE;
+  const apiData = await API.graphql({
+    query: queries.collectionByIdentifier,
+    variables: {
+      identifier: identifier,
+      filter: {
+        collection_category: { eq: REP_TYPE }
+      },
+      limit: 1
+    }
+  });
+  const {
+    data: {
+      collectionByIdentifier: { items }
+    }
+  } = apiData;
+  const collection = items[0];
+  return collection;
 };

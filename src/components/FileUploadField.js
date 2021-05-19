@@ -133,6 +133,7 @@ class FileUploadField extends Component {
         groups:
           userInfo.signInUserSession.accessToken.payload["cognito:groups"],
         userEmail: userInfo.attributes.email,
+        siteID: this.props.siteID,
         event: JSON.stringify(eventInfo)
       };
       await API.graphql({

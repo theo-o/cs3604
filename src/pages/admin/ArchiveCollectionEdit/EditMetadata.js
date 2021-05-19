@@ -16,7 +16,7 @@ const EditMetadata = React.memo(props => {
                   onChange={event =>
                     props.onChangeValue(event, props.field, idx)
                   }
-                  placeholder={`Enter ${props.field} for the archive`}
+                  placeholder={`Enter ${props.field} for the record`}
                   value={value || ""}
                 />
                 <button
@@ -39,13 +39,22 @@ const EditMetadata = React.memo(props => {
         </button>
       </Fragment>
     );
+  } else if (props.isBoolean) {
+    editInput = (
+      <Input
+        type="checkbox"
+        name={`${props.field}`}
+        onChange={event => props.onChangeValue(event, props.field)}
+        checked={props.values || false}
+      />
+    );
   } else {
     editInput = (
       <Input
         type="text"
         name={`${props.field}`}
         onChange={event => props.onChangeValue(event, props.field)}
-        placeholder={`Enter ${props.field} for the archive`}
+        placeholder={`Enter ${props.field} for the record`}
         value={props.values || ""}
       />
     );

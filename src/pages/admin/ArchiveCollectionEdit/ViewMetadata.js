@@ -2,6 +2,9 @@ import React from "react";
 
 const viewMetadata = React.memo(props => {
   let displayValues = props.values;
+  if (props.values && props.isBoolean) {
+    displayValues = displayValues.toString();
+  }
   if (props.values && props.isMulti) {
     displayValues = (
       <ul>

@@ -12,7 +12,7 @@ import SearchPageForm from "./SearchPageForm";
 import BrowseCollectionsForm from "./BrowseCollectionsForm";
 import DisplayedAttributesForm from "./DisplayedAttributesForm";
 import MediaSectionForm from "./MediaSectionForm";
-import IdentifierForm from "./ArchiveEdit/IdentifierForm";
+import IdentifierForm from "./ArchiveCollectionEdit/IdentifierForm";
 import SiteContext from "./SiteContext";
 
 import "../../css/SiteAdmin.scss";
@@ -87,7 +87,8 @@ class SiteAdmin extends Component {
       browseCollections: <BrowseCollectionsForm {...formProps} />,
       displayedAttributes: <DisplayedAttributesForm />,
       mediaSection: <MediaSectionForm />,
-      updateArchive: <IdentifierForm />
+      updateArchive: <IdentifierForm type="archive" />,
+      collectionForm: <IdentifierForm type="collection" />
     };
     return forms[this.state.form];
   }
@@ -115,7 +116,9 @@ class SiteAdmin extends Component {
       case "mediaSection":
         return <MediaSectionForm />;
       case "updateArchive":
-        return <IdentifierForm />;
+        return <IdentifierForm type="archive" identifier={null} />;
+      case "collectionForm":
+        return <IdentifierForm type="collection" identifier={null} />;
       default:
         return <SiteForm />;
     }
@@ -237,6 +240,18 @@ class SiteAdmin extends Component {
                 to={"/siteAdmin"}
               >
                 Update Archive
+              </Link>
+            </li>
+            <li
+              className={`collectionFormLink ${
+                this.state.form === "collectionForm" ? " admin-active" : ""
+              }`}
+            >
+              <Link
+                onClick={() => this.setForm("collectionForm")}
+                to={"/siteAdmin"}
+              >
+                New / Update Collection
               </Link>
             </li>
           </ul>
