@@ -17,7 +17,7 @@ const viewMetadata = React.memo(props => {
   return (
     <div className="view-seciton">
       {props.values && <span className="key">{props.attribute.label}: </span>}
-      {displayValues}
+      <span className="wrap-content">{displayValues}</span>
     </div>
   );
 });

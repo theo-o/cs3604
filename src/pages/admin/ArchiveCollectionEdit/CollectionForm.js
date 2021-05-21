@@ -301,7 +301,7 @@ const CollectionForm = React.memo(props => {
           key={`thumbnail_path_upload_${index}`}
           value={collection["thumbnail_path"]}
           site={siteContext.site}
-          label="Upload thumbnail image"
+          label="Thumbnail image"
           input_id={`thumbnail_path_upload_${index}`}
           name={`thumbnail_path_upload_${index}`}
           placeholder="Enter thumbnail source"

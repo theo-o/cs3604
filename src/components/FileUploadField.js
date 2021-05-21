@@ -169,12 +169,15 @@ class FileUploadField extends Component {
   render() {
     return (
       <div className="fileUploadField">
+        <div>
+          <span className="key">{this.props.label}</span>
+        </div>
         {this.props.value && (
           <div>
-            <span className="key">Src:</span> {this.props.value}
+            <span>Current file:</span>{" "}
+            <span className="wrap-content">{this.props.value}</span>
           </div>
         )}
-        <label>{this.props.label}</label>
         <input
           type="file"
           id={this.props.input_id || ""}

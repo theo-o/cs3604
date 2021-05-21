@@ -2,11 +2,12 @@ import React, { useEffect, useState, useContext } from "react";
 import { Form } from "semantic-ui-react";
 import ViewMetadata from "./ViewMetadata";
 import EditMetadata from "./EditMetadata";
-import { API } from "aws-amplify";
+import { API, Storage } from "aws-amplify";
 import { getArchiveByIdentifier } from "../../../lib/fetchTools";
 import { addedDiff, updatedDiff } from "deep-object-diff";
 import * as mutations from "../../../graphql/mutations";
 import SiteContext from "../SiteContext";
+import FileUploadField from "../../../components/FileUploadField";
 
 const multiFields = [
   "belongs_to",
@@ -32,7 +33,8 @@ const singleFields = [
   "display_date",
   "rights_holder",
   "rights_statement",
-  "title"
+  "title",
+  "thumbnail_path"
 ];
 
 const editableFields = singleFields.concat(multiFields);
@@ -68,6 +70,7 @@ const ArchiveForm = React.memo(props => {
         console.error(`Error fetch archive for ${identifier} due to ${e}`);
         setError(`No item found for identifier: ${identifier}!`);
       }
+
       setOldArchive(editableArchive);
       setArchive(editableArchive);
       setArchiveId(item_id);
@@ -96,6 +99,10 @@ const ArchiveForm = React.memo(props => {
       {
         field: "description",
         label: "Description"
+      },
+      {
+        field: "thumbnail_path",
+        label: "Thumbnail image"
       }
     );
     return displayedAttributes;
@@ -197,6 +204,54 @@ const ArchiveForm = React.memo(props => {
     });
   };
 
+  const getFileUrl = (name, value) => {
+    const bucket = Storage._config.AWSS3.bucket;
+    const folder = "image";
+    const pathPrefix = `public/sitecontent/${folder}/${process.env.REACT_APP_REP_TYPE.toLowerCase()}/`;
+    return `https://${bucket}.s3.amazonaws.com/${pathPrefix}${value}`;
+  };
+
+  const setThumbnailSrc = event => {
+    const fileUrl = getFileUrl(event.target.name, event.target.value);
+    event.target.value = fileUrl;
+    changeValueHandler(event, "thumbnail_path");
+  };
+
+  const formElement = (attribute, index) => {
+    let element = null;
+    if (attribute.field === "thumbnail_path") {
+      element = (
+        <FileUploadField
+          key={`thumbnail_path_upload_${index}`}
+          value={archive["thumbnail_path"]}
+          site={siteContext.site}
+          label="Thumbnail image"
+          input_id={`thumbnail_path_upload_${index}`}
+          name={`thumbnail_path_upload_${index}`}
+          placeholder="Enter thumbnail source"
+          setSrc={setThumbnailSrc}
+          siteID={siteContext.site.id}
+          fileType="image"
+        />
+      );
+    } else {
+      element = (
+        <EditMetadata
+          key={`edit_${index}`}
+          required={isRequiredField(attribute.field)}
+          field={attribute.field}
+          label={attribute.label}
+          isMulti={multiFields.includes(attribute.field)}
+          values={archive[attribute.field]}
+          onChangeValue={changeValueHandler}
+          onRemoveValue={deleteMetadataHandler}
+          onAddValue={addMetadataHandler}
+        />
+      );
+    }
+    return element;
+  };
+
   let archiveDisplay = null;
   if (archive) {
     if (viewState === "view") {
@@ -218,24 +273,14 @@ const ArchiveForm = React.memo(props => {
         );
       }
       archiveDisplay = (
-        <Form onSubmit={submitArchiveHandler}>
+        <Form>
           {errorMsg}
           {editableAttributes().map((attribute, index) => {
-            return (
-              <EditMetadata
-                key={`edit_${index}`}
-                required={isRequiredField(attribute.field)}
-                field={attribute.field}
-                label={attribute.label}
-                isMulti={multiFields.includes(attribute.field)}
-                values={archive[attribute.field]}
-                onChangeValue={changeValueHandler}
-                onRemoveValue={deleteMetadataHandler}
-                onAddValue={addMetadataHandler}
-              />
-            );
+            return formElement(attribute, index);
           })}
-          <Form.Button>Update Archive Metadata</Form.Button>
+          <Form.Button onClick={submitArchiveHandler}>
+            Update Archive Metadata
+          </Form.Button>
         </Form>
       );
     }
