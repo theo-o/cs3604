@@ -70,7 +70,7 @@ export function collectionSizeText(collection) {
 export function addNewlineInDesc(content) {
   if (content) {
     content = content.split("\n").map((value, index) => {
-      return <p key={index}>{value}</p>;
+      return <p key={index} dangerouslySetInnerHTML={{ __html: value }} />;
     });
     return <span>{content}</span>;
   }
