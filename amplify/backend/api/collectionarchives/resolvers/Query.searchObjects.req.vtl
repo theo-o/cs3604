@@ -34,6 +34,7 @@ You must replace the <index>, <type>, and <field> placeholders with actual value
             "should": [{
               "multi_match" : {
                 "query": $util.toJson($context.args.allFields),
+                "fuzziness": "AUTO",
                 "type": "phrase",
                 "fields": ["title", "description", "creator",  "medium", "resource_type", "tags",
                            "identifier", "belongs_to", "format", "location", "subject", "source",

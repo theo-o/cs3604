@@ -29,6 +29,7 @@
             "should": [{
               "multi_match" : {
                 "query": $util.toJson($context.args.allFields),
+                "fuzziness": "AUTO",
                 "type": "phrase",
                 "fields": ["title", "description", "creator", "identifier", "location", "subject", "source",
                            "belongs_to", "bibliographic_citation", "rights_statement", "rights_holder"]
