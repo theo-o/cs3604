@@ -30,5 +30,25 @@
     {
         "groupName": "hokiesSiteAdmin",
         "precedence": 8
+    },
+    {
+        "groupName": "IAWA",
+        "precedence": 9
+    },
+    {
+        "groupName": "hokies",
+        "precedence": 10
+    },
+    {
+        "groupName": "SWVA",
+        "precedence": 11
+    },
+    {
+        "groupName": "podcasts",
+        "precedence": 12
+    },
+    {
+        "groupName": "Default",
+        "precedence": 13
     }
 ]

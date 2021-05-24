@@ -473,6 +473,276 @@
         },
      
     
+        "IAWAGroup": {
+          "Type" : "AWS::Cognito::UserPoolGroup",
+          "Properties" : {
+              "GroupName" : "IAWA",
+              "Precedence" : 9,
+              
+              "RoleArn" : {
+                "Fn::GetAtt": [
+                    "IAWAGroupRole",
+                    "Arn"
+                ]
+              },
+              
+              "UserPoolId" : {
+                "Ref": "authiawav2658176f3UserPoolId"
+              }
+            }
+        },
+        
+        "IAWAGroupRole": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+                "RoleName":{
+                    "Fn::Join": [
+                        "",
+                        [
+                          {
+                            "Ref": "authiawav2658176f3UserPoolId"
+                          },
+                          "-IAWAGroupRole"
+                        ]
+                    ]
+                },
+                "AssumeRolePolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Sid": "",
+                            "Effect": "Allow",
+                            "Principal": {
+                                "Federated": "cognito-identity.amazonaws.com"
+                            },
+                            "Action": "sts:AssumeRoleWithWebIdentity",
+                            "Condition": {
+                              "StringEquals": {"cognito-identity.amazonaws.com:aud": {"Ref":"authiawav2658176f3IdentityPoolId"}},
+                              "ForAnyValue:StringLike": {"cognito-identity.amazonaws.com:amr": "authenticated"}
+                            }
+                        }
+                    ]
+                }
+            }
+        },
+     
+    
+        "hokiesGroup": {
+          "Type" : "AWS::Cognito::UserPoolGroup",
+          "Properties" : {
+              "GroupName" : "hokies",
+              "Precedence" : 10,
+              
+              "RoleArn" : {
+                "Fn::GetAtt": [
+                    "hokiesGroupRole",
+                    "Arn"
+                ]
+              },
+              
+              "UserPoolId" : {
+                "Ref": "authiawav2658176f3UserPoolId"
+              }
+            }
+        },
+        
+        "hokiesGroupRole": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+                "RoleName":{
+                    "Fn::Join": [
+                        "",
+                        [
+                          {
+                            "Ref": "authiawav2658176f3UserPoolId"
+                          },
+                          "-hokiesGroupRole"
+                        ]
+                    ]
+                },
+                "AssumeRolePolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Sid": "",
+                            "Effect": "Allow",
+                            "Principal": {
+                                "Federated": "cognito-identity.amazonaws.com"
+                            },
+                            "Action": "sts:AssumeRoleWithWebIdentity",
+                            "Condition": {
+                              "StringEquals": {"cognito-identity.amazonaws.com:aud": {"Ref":"authiawav2658176f3IdentityPoolId"}},
+                              "ForAnyValue:StringLike": {"cognito-identity.amazonaws.com:amr": "authenticated"}
+                            }
+                        }
+                    ]
+                }
+            }
+        },
+     
+    
+        "SWVAGroup": {
+          "Type" : "AWS::Cognito::UserPoolGroup",
+          "Properties" : {
+              "GroupName" : "SWVA",
+              "Precedence" : 11,
+              
+              "RoleArn" : {
+                "Fn::GetAtt": [
+                    "SWVAGroupRole",
+                    "Arn"
+                ]
+              },
+              
+              "UserPoolId" : {
+                "Ref": "authiawav2658176f3UserPoolId"
+              }
+            }
+        },
+        
+        "SWVAGroupRole": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+                "RoleName":{
+                    "Fn::Join": [
+                        "",
+                        [
+                          {
+                            "Ref": "authiawav2658176f3UserPoolId"
+                          },
+                          "-SWVAGroupRole"
+                        ]
+                    ]
+                },
+                "AssumeRolePolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Sid": "",
+                            "Effect": "Allow",
+                            "Principal": {
+                                "Federated": "cognito-identity.amazonaws.com"
+                            },
+                            "Action": "sts:AssumeRoleWithWebIdentity",
+                            "Condition": {
+                              "StringEquals": {"cognito-identity.amazonaws.com:aud": {"Ref":"authiawav2658176f3IdentityPoolId"}},
+                              "ForAnyValue:StringLike": {"cognito-identity.amazonaws.com:amr": "authenticated"}
+                            }
+                        }
+                    ]
+                }
+            }
+        },
+     
+    
+        "podcastsGroup": {
+          "Type" : "AWS::Cognito::UserPoolGroup",
+          "Properties" : {
+              "GroupName" : "podcasts",
+              "Precedence" : 12,
+              
+              "RoleArn" : {
+                "Fn::GetAtt": [
+                    "podcastsGroupRole",
+                    "Arn"
+                ]
+              },
+              
+              "UserPoolId" : {
+                "Ref": "authiawav2658176f3UserPoolId"
+              }
+            }
+        },
+        
+        "podcastsGroupRole": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+                "RoleName":{
+                    "Fn::Join": [
+                        "",
+                        [
+                          {
+                            "Ref": "authiawav2658176f3UserPoolId"
+                          },
+                          "-podcastsGroupRole"
+                        ]
+                    ]
+                },
+                "AssumeRolePolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Sid": "",
+                            "Effect": "Allow",
+                            "Principal": {
+                                "Federated": "cognito-identity.amazonaws.com"
+                            },
+                            "Action": "sts:AssumeRoleWithWebIdentity",
+                            "Condition": {
+                              "StringEquals": {"cognito-identity.amazonaws.com:aud": {"Ref":"authiawav2658176f3IdentityPoolId"}},
+                              "ForAnyValue:StringLike": {"cognito-identity.amazonaws.com:amr": "authenticated"}
+                            }
+                        }
+                    ]
+                }
+            }
+        },
+     
+    
+        "DefaultGroup": {
+          "Type" : "AWS::Cognito::UserPoolGroup",
+          "Properties" : {
+              "GroupName" : "Default",
+              "Precedence" : 13,
+              
+              "RoleArn" : {
+                "Fn::GetAtt": [
+                    "DefaultGroupRole",
+                    "Arn"
+                ]
+              },
+              
+              "UserPoolId" : {
+                "Ref": "authiawav2658176f3UserPoolId"
+              }
+            }
+        },
+        
+        "DefaultGroupRole": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+                "RoleName":{
+                    "Fn::Join": [
+                        "",
+                        [
+                          {
+                            "Ref": "authiawav2658176f3UserPoolId"
+                          },
+                          "-DefaultGroupRole"
+                        ]
+                    ]
+                },
+                "AssumeRolePolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Sid": "",
+                            "Effect": "Allow",
+                            "Principal": {
+                                "Federated": "cognito-identity.amazonaws.com"
+                            },
+                            "Action": "sts:AssumeRoleWithWebIdentity",
+                            "Condition": {
+                              "StringEquals": {"cognito-identity.amazonaws.com:aud": {"Ref":"authiawav2658176f3IdentityPoolId"}},
+                              "ForAnyValue:StringLike": {"cognito-identity.amazonaws.com:amr": "authenticated"}
+                            }
+                        }
+                    ]
+                }
+            }
+        },
+     
+    
     
         "LambdaExecutionRole": {
             "Type": "AWS::IAM::Role",
@@ -754,6 +1024,61 @@
             "Value": {
                 "Fn::GetAtt": [
                     "hokiesSiteAdminGroupRole",
+                    "Arn"
+                ]
+            }
+        
+        },
+        
+      
+        "IAWAGroupRole": {
+            "Value": {
+                "Fn::GetAtt": [
+                    "IAWAGroupRole",
+                    "Arn"
+                ]
+            }
+        
+        },
+        
+      
+        "hokiesGroupRole": {
+            "Value": {
+                "Fn::GetAtt": [
+                    "hokiesGroupRole",
+                    "Arn"
+                ]
+            }
+        
+        },
+        
+      
+        "SWVAGroupRole": {
+            "Value": {
+                "Fn::GetAtt": [
+                    "SWVAGroupRole",
+                    "Arn"
+                ]
+            }
+        
+        },
+        
+      
+        "podcastsGroupRole": {
+            "Value": {
+                "Fn::GetAtt": [
+                    "podcastsGroupRole",
+                    "Arn"
+                ]
+            }
+        
+        },
+        
+      
+        "DefaultGroupRole": {
+            "Value": {
+                "Fn::GetAtt": [
+                    "DefaultGroupRole",
                     "Arn"
                 ]
             }
