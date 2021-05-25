@@ -36,16 +36,8 @@ class SiteAdmin extends Component {
         data.signInUserSession.accessToken.payload["cognito:groups"];
       this.setState({ groups: groups });
       this.setState({ userEmail: data.attributes.email });
-      let adminGroup = "";
-      const repo_type = process.env.REACT_APP_REP_TYPE.toLowerCase();
-      if (repo_type === "default") {
-        adminGroup = "demoSiteAdmin";
-      } else if (repo_type === "podcasts") {
-        adminGroup = "podcastSiteAdmin";
-      } else {
-        adminGroup = `${repo_type}SiteAdmin`;
-      }
-      if (groups && groups.indexOf(adminGroup) !== -1) {
+      const repo_type = process.env.REACT_APP_REP_TYPE;
+      if (groups && groups.indexOf(repo_type) !== -1) {
         this.setAuthorized(true);
       } else {
         this.setAuthorized(false);
