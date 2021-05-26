@@ -210,7 +210,11 @@ class SiteAdmin extends Component {
                 Browse Collections Page
               </Link>
             </li>
-            <li>
+            <li
+              className={
+                this.state.form === "displayedAttributes" ? "admin-active" : ""
+              }
+            >
               <Link
                 onClick={() => this.setForm("displayedAttributes")}
                 to={"/siteAdmin"}
@@ -218,7 +222,11 @@ class SiteAdmin extends Component {
                 Displayed Attributes
               </Link>
             </li>
-            <li>
+            <li
+              className={
+                this.state.form === "mediaSection" ? "admin-active" : ""
+              }
+            >
               <Link
                 onClick={() => this.setForm("mediaSection")}
                 to={"/siteAdmin"}
@@ -226,7 +234,11 @@ class SiteAdmin extends Component {
                 Homepage media section
               </Link>
             </li>
-            <li>
+            <li
+              className={
+                this.state.form === "updateArchive" ? "admin-active" : ""
+              }
+            >
               <Link
                 onClick={() => this.setForm("updateArchive")}
                 to={"/siteAdmin"}
