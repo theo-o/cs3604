@@ -24,7 +24,6 @@ const multiFields = [
 const singleFields = [
   "bibliographic_citation",
   "circa",
-  "collection_category",
   "description",
   "display_date",
   "end_date",
@@ -115,7 +114,7 @@ const CollectionForm = React.memo(props => {
   }, [identifier, newCollection]);
 
   const isRequiredField = attribute => {
-    const requiredFields = ["title", "collection_category", "visibility"];
+    const requiredFields = ["title", "visibility"];
     return requiredFields.includes(attribute);
   };
 
@@ -159,6 +158,7 @@ const CollectionForm = React.memo(props => {
       collection.identifier = id.toString();
       collection.heirarchy_path = [id.toString()];
       collection.custom_key = customKey;
+      collection.collection_category = siteContext.site.groups[0];
     }
 
     setValidForm(true);
