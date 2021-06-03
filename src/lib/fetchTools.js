@@ -221,7 +221,7 @@ export const fetchSearchResults = async (
       let parent_collection_id = await getCollectionIDByTitle(filter[key]);
       filters["heirarchy_path"] = { eq: parent_collection_id };
     } else if (key === "title" || key === "description") {
-      filters[key] = { matchPhrase: filter[key] };
+      filters[key] = { matchPhrasePrefix: filter[key] };
     } else if (Array.isArray(filter[key])) {
       if (key === "date") {
         filter[key].forEach(function(value) {
