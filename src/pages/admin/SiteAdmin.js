@@ -243,7 +243,7 @@ class SiteAdmin extends Component {
                 onClick={() => this.setForm("updateArchive")}
                 to={"/siteAdmin"}
               >
-                Update Archive
+                Update Item
               </Link>
             </li>
             <li

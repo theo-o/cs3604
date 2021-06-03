@@ -34,6 +34,7 @@ const singleFields = [
   "rights_holder",
   "rights_statement",
   "title",
+  "custom_key",
   "thumbnail_path"
 ];
 
@@ -90,7 +91,11 @@ const ArchiveForm = React.memo(props => {
   const editableAttributes = () => {
     const displayedAttributes = JSON.parse(
       siteContext.site.displayedAttributes
-    )["archive"].filter(attribute => editableFields.includes(attribute.field));
+    )["archive"].filter(
+      attribute =>
+        attribute.field !== "custom_key" &&
+        editableFields.includes(attribute.field)
+    );
     displayedAttributes.unshift(
       {
         field: "title",
@@ -255,16 +260,26 @@ const ArchiveForm = React.memo(props => {
   let archiveDisplay = null;
   if (archive) {
     if (viewState === "view") {
-      archiveDisplay = editableAttributes().map((attribute, index) => {
-        return (
-          <ViewMetadata
-            key={`view_${index}`}
-            attribute={attribute}
-            isMulti={multiFields.includes(attribute.field)}
-            values={archive[attribute.field]}
-          />
-        );
-      });
+      archiveDisplay = [
+        <a
+          key="view_custom_key"
+          href={`/archive/${archive.custom_key.split("/").pop()}`}
+        >
+          View Item
+        </a>
+      ];
+      archiveDisplay.push(
+        editableAttributes().map((attribute, index) => {
+          return (
+            <ViewMetadata
+              key={`view_${attribute.field}`}
+              attribute={attribute}
+              isMulti={multiFields.includes(attribute.field)}
+              values={archive[attribute.field]}
+            />
+          );
+        })
+      );
     } else {
       let errorMsg = null;
       if (!validForm) {
@@ -279,7 +294,7 @@ const ArchiveForm = React.memo(props => {
             return formElement(attribute, index);
           })}
           <Form.Button onClick={submitArchiveHandler}>
-            Update Archive Metadata
+            Update Item Metadata
           </Form.Button>
         </Form>
       );
