@@ -117,7 +117,19 @@ export const mintNOID = async () => {
   return retVal;
 };
 
-export const fetchAvailableDisplayedAttributes = async site => {
+const fetchGlobalData = async (prefix, filename) => {
+  Storage.configure({
+    customPrefix: {
+      public: prefix
+    }
+  });
+  const authLink = await Storage.get(filename);
+  const response = await fetch(authLink);
+  const data = await response.json();
+  return data;
+};
+
+export const fetchAvailableDisplayedAttributes = async () => {
   let data = null;
   const keyName = `availableAttributes`;
   try {
@@ -127,11 +139,8 @@ export const fetchAvailableDisplayedAttributes = async site => {
   }
   if (data === null) {
     console.log(`fetching ${keyName}`);
-    let response = null;
     try {
-      const htmlLink = `${site.lang}/${keyName}.json`;
-      response = await fetch(htmlLink);
-      data = await response.json();
+      data = await fetchGlobalData("public/data/", `${keyName}.json`);
     } catch (error) {
       console.error(`Error fetching ${keyName}`);
       console.error(error);
@@ -145,25 +154,23 @@ export const fetchAvailableDisplayedAttributes = async site => {
 
 export const fetchLanguages = async (component, site, key, callback) => {
   let data = null;
+  const keyName = `language_codes_by_${key}`;
   try {
-    data = JSON.parse(sessionStorage.getItem(`lang_by_${key}`));
+    data = JSON.parse(sessionStorage.getItem(keyName));
   } catch (error) {
-    console.log(`lang_by_${key} not in sessionStorage`);
+    console.log(`${keyName} not in sessionStorage`);
   }
   if (data === null) {
-    console.log(`fetching by lang_by_${key}`);
-    let response = null;
+    console.log(`fetching by ${key}`);
     try {
-      const htmlLink = `${site.lang}/language_codes_by_${key}.json`;
-      response = await fetch(htmlLink);
-      data = await response.json();
+      data = await fetchGlobalData("public/data/", `${keyName}.json`);
     } catch (error) {
       console.error(`Error fetching languages`);
       console.error(error);
     }
   }
   if (data !== null) {
-    sessionStorage.setItem(`lang_by_${key}`, JSON.stringify(data));
+    sessionStorage.setItem(keyName, JSON.stringify(data));
     component.setState({ languages: data }, function() {
       if (typeof component.loadItems === "function") {
         component.loadItems();
