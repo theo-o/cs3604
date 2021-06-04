@@ -42,11 +42,11 @@ describe('Search by description by hitting enter key', () => {
       .should('eq', 'http://localhost:3000/search?field=description&q=certificate&view=Gallery');
     cy.get('#content > div.navbar > div.view-info > div.pagination-section > div.pagination-text')
       .invoke('text')
-      .should('equal', 'Search Results: 1 - 3 of 3');
+      .should('equal', 'Search Results: 1 - 4 of 4');
 
     cy.get('#content > div.search-results-section > div.row')
       .children()
-      .should('have.length', 3);
+      .should('have.length', 4);
 
     cy.get('#content > div.search-results-section > div.row > :nth-child(1) > div.card > a > div.card-body > p')
       .invoke('text')
