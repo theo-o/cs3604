@@ -457,63 +457,6 @@ export const searchCollectionmaps = /* GraphQL */ `
     }
   }
 `;
-export const listCollections = /* GraphQL */ `
-  query ListCollections(
-    $filter: ModelCollectionFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listCollections(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        belongs_to
-        bibliographic_citation
-        circa
-        collection_category
-        collectionmap_id
-        create_date
-        creator
-        custom_key
-        description
-        display_date
-        end_date
-        explicit_content
-        heirarchy_path
-        id
-        identifier
-        language
-        location
-        modified_date
-        ownerinfo
-        parent_collection
-        provenance
-        related_url
-        rights_holder
-        rights_statement
-        source
-        start_date
-        subject
-        thumbnail_path
-        title
-        visibility
-        collectionmap {
-          collection_id
-          create_date
-          id
-          map_object
-          modified_date
-          createdAt
-          updatedAt
-        }
-        createdAt
-        updatedAt
-        archives {
-          nextToken
-        }
-      }
-      nextToken
-    }
-  }
-`;
 export const getCollection = /* GraphQL */ `
   query GetCollection($id: ID!) {
     getCollection(id: $id) {
@@ -637,6 +580,63 @@ export const getCollection = /* GraphQL */ `
         }
         nextToken
       }
+    }
+  }
+`;
+export const listCollections = /* GraphQL */ `
+  query ListCollections(
+    $filter: ModelCollectionFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listCollections(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        belongs_to
+        bibliographic_citation
+        circa
+        collection_category
+        collectionmap_id
+        create_date
+        creator
+        custom_key
+        description
+        display_date
+        end_date
+        explicit_content
+        heirarchy_path
+        id
+        identifier
+        language
+        location
+        modified_date
+        ownerinfo
+        parent_collection
+        provenance
+        related_url
+        rights_holder
+        rights_statement
+        source
+        start_date
+        subject
+        thumbnail_path
+        title
+        visibility
+        collectionmap {
+          collection_id
+          create_date
+          id
+          map_object
+          modified_date
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+        archives {
+          nextToken
+        }
+      }
+      nextToken
     }
   }
 `;
@@ -1158,6 +1158,7 @@ export const getSite = /* GraphQL */ `
       siteColor
       siteId
       siteName
+      siteOptions
       sitePages
       siteTitle
       createdAt
@@ -1187,6 +1188,7 @@ export const listSites = /* GraphQL */ `
         siteColor
         siteId
         siteName
+        siteOptions
         sitePages
         siteTitle
         createdAt
@@ -1226,6 +1228,7 @@ export const siteBySiteId = /* GraphQL */ `
         siteColor
         siteId
         siteName
+        siteOptions
         sitePages
         siteTitle
         createdAt

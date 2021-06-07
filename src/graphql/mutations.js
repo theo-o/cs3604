@@ -849,6 +849,7 @@ export const createSite = /* GraphQL */ `
       siteColor
       siteId
       siteName
+      siteOptions
       sitePages
       siteTitle
       createdAt
@@ -873,6 +874,7 @@ export const updateSite = /* GraphQL */ `
       siteColor
       siteId
       siteName
+      siteOptions
       sitePages
       siteTitle
       createdAt
@@ -897,6 +899,7 @@ export const deleteSite = /* GraphQL */ `
       siteColor
       siteId
       siteName
+      siteOptions
       sitePages
       siteTitle
       createdAt

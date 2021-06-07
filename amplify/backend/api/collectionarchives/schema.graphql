@@ -161,6 +161,7 @@ type Site
   siteColor: String
   siteId: String!
   siteName: String!
+  siteOptions: AWSJSON
   sitePages: AWSJSON
   siteTitle: String!
 }
