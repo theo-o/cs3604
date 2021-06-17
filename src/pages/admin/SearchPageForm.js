@@ -270,7 +270,7 @@ class SearchPageForm extends Component {
             </button>
           )}
         </fieldset>
-        {facetKey === "category" || facetKey === "date" ? (
+        {facetKey === "category" ? (
           <></>
         ) : (
           <div className="deletePageWrapper">
