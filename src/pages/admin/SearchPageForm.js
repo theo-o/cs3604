@@ -21,6 +21,7 @@ class SearchPageForm extends Component {
     let AllFacets = [
       "creator",
       "collection",
+      "date",
       "format",
       "language",
       "location",
@@ -210,7 +211,7 @@ class SearchPageForm extends Component {
   };
 
   editFacetValue = (facetKey, value, idx) => {
-    let fixedFacet = facetKey === "category" || facetKey === "date";
+    let fixedFacet = facetKey === "category";
     return (
       <li key={`${facetKey}_li_${idx}`}>
         <Form.Input
@@ -239,7 +240,7 @@ class SearchPageForm extends Component {
 
   editFacet = facetKey => {
     const searchFacets = this.state.searchPage.facets;
-    let fixedFacet = facetKey === "category" || facetKey === "date";
+    let fixedFacet = facetKey === "category";
     return (
       <section key={facetKey}>
         <fieldset>
@@ -317,7 +318,7 @@ class SearchPageForm extends Component {
     });
   };
 
-  dropdownChange = e => {
+  facetDropdownChange = e => {
     this.setState({ newFacet: e.target.value });
   };
 
@@ -329,7 +330,7 @@ class SearchPageForm extends Component {
             value={this.state.newFacet}
             name="new_facet"
             id="new-facet-options"
-            onChange={this.dropdownChange}
+            onChange={this.facetDropdownChange}
             className="custom-select"
           >
             {this.facetOptions()}
