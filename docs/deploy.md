@@ -3,11 +3,24 @@
 ## Step 1: Deploy the demo website in the Amplify console
 * Go to [Launching the app](https://github.com/VTUL/dlp-access#launching-the-app) section and click the `Deploy to Amplify console` button
 
-<img src="images/onedeploybutton.png" width="30%"/>
+    [![amplifybutton](https://oneclick.amplifyapp.com/button.svg)](https://console.aws.amazon.com/amplify/home#/deploy?repo=https://github.com/VTUL/dlp-access)
+
+    *  Note: This one-click button is using the default branch (`dev`) URL. If you prefer to deploy from other branch, simply update the default branch URL to the branch URL. Take `prod` branch for example, the new deploy link will look like below:
+    ```
+    https://console.aws.amazon.com/amplify/home#/deploy?repo=https://github.com/VTUL/dlp-access/tree/prod
+    ```
 
 * Click the `Connect to GitHub` button
 
 <img src="images/connecttogithub.png" width="80%"/>
+
+* Select service role
+
+    If you don't have a service role, click the `Create new role` button.
+
+    <img src="images/servicerole.png" width="80%"/>
+
+    or select the existing service role.
 
 * Specify the `App name` and `Environment variable`
 
@@ -25,6 +38,16 @@
 * Check the deployment status
 
 <img src="images/deploydone.png" width="80%"/>
+
+* Update Rewrites and redirects
+1. Update `Source address`
+```
+</^[^.]+$|\.(?!(css|gif|ico|jpg|js|png|txt|svg|woff|ttf)$)([^.]+$)/>
+```
+2. Update `Target address` to `/index.html`
+3. Update `Type` to `200 (Rewrite)`
+
+<img src="images/redirect.png" width="80%"/>
 
 * Check the Backend environments
 
