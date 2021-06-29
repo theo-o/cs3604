@@ -21,8 +21,8 @@ class ContactSection extends Component {
             {contactList.map((contact, index) => (
               <div key={index}>
                 <p className="contact-title">
-                  {contact.title} [
-                  <a href={`mailto:${contact.email}`}>{contact.email}</a>],{" "}
+                  {contact.title} &nbsp;
+                  <a href={`mailto:${contact.email}`}>{contact.email}</a> {" "}
                   {contact.group}
                 </p>
                 <div className="contact-address">
