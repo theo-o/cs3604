@@ -110,7 +110,7 @@ function listValue(category, attr, value, languages) {
   }
 }
 
-function textFormat(item, attr, languages, collectionCustomKey) {
+function textFormat(item, attr, languages, collectionCustomKey, site) {
   if (attr === "display_date" && item[attr] === null) attr = "start_date";
   if (item[attr] === null) return null;
   let category = "archive";
@@ -140,8 +140,17 @@ function textFormat(item, attr, languages, collectionCustomKey) {
   } else if (attr === "rights_statement") {
     return htmlParsedValue(item[attr]);
   } else if (attr === "custom_key") {
+    let redirect = "";
+    try {
+      const options = JSON.parse(site.siteOptions);
+      if (options.redirectURL) {
+        redirect = options.redirectURL;
+      }
+    } catch (error) {
+      console.log("Redirect url not defined in site config.");
+    }
     return htmlParsedValue(
-      `<a href="http://idn.lib.vt.edu/${item.custom_key}">https://idn.lib.vt.edu/${item.custom_key}</a>`
+      `<a href="${redirect}/${item.custom_key}">${redirect}/${item.custom_key}</a>`
     );
   } else if (attr === "description") {
     return <MoreLink category={category} item={item} />;
@@ -169,8 +178,8 @@ const MoreLink = ({ category, item }) => {
   );
 };
 
-const RenderAttribute = ({ item, attribute, languages }) => {
-  const item_value = textFormat(item, attribute.field, languages);
+const RenderAttribute = ({ item, attribute, languages, site }) => {
+  const item_value = textFormat(item, attribute.field, languages, null, site);
   if (item_value) {
     let value_style = attribute.field === "identifier" ? "identifier" : "";
     return (
@@ -199,11 +208,12 @@ const RenderAttrDetailed = ({
   attribute,
   languages,
   collectionCustomKey,
-  type
+  type,
+  site
 }) => {
   const item_value = item[attribute.field];
   const item_label = attribute.label;
-  if (textFormat(item, attribute.field, languages, collectionCustomKey)) {
+  if (textFormat(item, attribute.field, languages, collectionCustomKey, site)) {
     let value_style = attribute.field === "identifier" ? "identifier" : "";
     if (type === "table") {
       if (
@@ -240,7 +250,8 @@ const RenderAttrDetailed = ({
                 item,
                 attribute.field,
                 languages,
-                collectionCustomKey
+                collectionCustomKey,
+                site
               )}
             </td>
           </tr>
@@ -255,7 +266,13 @@ const RenderAttrDetailed = ({
         >
           <div className="collection-detail-key">{item_label}</div>
           <div className={`collection-detail-value ${value_style}`}>
-            {textFormat(item, attribute.field, languages, collectionCustomKey)}
+            {textFormat(
+              item,
+              attribute.field,
+              languages,
+              collectionCustomKey,
+              site
+            )}
           </div>
         </div>
       );
@@ -264,7 +281,7 @@ const RenderAttrDetailed = ({
     return <></>;
   }
 };
-export const RenderItems = ({ keyArray, item, languages }) => {
+export const RenderItems = ({ keyArray, item, languages, site }) => {
   let render_items = [];
   keyArray.forEach((value, index) => {
     render_items.push(
@@ -273,6 +290,7 @@ export const RenderItems = ({ keyArray, item, languages }) => {
         attribute={value}
         key={index}
         languages={languages}
+        site={site}
       />
     );
   });
@@ -284,7 +302,8 @@ export const RenderItemsDetailed = ({
   item,
   languages,
   collectionCustomKey,
-  type = "table"
+  type = "table",
+  site
 }) => {
   let render_items_detailed = [];
   keyArray.forEach((value, index) => {
@@ -296,6 +315,7 @@ export const RenderItemsDetailed = ({
         languages={languages}
         collectionCustomKey={collectionCustomKey}
         type={type}
+        site={site}
       />
     );
   });

@@ -29,6 +29,12 @@ class SiteForm extends Component {
   async loadSite() {
     const site = await getSite();
     if (site) {
+      let options = null;
+      try {
+        options = JSON.parse(site.siteOptions);
+      } catch (error) {
+        console.log("error parsing siteOptions");
+      }
       let siteInfo = {
         analyticsID: site.analyticsID || "",
         siteColor: site.siteColor || "",
@@ -38,7 +44,8 @@ class SiteForm extends Component {
           ? site.contact.map(contact => {
               return JSON.parse(contact);
             })
-          : []
+          : [],
+        redirectURL: options ? options.redirectURL : ""
       };
       this.setState({
         formState: siteInfo,
@@ -73,10 +80,18 @@ class SiteForm extends Component {
     const { siteTitle, siteName } = this.state.formState;
     if (!siteTitle || !siteName) return;
 
+    if (this.state.formState.redirectURL.length) {
+      const options = this.state.formState.siteOptions || {};
+      options.redirectURL = this.state.formState.redirectURL;
+      this.state.formState.siteOptions = JSON.stringify(options);
+    }
+
     this.setState({ viewState: "viewSite" });
     const siteID = this.state.site.id;
     let siteInfo = { id: siteID, ...this.state.formState };
     siteInfo = this.formatData(siteInfo);
+    delete siteInfo.redirectURL;
+
     await API.graphql({
       query: mutations.updateSite,
       variables: { input: siteInfo },
@@ -94,7 +109,6 @@ class SiteForm extends Component {
       };
     }, {});
     const userInfo = await Auth.currentUserPoolUser();
-    console.log("userInfo", userInfo);
     let historyInfo = {
       groups: userInfo.signInUserSession.accessToken.payload["cognito:groups"],
       userEmail: userInfo.attributes.email,
@@ -204,6 +218,13 @@ class SiteForm extends Component {
             placeholder="Enter Site Title"
             onChange={this.updateInputValue}
           />
+          <Form.Input
+            label="Redirection URL"
+            value={this.state.formState.redirectURL}
+            name="redirectURL"
+            placeholder="Enter Redirection URL"
+            onChange={this.updateInputValue}
+          />
           <ContactForm
             contactList={this.state.formState.contact}
             updateContactValue={this.updateContactValue}
@@ -226,6 +247,7 @@ class SiteForm extends Component {
             <p>Site Color: {this.state.formState.siteColor}</p>
             <p>Site Name: {this.state.formState.siteName}</p>
             <p>Site Title: {this.state.formState.siteTitle}</p>
+            <p>Redirect URL: {this.state.formState.redirectURL}</p>
             <p>Contacts</p>
             <Contacts contactList={this.state.formState.contact} />
           </div>

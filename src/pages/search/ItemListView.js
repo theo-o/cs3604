@@ -44,6 +44,7 @@ class ItemListView extends Component {
                 keyArray={keyArray}
                 item={this.props.item}
                 languages={this.state.languages}
+                site={this.props.site}
               />
             </div>
           </NavLink>

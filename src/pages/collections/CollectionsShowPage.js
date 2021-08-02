@@ -281,6 +281,7 @@ class CollectionsShowPage extends Component {
                         languages={this.state.languages}
                         collectionCustomKey={this.state.collectionCustomKey}
                         type="table"
+                        site={this.props.site}
                       />
                     </tbody>
                   </table>

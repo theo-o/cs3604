@@ -6,6 +6,19 @@ import { htmlParsedValue } from "../lib/MetadataRenderer";
 import "../css/Citation.scss";
 
 class Citation extends Component {
+  redirect_url() {
+    let redirect = "";
+    try {
+      const options = JSON.parse(this.props.site.siteOptions);
+      if (options.redirectURL) {
+        redirect = options.redirectURL;
+      }
+    } catch (error) {
+      console.log("Redirect url not defined in site config.");
+    }
+    return redirect;
+  }
+
   render() {
     const theme = createMuiTheme({
       overrides: {
@@ -21,6 +34,7 @@ class Citation extends Component {
         }
       }
     });
+    const redirect = this.redirect_url();
 
     return (
       <div aria-label="Item Citation" className="citation-section">
@@ -44,7 +58,7 @@ class Citation extends Component {
           </div>
           <div className="link-text">
             {htmlParsedValue(
-              `<a href="http://idn.lib.vt.edu/${this.props.item.custom_key}">https://idn.lib.vt.edu/${this.props.item.custom_key}</a>`
+              `<a href="${redirect}/${this.props.item.custom_key}">${redirect}/${this.props.item.custom_key}</a>`
             )}
           </div>
         </div>

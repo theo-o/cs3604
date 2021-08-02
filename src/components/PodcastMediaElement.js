@@ -54,12 +54,21 @@ export default class PodcastMediaElement extends Component {
 
     window.flvjs = flvjs;
     window.Hls = hlsjs;
-    this.setState({ player: new MediaElementPlayer(this.props.id, options) });
+    this.setState(
+      { player: new MediaElementPlayer(this.props.id, options) },
+      () => {
+        console.log(this.state.player);
+      }
+    );
   }
 
   componentWillUnmount() {
-    if (this.state.player) {
-      this.state.player.remove();
+    if (this.state.player && this.state.player.media) {
+      try {
+        this.state.player.remove();
+      } catch (error) {
+        console.log(error);
+      }
       this.setState({ player: null });
     }
   }

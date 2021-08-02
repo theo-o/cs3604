@@ -315,7 +315,7 @@ class ArchivePage extends Component {
               {addNewlineInDesc(this.state.item.description)}
             </div>
             <div className="col-lg-6 details-section-metadata">
-              <Citation item={this.state.item} />
+              <Citation item={this.state.item} site={this.props.site} />
               <table aria-label="Item Metadata">
                 <tbody>
                   <RenderItemsDetailed
@@ -325,6 +325,7 @@ class ArchivePage extends Component {
                     item={this.state.item}
                     languages={this.state.languages}
                     collectionCustomKey={this.state.collectionCustomKey}
+                    site={this.props.site}
                   />
                 </tbody>
               </table>
