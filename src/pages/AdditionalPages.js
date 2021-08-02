@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { getFile } from "../lib/fetchTools";
 
+import "../css/AdditionalPages.scss";
+
 class AdditionalPages extends Component {
   constructor(props) {
     super(props);
@@ -19,7 +21,12 @@ class AdditionalPages extends Component {
   }
 
   render() {
-    return <div dangerouslySetInnerHTML={{ __html: this.state.copy }}></div>;
+    return (
+      <div
+        className="additional-pages-wrapper"
+        dangerouslySetInnerHTML={{ __html: this.state.copy }}
+      ></div>
+    );
   }
 }
 

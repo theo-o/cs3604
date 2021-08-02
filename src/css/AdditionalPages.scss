@@ -1,0 +1,41 @@
+.additional-pages-wrapper {
+  font-family: "Acherus", sans-serif;
+}
+
+.additional-pages-wrapper h1,
+.additional-pages-wrapper h2,
+.additional-pages-wrapper h3,
+.additional-pages-wrapper h4,
+.additional-pages-wrapper h5,
+.additional-pages-wrapper h6 {
+  font-family: "gineso-condensed", sans-serif;
+}
+
+.additional-pages-wrapper a,
+.additional-pages-wrapper a:visited {
+  color: var(--hokieOrange);
+}
+.additional-pages-wrapper a:hover,
+.additional-pages-wrapper a:focus,
+.additional-pages-wrapper a:active {
+  color: var(---hokieOrangeHover);
+}
+
+.additional-pages-wrapper table {
+  width: 100%;
+  margin-bottom: 1rem;
+  color: #212529;
+  font-family: "Acherus", sans-serif;
+}
+
+.additional-pages-wrapper table th,
+.additional-pages-wrapper table td {
+  font-family: "Acherus", sans-serif;
+  padding: 0.75rem;
+  border-top: 1px solid #dee2e6;
+  vertical-align: top;
+}
+
+.additional-pages-wrapper table caption {
+  caption-side: top;
+}
