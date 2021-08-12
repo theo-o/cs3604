@@ -1,5 +1,7 @@
 import { API, graphqlOperation, Storage } from "aws-amplify";
 import * as queries from "../graphql/queries";
+import { language_codes } from "./language_codes";
+import { available_attributes } from "./available_attributes";
 
 export function getFile(copyURL, type, component, attr) {
   if (
@@ -117,60 +119,13 @@ export const mintNOID = async () => {
   return retVal;
 };
 
-const fetchGlobalData = async (prefix, filename) => {
-  Storage.configure({
-    customPrefix: {
-      public: prefix
-    }
-  });
-  const authLink = await Storage.get(filename);
-  const response = await fetch(authLink);
-  const data = await response.json();
-  return data;
-};
-
 export const fetchAvailableDisplayedAttributes = async () => {
-  let data = null;
-  const keyName = `availableAttributes`;
-  try {
-    data = JSON.parse(sessionStorage.getItem(keyName));
-  } catch (error) {
-    console.log(`${keyName} not in sessionStorage`);
-  }
-  if (data === null) {
-    console.log(`fetching ${keyName}`);
-    try {
-      data = await fetchGlobalData("public/data/", `${keyName}.json`);
-    } catch (error) {
-      console.error(`Error fetching ${keyName}`);
-      console.error(error);
-    }
-  }
-  if (data !== null) {
-    sessionStorage.setItem(keyName, JSON.stringify(data));
-    return data;
-  }
+  return available_attributes;
 };
 
 export const fetchLanguages = async (component, site, key, callback) => {
-  let data = null;
-  const keyName = `language_codes_by_${key}`;
-  try {
-    data = JSON.parse(sessionStorage.getItem(keyName));
-  } catch (error) {
-    console.log(`${keyName} not in sessionStorage`);
-  }
-  if (data === null) {
-    console.log(`fetching by ${key}`);
-    try {
-      data = await fetchGlobalData("public/data/", `${keyName}.json`);
-    } catch (error) {
-      console.error(`Error fetching languages`);
-      console.error(error);
-    }
-  }
+  const data = language_codes[key];
   if (data !== null) {
-    sessionStorage.setItem(keyName, JSON.stringify(data));
     component.setState({ languages: data }, function() {
       if (typeof component.loadItems === "function") {
         component.loadItems();

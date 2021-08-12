@@ -216,11 +216,12 @@ class DisplayedAttributesForm extends Component {
 
       for (const attrIdx in availableAttributes[type]) {
         const attribute = availableAttributes[type][attrIdx];
+        console.log(attribute);
         if (
-          typeAttributes.indexOf(attribute.field) === -1 &&
-          selectAttributes[type].indexOf(attribute.field) === -1
+          typeAttributes.indexOf(attribute) === -1 &&
+          selectAttributes[type].indexOf(attribute) === -1
         ) {
-          selectAttributes[type].push(attribute.field);
+          selectAttributes[type].push(attribute);
         }
       }
     }
@@ -240,15 +241,13 @@ class DisplayedAttributesForm extends Component {
 
   checkRequired(type, item) {
     let required = false;
-    for (const idx in this.state.availableAttributes[type]) {
-      const attributes = this.state.availableAttributes[type];
-      if (
-        attributes &&
-        attributes[idx]["field"] === item &&
-        attributes[idx]["required"].indexOf(this.state.site.siteId) !== -1
-      ) {
-        required = true;
-      }
+    try {
+      required =
+        JSON.parse(this.state.site.siteOptions).requiredAttributes[
+          type
+        ].indexOf(item) !== -1;
+    } catch (error) {
+      console.log("Required attributes not found it Site options");
     }
     return required;
   }
