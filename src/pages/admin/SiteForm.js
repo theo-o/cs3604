@@ -11,8 +11,10 @@ const initialFormState = {
   analyticsID: "",
   siteColor: "",
   siteName: "",
+  siteOptions: {},
   siteTitle: "",
-  contact: []
+  contact: [],
+  redirectURL: ""
 };
 
 class SiteForm extends Component {
@@ -39,6 +41,7 @@ class SiteForm extends Component {
         analyticsID: site.analyticsID || "",
         siteColor: site.siteColor || "",
         siteName: site.siteName,
+        siteOptions: options,
         siteTitle: site.siteTitle,
         contact: site.contact.length
           ? site.contact.map(contact => {
