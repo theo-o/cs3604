@@ -743,6 +743,60 @@
         },
      
     
+        "federatedGroup": {
+          "Type" : "AWS::Cognito::UserPoolGroup",
+          "Properties" : {
+              "GroupName" : "federated",
+              "Precedence" : 14,
+              
+              "RoleArn" : {
+                "Fn::GetAtt": [
+                    "federatedGroupRole",
+                    "Arn"
+                ]
+              },
+              
+              "UserPoolId" : {
+                "Ref": "authiawav2658176f3UserPoolId"
+              }
+            }
+        },
+        
+        "federatedGroupRole": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+                "RoleName":{
+                    "Fn::Join": [
+                        "",
+                        [
+                          {
+                            "Ref": "authiawav2658176f3UserPoolId"
+                          },
+                          "-federatedGroupRole"
+                        ]
+                    ]
+                },
+                "AssumeRolePolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Sid": "",
+                            "Effect": "Allow",
+                            "Principal": {
+                                "Federated": "cognito-identity.amazonaws.com"
+                            },
+                            "Action": "sts:AssumeRoleWithWebIdentity",
+                            "Condition": {
+                              "StringEquals": {"cognito-identity.amazonaws.com:aud": {"Ref":"authiawav2658176f3IdentityPoolId"}},
+                              "ForAnyValue:StringLike": {"cognito-identity.amazonaws.com:amr": "authenticated"}
+                            }
+                        }
+                    ]
+                }
+            }
+        },
+     
+    
     
         "LambdaExecutionRole": {
             "Type": "AWS::IAM::Role",
@@ -1081,6 +1135,17 @@
             "Value": {
                 "Fn::GetAtt": [
                     "DefaultGroupRole",
+                    "Arn"
+                ]
+            }
+        
+        },
+        
+      
+        "federatedGroupRole": {
+            "Value": {
+                "Fn::GetAtt": [
+                    "federatedGroupRole",
                     "Arn"
                 ]
             }
