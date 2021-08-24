@@ -86,7 +86,7 @@ function accessToggle() {
 		$(".vt-access-toggle-wrapper").addClass("d-none");
 		$("#vt_access_dialog").attr("aria-hidden", "false");
 		$(".vt-access-toggle, .vt-access-dialog-label, .vt-actions-header, .vt-one-headerRow, .vt-page-path, main, footer").attr("aria-hidden", "true");
-		$("html").addClass("vt-bodyNoScroll");
+		$("body").addClass("vt-bodyNoScroll");
 		disableBodyScroll(true, '#vt_access_dialog');
 		$("#vt_access_dialog").css("-webkit-overflow-scrolling", "touch");
 		$("#vt_access_dialog a, #vt_access_dialog button").removeAttr("tabindex");
@@ -99,7 +99,7 @@ function accessToggle() {
 		$("#vt_access_dialog").attr("aria-hidden", "true");
 		$(".vt-access-toggle, .vt-access-dialog-label, .vt-actions-header, .vt-one-headerRow, .vt-page-path, main, footer").removeAttr("aria-hidden");
 		$("#vt_access_dialog a, #vt_access_dialog button").attr("tabindex", "-1");
-		$("html").removeClass("vt-bodyNoScroll");
+		$("body").removeClass("vt-bodyNoScroll");
 		$("#vt_offcanvas_nav").css("-webkit-overflow-scrolling", "auto");
 		$(".vt-access-toggle").focus();
 		disableBodyScroll(false);
@@ -227,7 +227,7 @@ function navToggle() {
 		$(".vt-nav-toggle .menu-close").addClass("d-none");
 		$("#vt_offcanvas_nav, #vt_offcanvas_nav a, #vt_offcanvas_nav button").attr("tabindex", "-1");
 		$('.vt-page-path > .gateway, .vt-page-path > .vt-subnav, main > div[class*="-content"], main > .row, footer > .row').removeAttr("aria-hidden");
-		$("html").removeClass("vt-bodyNoScroll");
+		$("body").removeClass("vt-bodyNoScroll");
 		$(".vt-universal-access, .vt-access-dialog-wrapper").removeClass("menuOpen");
 		$("#vt_offcanvas_nav, .vt-nav-toggle, #vt_nav").removeClass("open");
 		$("#vt_offcanvas_nav").attr("aria-hidden", "true");
@@ -279,7 +279,7 @@ function searchToggle() {
 		$( ".vt-search-wrapper" ).slideDown( "fast" );
 		$(".vt-search-toggle .search-open").addClass("d-none");
 		$(".vt-search-toggle .search-close").removeClass("d-none");
-		$("html").addClass("vt-bodyNoScroll");
+		$("body").addClass("vt-bodyNoScroll");
 		$('.vt-page-path > .gateway, .vt-page-path > .vt-subnav, main > div[class*="-content"], main > .row, footer > .row').attr("aria-hidden", "true");
 		$(".vt-page-path").append('<section class="vt-pageContext-modal" aria-label="Disabled Main Content"><button class="vt-modal-close" aria-controls="menuDrawer searchDrawer" onclick="javascript:modalToggle();">Close Menu or Search drawer to access content</button></section>');
 		$("main").append('<section class="vt-body-modal" aria-label="Disabled Main Content"><button class="vt-modal-close" aria-controls="menuDrawer searchDrawer" onclick="javascript:modalToggle();">Close Menu or Search drawer to access content</button></section>');
@@ -298,7 +298,7 @@ function searchToggle() {
 		$(".vt-search-toggle .search-open").removeClass("d-none");
 		$(".vt-body-modal, .vt-footer-modal, .vt-pageContext-modal").remove();
 		$('.vt-page-path > .gateway, .vt-page-path > .vt-subnav, main > div[class*="-content"], main > .row, footer > .row').removeAttr("aria-hidden");
-		$("html").removeClass("vt-bodyNoScroll");
+		$("body").removeClass("vt-bodyNoScroll");
 		$(".vt-page-path, main, footer").removeClass("vt-searchOpen");
 		$(".vt-search-toggle").focus();
 	}
