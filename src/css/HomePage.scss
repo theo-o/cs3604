@@ -45,6 +45,16 @@
   font-family: "Acherus", sans-serif;
 }
 
+.home-statement a,
+.home-statement a:visited {
+  color: var(--hokieOrange);
+}
+.home-statement a:hover,
+.home-statement a:focus,
+.home-statement a:active {
+  color: var(---hokieOrangeHover);
+}
+
 .home-wrapper .home-search-wrapper {
   width: 100%;
   padding: 0 10px 0 10px;

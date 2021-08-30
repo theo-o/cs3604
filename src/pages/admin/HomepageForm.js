@@ -8,6 +8,7 @@ import {
   CollectionHighlightsForm,
   CollectionHighlights
 } from "./CollectionHighlightsFields";
+import * as sanitizeHtml from "sanitize-html";
 
 const initialFormState = {
   staticImageSrc: "",
@@ -29,6 +30,16 @@ class HomepageForm extends Component {
       viewState: "view"
     };
   }
+
+  cleanHTML = value => {
+    const cleaned = sanitizeHtml(value, {
+      allowedTags: ["b", "i", "em", "strong", "a"],
+      allowedAttributes: {
+        a: ["href"]
+      }
+    });
+    return cleaned;
+  };
 
   updateItemValue = (property, index) => event => {
     const { name, value } = event.target;
@@ -120,7 +131,9 @@ class HomepageForm extends Component {
     this.setState({ viewState: "view" });
     let homePage = JSON.parse(this.props.site.homePage);
     homePage.homeStatement.heading = this.state.formState.homeStatementHeading;
-    homePage.homeStatement.statement = this.state.formState.homeStatement;
+    homePage.homeStatement.statement = this.cleanHTML(
+      this.state.formState.homeStatement
+    );
     homePage.staticImage.src = this.state.formState.staticImageSrc;
     homePage.staticImage.altText = this.state.formState.staticImageAltText;
     homePage.staticImage.showTitle = this.state.formState.staticImageShowTitle;
@@ -260,7 +273,7 @@ class HomepageForm extends Component {
             </p>
             <p>
               <span className="key">Statement:</span>{" "}
-              {this.state.formState.homeStatement}
+              {this.cleanHTML(this.state.formState.homeStatement)}
             </p>
             <h3>Static Image</h3>
             <p>

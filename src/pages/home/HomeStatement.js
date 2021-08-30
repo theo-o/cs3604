@@ -22,7 +22,11 @@ class HomeStatement extends Component {
             }}
             className="home-statement"
           >
-            <p>{this.props.homeStatement.statement}</p>
+            <p
+              dangerouslySetInnerHTML={{
+                __html: this.props.homeStatement.statement
+              }}
+            />
           </div>
         </div>
       );
