@@ -14,13 +14,12 @@ class Header extends Component {
       <div id="vt_theme_one" className="vt-home norightcol home-page">
         <header className="header">
           <nav aria-label="Skip Links">
-            <ul className="vt-skip-nav">
-              <li className="vt-skip-navItem">
-                <a className="vt-skip-navLink" href="#vt_main">
-                  Skip to main content
-                </a>
-              </li>
-            </ul>
+            <a
+              className="sr-only sr-only-focusable skipLink"
+              href="#content-wrapper"
+            >
+              Skip to main content
+            </a>
           </nav>
 
           <div className="row vt-one-headerRow">
@@ -114,8 +113,9 @@ class Header extends Component {
                       </a>
                     </li>
                   </ol>
-
-                  <SiteNavigationLinks site={this.props.site} />
+                  <div className="menu-links">
+                    <SiteNavigationLinks site={this.props.site} />
+                  </div>
                 </div>
               </nav>
             </div>

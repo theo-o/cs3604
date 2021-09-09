@@ -4,6 +4,7 @@ import ScrollToTop from "./lib/ScrollToTop";
 import RouteListener from "./lib/RouteListener";
 import AnalyticsConfig from "./components/AnalyticsConfig";
 import Header from "./components/Header";
+import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
 import { buildRoutes } from "./lib/CustomPageRoutes";
 import HomePage from "./pages/HomePage";
@@ -70,6 +71,9 @@ class App extends Component {
             path={this.state.path}
           />
           <main style={{ minHeight: "500px", padding: "1em 1em 0 1em" }}>
+            <div className="container p-0">
+              <NavBar site={this.state.site} />
+            </div>
             <div id="content-wrapper" className="container p-0">
               <Switch>
                 {customRoutes}

@@ -19,6 +19,72 @@ code {
   line-height: 1.25rem;
 }
 
+a.skipLink:focus {
+  outline-color: #75787b;
+  outline-offset: 3px;
+  outline-style: dashed;
+  outline-width: 2px;
+}
+
 #vt_offcanvas_nav .vt-parent-org {
   margin-bottom: 0;
+}
+
+.menu-links {
+  display: block;
+}
+
+nav.navbar.navbar-expand-md.top-navbar {
+  display: none;
+  font-family: Acherus, sans-serif;
+  font-style: italic;
+  color: #212529;
+  font-weight: 500;
+  margin-bottom: 36px;
+}
+
+nav.navbar.navbar-expand-md.top-navbar ul.navbar-nav {
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+nav.navbar.navbar-expand-md.top-navbar ul.navbar-nav a {
+  color: var(--darker-gray);
+}
+
+nav.navbar.navbar-expand-md.top-navbar ul.navbar-nav a:hover {
+  color: var(--hokieMaroon);
+}
+nav.navbar.navbar-expand-md.top-navbar ul.navbar-nav a:focus {
+  outline: none;
+}
+nav.navbar.navbar-expand-md.top-navbar ul.navbar-nav a:focus-visible {
+  color: var(--hokieMaroon);
+  outline-color: var(--hokieMaroon);
+  outline-offset: 3px;
+  outline-style: dashed;
+  outline-width: 2px;
+}
+
+nav.navbar.navbar-expand-md.top-navbar ul.navbar-nav a:active {
+  color: var(--hokieMaroon);
+  outline: hidden;
+}
+
+a.nav-link.inline {
+  display: inline-block;
+}
+
+li.nav-item.dropdown:hover div.dropdown-menu {
+  display: block;
+}
+
+@media (min-width: 992px) {
+  .menu-links {
+    display: none;
+  }
+  nav.navbar.navbar-expand-md.top-navbar {
+    display: flex;
+  }
 }
