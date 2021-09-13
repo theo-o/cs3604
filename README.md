@@ -102,6 +102,14 @@ REACT_APP_REP_TYPE=Default
 
 <img src="https://img.cloud.lib.vt.edu/images/amplify_env.png" width="80%"/>
 
+If deploying an instance of the Podcast Repository he site must be able to authenticate itself with the NOID minting servicein order to support creating Podcast episode records through the site admin interface. So two additional environment variables are required. The values to be assigned to these variables can be found in the AWS API Gateway console.
+
+```
+REACT_APP_REP_TYPE=podcasts
+REACT_APP_MINT_LINK=https://<api id here>.execute-api.us-east-1.amazonaws.com/Prod/mint
+REACT_APP_MINT_API_KEY=<your api key here>
+```
+
 See instruction and site configuration example below:
 * [Instruction](https://github.com/VTUL/dlp-access/wiki/Customization)
 * [Demo site](https://vtdlp-demo.cloud.lib.vt.edu/) configuration: [examples/default.json](examples/default.json).
