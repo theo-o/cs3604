@@ -6,6 +6,7 @@ import AnalyticsConfig from "./components/AnalyticsConfig";
 import Header from "./components/Header";
 import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
+import LoadingScreen from "./components/LoadingScreen";
 import { buildRoutes } from "./lib/CustomPageRoutes";
 import HomePage from "./pages/HomePage";
 import SiteAdmin from "./pages/admin/SiteAdmin";
@@ -26,7 +27,8 @@ class App extends Component {
     this.state = {
       site: null,
       paginationClick: null,
-      path: ""
+      path: "",
+      isLoading: true
     };
   }
 
@@ -36,7 +38,10 @@ class App extends Component {
 
   async loadSite() {
     const site = await getSite();
-    this.setState({ site: site });
+    this.setState({
+      site: site,
+      isLoading: false
+    });
   }
 
   setColor(color) {
@@ -57,7 +62,7 @@ class App extends Component {
   }
 
   render() {
-    if (this.state.site) {
+    if (!this.state.isLoading && this.state.site) {
       this.setColor(this.state.site.siteColor);
       const customRoutes = buildRoutes(this.state.site);
       return (
@@ -134,7 +139,7 @@ class App extends Component {
         </Router>
       );
     } else {
-      return <div>Error fetching site details from config</div>;
+      return <LoadingScreen />;
     }
   }
 }

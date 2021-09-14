@@ -94,6 +94,23 @@
   text-decoration: none;
 }
 
+.loading-screen {
+  width: 100%;
+  .loading-content {
+    width: 250px;
+    margin-left: calc(50% - (250px / 2));
+    margin-top: calc(25% - (200px / 2));
+    img {
+      width: 100%;
+    }
+    p {
+      font-family: "Acherus", sans-serif;
+      font-size: 22px;
+    }
+    text-align: center;
+  }
+}
+
 @media (min-width: 576px) {
   .home-wrapper #home-site-title-wrapper {
     font-size: 30px;
