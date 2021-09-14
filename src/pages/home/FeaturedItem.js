@@ -24,6 +24,9 @@ class FeaturedItem extends Component {
           role="group"
           aria-roledescription="slide"
           aria-label={`${this.props.position} of ${this.props.length}`}
+          style={
+            this.props.tile.active ? { display: "block" } : { display: "none" }
+          }
         >
           <a href={this.props.tile.link}>
             <div className="card">

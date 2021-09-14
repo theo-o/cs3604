@@ -11,15 +11,26 @@ class FeaturedItems extends Component {
       endIndex: 4,
       multiplier: 4
     };
-    this.handleClick = this.handleClick.bind(this);
   }
 
-  handleClick(start, end) {
+  handleClick = group => {
+    let start = (group - 1) * this.state.multiplier;
+    let end = start + this.state.multiplier;
     this.setState({
       startIndex: start,
       endIndex: end
     });
-  }
+  };
+
+  displayItems = items => {
+    items.forEach(item => (item.active = false));
+    let end =
+      this.state.endIndex < items.length ? this.state.endIndex : items.length;
+    for (let i = this.state.startIndex; i < end; i++) {
+      items[i].active = true;
+    }
+    return items;
+  };
 
   setValues = () => {
     if (window.innerWidth >= 768) {
@@ -50,38 +61,32 @@ class FeaturedItems extends Component {
 
   render() {
     if (this.props.featuredItems && this.props.featuredItems.length > 0) {
-      const tiles = this.props.featuredItems
-        .slice(this.state.startIndex, this.state.endIndex)
-        .map((item, index) => {
-          return (
-            <FeaturedItem
-              key={index}
-              tile={item}
-              position={this.state.startIndex + index + 1}
-              length={this.props.featuredItems.length}
-            />
-          );
-        });
+      let items = this.displayItems([...this.props.featuredItems]);
+      const tiles = items.map((item, index) => {
+        return (
+          <FeaturedItem
+            key={item.src}
+            tile={item}
+            position={this.state.startIndex + index + 1}
+            length={this.props.featuredItems.length}
+          />
+        );
+      });
 
       const Controls = () => {
         let controls = [];
         let count = Math.ceil(
           this.props.featuredItems.length / this.state.multiplier
         );
-        for (let i = count; i > 0; i--) {
+        for (let i = 1; i <= count; i++) {
           controls.push(
             <button
               key={i}
-              aria-label={`Slide group ${count - i + 1}`}
-              onClick={() =>
-                this.handleClick(
-                  (count - i) * this.state.multiplier,
-                  (count - i) * this.state.multiplier + this.state.multiplier
-                )
-              }
+              aria-label={`Slide group ${i}`}
+              onClick={() => this.handleClick(i)}
               type="button"
               aria-disabled={
-                this.state.startIndex === (count - i) * this.state.multiplier
+                this.state.startIndex === (i - 1) * this.state.multiplier
                   ? true
                   : false
               }
@@ -89,7 +94,7 @@ class FeaturedItems extends Component {
             >
               <span
                 className={
-                  this.state.startIndex === (count - i) * this.state.multiplier
+                  this.state.startIndex === (i - 1) * this.state.multiplier
                     ? "dot dot-active"
                     : "dot"
                 }
