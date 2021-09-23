@@ -32,11 +32,7 @@ class HomePage extends Component {
     return (
       <>
         <SiteTitle siteTitle={this.props.site.siteTitle} pageTitle="Home" />
-        <div
-          className={
-            staticImage.showTitle ? "home-wrapper" : "home-wrapper-no-text"
-          }
-        >
+        <div className="home-wrapper">
           <div className="home-featured-image-wrapper">
             <FeaturedStaticImage staticImage={staticImage} />
             <div id="home-site-title-wrapper">

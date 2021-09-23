@@ -13,7 +13,6 @@ import * as sanitizeHtml from "sanitize-html";
 const initialFormState = {
   staticImageSrc: "",
   staticImageAltText: "",
-  staticImageShowTitle: false,
   homeStatementHeading: "",
   homeStatement: "",
   sponsors: [],
@@ -83,7 +82,6 @@ class HomepageForm extends Component {
         siteInfo = {
           staticImageSrc: homepage.staticImage.src || "",
           staticImageAltText: homepage.staticImage.altText || "",
-          staticImageShowTitle: homepage.staticImage.showTitle || false,
           homeStatementHeading: homepage.homeStatement.heading || "",
           homeStatement: homepage.homeStatement.statement,
           sponsors: homepage.sponsors || [],
@@ -136,7 +134,6 @@ class HomepageForm extends Component {
     );
     homePage.staticImage.src = this.state.formState.staticImageSrc;
     homePage.staticImage.altText = this.state.formState.staticImageAltText;
-    homePage.staticImage.showTitle = this.state.formState.staticImageShowTitle;
     homePage.sponsors = this.state.formState.sponsors;
     homePage.featuredItems = this.state.formState.featuredItems;
     homePage.collectionHighlights = this.state.formState.collectionHighlights;
@@ -208,16 +205,6 @@ class HomepageForm extends Component {
               placeholder="Enter Alt Text"
               onChange={this.updateInputValue}
             />
-            <label>
-              Show title:
-              <input
-                className="showTitleCheckbox"
-                name="staticImageShowTitle"
-                type="checkbox"
-                checked={this.state.formState.staticImageShowTitle}
-                onChange={this.updateInputValue}
-              />
-            </label>
           </section>
         </Form>
         <FeaturedItemsForm
@@ -251,16 +238,6 @@ class HomepageForm extends Component {
     );
   };
 
-  showTitleFormatted() {
-    let title = "false";
-    try {
-      title = this.state.formState.staticImageShowTitle.toString();
-    } catch (error) {
-      console.error(error);
-    }
-    return title;
-  }
-
   view = () => {
     if (this.props.site && this.state.formState) {
       return (
@@ -283,10 +260,6 @@ class HomepageForm extends Component {
             <p>
               <span className="key">Alt text:</span>{" "}
               {this.state.formState.staticImageAltText}
-            </p>
-            <p>
-              <span className="key">Show title:</span>{" "}
-              {this.showTitleFormatted()}
             </p>
             <h3>Featured Items</h3>
             <FeaturedItems itemList={this.state.formState.featuredItems} />

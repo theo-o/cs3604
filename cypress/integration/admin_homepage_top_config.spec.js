@@ -45,20 +45,6 @@ describe("Update Homepage fields and revert", function() {
     cy.contains("Heading: Welcome").should('be.visible');
   })
 
-  it("Update Show title", () => {
-    cy.get("input[value='edit']").parent().click();
-    cy.get("input[name='staticImageShowTitle']").uncheck();
-    cy.contains("Update Config").click();
-    cy.contains("Show title: false").should('be.visible');
-  })
-
-  it("Change Show title back", () => {
-    cy.get("input[value='edit']").parent().click();
-    cy.get("input[name='staticImageShowTitle']").check();
-    cy.contains("Update Config").click();
-    cy.contains("Show title: true").should('be.visible');
-  })
-
   it("displays successful upload", () => {
     cy.get("input[value='edit']").parent().click();
     const imgPath = "sitecontent/cover_image1.jpg";
