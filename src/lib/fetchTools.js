@@ -119,6 +119,39 @@ export const mintNOID = async () => {
   return retVal;
 };
 
+export const fetchSubjectValues = async () => {
+  let sites = [];
+  let subjects = [];
+  let nextToken = null;
+  let items = null;
+  do {
+    try {
+      const results = await fetchObjects(queries.listSites, {
+        nextToken: nextToken
+      });
+      items = results.data.listSites.items;
+      nextToken = results.data.listSites.nextToken;
+    } catch (error) {
+      console.error(`Error fetching sites: ${error}`);
+    }
+    if (items) {
+      sites = sites.concat(items);
+    }
+  } while (nextToken);
+  for (const idx in sites) {
+    try {
+      const site = sites[idx];
+      const subjectList = JSON.parse(site.searchPage).facets.subject.values;
+      for (const i in subjectList) {
+        if (subjects.indexOf(subjectList[i]) === -1) {
+          subjects.push(subjectList[i]);
+        }
+      }
+    } catch (error) {}
+  }
+  return subjects.sort();
+};
+
 export const fetchAvailableDisplayedAttributes = async () => {
   return available_attributes;
 };

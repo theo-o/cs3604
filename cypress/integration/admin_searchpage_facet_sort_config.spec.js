@@ -156,6 +156,31 @@ describe("Displays and updates search page configurations", () => {
     });
   });
 
+  describe("Adds Subject facet field and removes it", () => {
+    it("Adds Subject search facet field", () => {
+      cy.get("input[value='edit']").parent().click();
+      cy.get("select").eq(0).select("subject");
+      cy.contains("Add New Search Facet").click();
+      cy.get("input#Art")
+        .check();
+      cy.contains("Update Facet and Sort Fields").click();
+      cy.contains("Facet Field: subject").should("be.visible");
+      cy.contains("Art").should("be.visible");
+    })
+
+    it("Removes the newly added facet field", () => {
+      cy.get("input[value='edit']")
+        .parent()
+        .click();
+      cy.get("#subject > div > a#subject_delete_link")
+        .contains("Delete Facet Field")
+        .click();
+      cy.contains("Update Facet and Sort Fields").click();
+      cy.contains("Facet Field: subject").should("not.be.visible");
+      cy.contains("Label: Subject Type").should("not.be.visible");
+    });
+  });
+
   describe("Adds a new sort field and removes it", () => {
     it("Adds a new sort field", () => {
       cy.get("input[value='edit']").parent().click();

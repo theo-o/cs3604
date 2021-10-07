@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
 import { Form } from "semantic-ui-react";
 import { addedDiff, updatedDiff } from "deep-object-diff";
+import { fetchSubjectValues } from "../../lib/fetchTools";
+import CheckboxSelector from "../../components/CheckboxSelector";
 
 import "../../css/adminForms.scss";
 
@@ -13,7 +15,9 @@ class SearchPageForm extends Component {
       prevSearchPage: {},
       viewState: "view",
       newFacet: "",
-      newSort: ""
+      newSort: "",
+      allSubjects: [],
+      siteSubjects: []
     };
   }
 
@@ -90,8 +94,24 @@ class SearchPageForm extends Component {
     }
   };
 
+  getSubjectValues = async () => {
+    const allSubjects = await fetchSubjectValues();
+    let siteSubjects = [];
+    try {
+      siteSubjects = JSON.parse(this.props.site.searchPage).facets.subject
+        .values;
+    } catch (error) {
+      console.log("Error setting site subjects");
+    }
+    this.setState({
+      allSubjects: allSubjects,
+      siteSubjects: siteSubjects
+    });
+  };
+
   componentDidMount() {
     this.loadSite();
+    this.getSubjectValues();
   }
 
   updateInputValue = facetKey => event => {
@@ -111,77 +131,115 @@ class SearchPageForm extends Component {
   handleSubmit = async () => {
     this.setState({ viewState: "view" });
 
-    const addedData = addedDiff(
-      this.state.prevSearchPage,
-      this.state.searchPage
-    );
-    const newData = updatedDiff(
-      this.state.prevSearchPage,
-      this.state.searchPage
-    );
-    const oldData = updatedDiff(
-      this.state.searchPage,
-      this.state.prevSearchPage
-    );
-    const deletedData = addedDiff(
-      this.state.searchPage,
-      this.state.prevSearchPage
-    );
-    const updatedData = Object.keys(newData).reduce((acc, key) => {
-      return {
-        ...acc,
-        [key]: {
-          new: newData[key],
-          old: oldData[key]
-        }
-      };
-    }, {});
-    const eventInfo = {
-      searchPage: {
-        facets: {
-          added: addedData,
-          deleted: deletedData,
-          updated: updatedData
-        }
-      }
+    const onlyUnique = (value, index, self) => {
+      return self.indexOf(value) === index;
     };
 
-    this.props.updateSite(
-      eventInfo,
-      "searchPage",
-      JSON.stringify(this.state.searchPage)
-    );
+    let searchPage = this.state.searchPage;
+    if (this.state.searchPage.facets) {
+      let facets = this.state.searchPage.facets;
+      for (const i in facets) {
+        if (facets[i].values && facets[i].values.length) {
+          facets[i].values = facets[i].values.filter(onlyUnique);
+        }
+      }
+      searchPage.facets = facets;
+    }
+
+    this.setState({ searchPage: searchPage }, () => {
+      const addedData = addedDiff(
+        this.state.prevSearchPage,
+        this.state.searchPage
+      );
+      const newData = updatedDiff(
+        this.state.prevSearchPage,
+        this.state.searchPage
+      );
+      const oldData = updatedDiff(
+        this.state.searchPage,
+        this.state.prevSearchPage
+      );
+      const deletedData = addedDiff(
+        this.state.searchPage,
+        this.state.prevSearchPage
+      );
+      const updatedData = Object.keys(newData).reduce((acc, key) => {
+        return {
+          ...acc,
+          [key]: {
+            new: newData[key],
+            old: oldData[key]
+          }
+        };
+      }, {});
+      const eventInfo = {
+        searchPage: {
+          facets: {
+            added: addedData,
+            deleted: deletedData,
+            updated: updatedData
+          }
+        }
+      };
+
+      this.props.updateSite(
+        eventInfo,
+        "searchPage",
+        JSON.stringify(this.state.searchPage)
+      );
+    });
   };
 
   handleChange = (e, { value }) => {
     this.setState({ viewState: value });
   };
 
-  handleValueChange = (facetKey, idx) => event => {
+  handleValueChange = (facetKey, idx, callback) => event => {
     let tempSearchPage = { ...this.state.searchPage };
     let tempFacets = tempSearchPage.facets;
     let tempValues = [...tempFacets[facetKey].values];
-    tempValues[idx] = event.target.value;
-    tempFacets = {
-      ...tempFacets,
-      [facetKey]: { ...tempFacets[facetKey], values: tempValues }
-    };
-    this.setState({
-      searchPage: {
-        ...tempSearchPage,
-        facets: tempFacets
+    if (event.target.getAttribute("type") === "checkbox") {
+      if (event.target.checked) {
+        if (tempFacets[facetKey].values.indexOf(event.target.name) === -1) {
+          tempFacets[facetKey].values.push(event.target.name);
+        }
+      } else {
+        if (tempFacets[facetKey].values.indexOf(event.target.name) !== -1) {
+          const tempArray = tempFacets[facetKey].values.filter(
+            e => e !== event.target.name
+          );
+          tempFacets[facetKey].values = tempArray;
+        }
       }
-    });
+    } else {
+      tempValues[idx] = event.target.value;
+      tempFacets = {
+        ...tempFacets,
+        [facetKey]: { ...tempFacets[facetKey], values: tempValues }
+      };
+    }
+
+    this.setState(
+      {
+        searchPage: {
+          ...tempSearchPage,
+          facets: tempFacets
+        }
+      },
+      () => {
+        if (typeof callback === "function") {
+          callback(facetKey, idx, tempValues[idx]);
+        }
+      }
+    );
   };
 
   handleAddValue = facetKey => {
     let tempSearchPage = { ...this.state.searchPage };
     let tempFacets = tempSearchPage.facets;
     const len = tempFacets[facetKey].values.length;
-    let tempValues = [
-      ...tempFacets[facetKey].values,
-      `${facetKey} new value ${len + 1}`
-    ];
+    const tempValueName = `${facetKey} new value ${len + 1}`;
+    let tempValues = [...tempFacets[facetKey].values, tempValueName];
     this.setState({
       searchPage: {
         ...tempSearchPage,
@@ -191,14 +249,27 @@ class SearchPageForm extends Component {
         }
       }
     });
+
+    return {
+      idx: len,
+      value: tempValueName
+    };
   };
 
-  handleRemoveValue = (facetKey, idx) => () => {
+  handleRemoveValue = (facetKey, idx, callback) => () => {
     let tempSearchPage = { ...this.state.searchPage };
     let tempFacets = tempSearchPage.facets;
-    let tempValues = tempFacets[facetKey].values.filter(
-      (t, tidx) => idx !== tidx
-    );
+
+    let tempValues = null;
+    if (facetKey === "subject") {
+      tempFacets[facetKey].values.splice(idx, 1);
+      tempValues = tempFacets[facetKey].values;
+    } else {
+      tempValues = tempFacets[facetKey].values.filter(
+        (t, tidx) => idx !== tidx
+      );
+    }
+
     this.setState({
       searchPage: {
         ...tempSearchPage,
@@ -208,6 +279,9 @@ class SearchPageForm extends Component {
         }
       }
     });
+    if (typeof callback === "function") {
+      callback(facetKey, idx);
+    }
   };
 
   editFacetValue = (facetKey, value, idx) => {
@@ -241,52 +315,80 @@ class SearchPageForm extends Component {
   editFacet = facetKey => {
     const searchFacets = this.state.searchPage.facets;
     let fixedFacet = facetKey === "category";
-    return (
-      <section key={facetKey}>
-        <fieldset>
-          <legend className="admin">{`Configuration for facet field: ${facetKey}`}</legend>
-          <Form.Input
-            key={`${facetKey}_label`}
-            label="Label"
-            value={searchFacets[facetKey].label}
-            name={`${facetKey}_label`}
-            placeholder="Enter Facet Label"
-            onChange={this.updateInputValue(facetKey)}
-          />
-          <h4>Values:</h4>
-          <ul>
-            {searchFacets[facetKey].values.map((value, idx) => {
-              return this.editFacetValue(facetKey, value, idx);
-            })}
-          </ul>
-          {fixedFacet ? (
+    let ret_val = "";
+    if (facetKey === "subject") {
+      let values = [];
+      try {
+        values = searchFacets["subject"].values;
+      } catch (error) {
+        console.log("subject facet has no values");
+      }
+      ret_val = (
+        <CheckboxSelector
+          key={facetKey}
+          facet={facetKey}
+          label="Subjects"
+          values={this.state.allSubjects}
+          selectedValues={values}
+          updateInputValue={this.updateInputValue.bind(this)}
+          handleAddValue={this.handleAddValue.bind(this)}
+          handleValueChange={this.handleValueChange.bind(this)}
+          handleRemoveValue={this.handleRemoveValue.bind(this)}
+          deleteFacet={this.deleteFacet.bind(this)}
+          editFacetValue={this.editFacetValue.bind(this)}
+          component={this}
+        />
+      );
+    } else {
+      ret_val = (
+        <section key={facetKey} id={facetKey}>
+          <fieldset>
+            <legend className="admin">{`Configuration for facet field: ${facetKey}`}</legend>
+            <Form.Input
+              key={`${facetKey}_label`}
+              label="Label"
+              value={searchFacets[facetKey].label}
+              name={`${facetKey}_label`}
+              placeholder="Enter Facet Label"
+              onChange={this.updateInputValue(facetKey)}
+            />
+            <h4>Values:</h4>
+            <ul>
+              {searchFacets[facetKey].values.map((value, idx) => {
+                return this.editFacetValue(facetKey, value, idx);
+              })}
+            </ul>
+            {fixedFacet ? (
+              <></>
+            ) : (
+              <button
+                type="button"
+                onClick={() => this.handleAddValue(facetKey)}
+                className="small"
+              >
+                Add Value
+              </button>
+            )}
+          </fieldset>
+          {facetKey === "category" ? (
             <></>
           ) : (
-            <button
-              type="button"
-              onClick={() => this.handleAddValue(facetKey)}
-              className="small"
-            >
-              Add Value
-            </button>
+            <div className="deletePageWrapper">
+              <NavLink
+                id={`${facetKey}_delete_link`}
+                className="deletePage"
+                to="#"
+                onClick={() => this.deleteFacet(facetKey)}
+              >
+                Delete Facet Field
+              </NavLink>
+              <div className="clear"></div>
+            </div>
           )}
-        </fieldset>
-        {facetKey === "category" ? (
-          <></>
-        ) : (
-          <div className="deletePageWrapper">
-            <NavLink
-              className="deletePage"
-              to="#"
-              onClick={() => this.deleteFacet(facetKey)}
-            >
-              Delete Facet Field
-            </NavLink>
-            <div className="clear"></div>
-          </div>
-        )}
-      </section>
-    );
+        </section>
+      );
+    }
+    return ret_val;
   };
 
   addFacet = () => {
@@ -437,7 +539,7 @@ class SearchPageForm extends Component {
     if (searchFacets && searchSort) {
       return (
         <div>
-          <Form onSubmit={this.handleSubmit}>
+          <Form>
             {Object.keys(searchFacets).map(facetKey => {
               return this.editFacet(facetKey);
             })}
@@ -449,7 +551,9 @@ class SearchPageForm extends Component {
               })}
             </ul>
             {this.addSortField()}
-            <Form.Button>Update Facet and Sort Fields</Form.Button>
+            <Form.Button onClick={this.handleSubmit}>
+              Update Facet and Sort Fields
+            </Form.Button>
           </Form>
         </div>
       );

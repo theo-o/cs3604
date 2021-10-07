@@ -92,7 +92,7 @@ const dateInput = options => {
 const checkBox = options => {
   const { outerClass, label, id, name, onChange, checked } = options;
   return (
-    <div className={outerClass}>
+    <div className={outerClass} key={`${id || name}_wrapper`}>
       <label htmlFor={id || name}>
         {label}
         <input
