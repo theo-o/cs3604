@@ -797,6 +797,60 @@
         },
      
     
+        "testGroup": {
+          "Type" : "AWS::Cognito::UserPoolGroup",
+          "Properties" : {
+              "GroupName" : "test",
+              "Precedence" : 15,
+              
+              "RoleArn" : {
+                "Fn::GetAtt": [
+                    "testGroupRole",
+                    "Arn"
+                ]
+              },
+              
+              "UserPoolId" : {
+                "Ref": "authiawav2658176f3UserPoolId"
+              }
+            }
+        },
+        
+        "testGroupRole": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+                "RoleName":{
+                    "Fn::Join": [
+                        "",
+                        [
+                          {
+                            "Ref": "authiawav2658176f3UserPoolId"
+                          },
+                          "-testGroupRole"
+                        ]
+                    ]
+                },
+                "AssumeRolePolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Sid": "",
+                            "Effect": "Allow",
+                            "Principal": {
+                                "Federated": "cognito-identity.amazonaws.com"
+                            },
+                            "Action": "sts:AssumeRoleWithWebIdentity",
+                            "Condition": {
+                              "StringEquals": {"cognito-identity.amazonaws.com:aud": {"Ref":"authiawav2658176f3IdentityPoolId"}},
+                              "ForAnyValue:StringLike": {"cognito-identity.amazonaws.com:amr": "authenticated"}
+                            }
+                        }
+                    ]
+                }
+            }
+        },
+     
+    
     
         "LambdaExecutionRole": {
             "Type": "AWS::IAM::Role",
@@ -1146,6 +1200,17 @@
             "Value": {
                 "Fn::GetAtt": [
                     "federatedGroupRole",
+                    "Arn"
+                ]
+            }
+        
+        },
+        
+      
+        "testGroupRole": {
+            "Value": {
+                "Fn::GetAtt": [
+                    "testGroupRole",
                     "Arn"
                 ]
             }

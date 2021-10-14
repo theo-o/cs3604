@@ -394,69 +394,6 @@ export const listCollectionmaps = /* GraphQL */ `
     }
   }
 `;
-export const searchCollectionmaps = /* GraphQL */ `
-  query SearchCollectionmaps(
-    $filter: SearchableCollectionmapFilterInput
-    $sort: SearchableCollectionmapSortInput
-    $limit: Int
-    $nextToken: String
-    $from: Int
-  ) {
-    searchCollectionmaps(
-      filter: $filter
-      sort: $sort
-      limit: $limit
-      nextToken: $nextToken
-      from: $from
-    ) {
-      items {
-        collection_id
-        create_date
-        id
-        map_object
-        modified_date
-        createdAt
-        updatedAt
-        collection {
-          belongs_to
-          bibliographic_citation
-          circa
-          collection_category
-          collectionmap_id
-          create_date
-          creator
-          custom_key
-          description
-          display_date
-          end_date
-          explicit_content
-          heirarchy_path
-          id
-          identifier
-          language
-          location
-          modified_date
-          ownerinfo
-          parent_collection
-          provenance
-          related_url
-          rights_holder
-          rights_statement
-          source
-          start_date
-          subject
-          thumbnail_path
-          title
-          visibility
-          createdAt
-          updatedAt
-        }
-      }
-      nextToken
-      total
-    }
-  }
-`;
 export const getCollection = /* GraphQL */ `
   query GetCollection($id: ID!) {
     getCollection(id: $id) {

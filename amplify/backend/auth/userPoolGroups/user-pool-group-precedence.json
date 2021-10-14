@@ -54,5 +54,9 @@
     {
         "groupName": "federated",
         "precedence": 14
+    },
+    {
+        "groupName": "test",
+        "precedence": 15
     }
 ]
