@@ -3,8 +3,17 @@ import React, { Component } from "react";
 import "../../css/MultimediaSection.scss";
 
 class MultimediaSection extends Component {
+  hasMediaSection() {
+    return !!(
+      this.props.mediaSection.link &&
+      this.props.mediaSection.mediaEmbed &&
+      this.props.mediaSection.title &&
+      this.props.mediaSection.text
+    );
+  }
+
   render() {
-    if (this.props.mediaSection) {
+    if (this.hasMediaSection()) {
       return (
         <div
           className="row media-section-wrapper"

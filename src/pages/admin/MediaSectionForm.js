@@ -103,11 +103,18 @@ class MediaSectionForm extends Component {
     this.setState({ viewState: value });
   };
 
+  clearValues = event => {
+    event.preventDefault();
+    this.setState({
+      formState: initialFormState
+    });
+  };
+
   editForm = () => {
     return (
       <div>
         <h2>{`Edit Homepage Media Section Top with SiteId: ${process.env.REACT_APP_REP_TYPE.toLowerCase()}`}</h2>
-        <Form>
+        <Form id="homepage-media-form">
           <section className="homepage-media-section">
             <h3>Homepage Media Section</h3>
             <Form.Input
@@ -139,6 +146,9 @@ class MediaSectionForm extends Component {
               onChange={this.updateInputValue}
             />
           </section>
+          <div id="clear-values" onClick={this.clearValues}>
+            Clear values
+          </div>
           <button className="submit" onClick={this.handleSubmit}>
             Update Config
           </button>

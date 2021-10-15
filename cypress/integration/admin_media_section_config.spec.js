@@ -1,5 +1,9 @@
 const USERNAME = "devtest";
 const PASSWORD = Cypress.env("password");
+let linkText;
+let mediaEmbedText;
+let titleText;
+let textText;
 
 describe("Displays and updates media section configurations", () => {
   beforeEach(() => {
@@ -36,10 +40,27 @@ describe("Displays and updates media section configurations", () => {
       cy.get("input[value='view']")
         .parent()
         .click();
-      cy.get("span.link-value", { timeout: 2000 }).should("not.be.empty").should("be.visible");
-      cy.get("span.media-embed-value").should("not.be.empty").should("be.visible");
-      cy.get("span.title-value").should("not.be.empty").should("be.visible");
-      cy.get("span.text-value").should("not.be.empty").should("be.visible");
+      
+      cy.get('span.link-value', { timeout: 2000 }).should(($link) => {
+        linkText = $link.text()
+        expect($link).to.not.be.empty
+        expect($link).to.be.visible
+      });
+      cy.get('span.media-embed-value', { timeout: 2000 }).should(($mediaEmbed) => {
+        mediaEmbedText = $mediaEmbed.text()
+        expect($mediaEmbed).to.not.be.empty
+        expect($mediaEmbed).to.be.visible
+      });
+      cy.get('span.title-value', { timeout: 2000 }).should(($title) => {
+        titleText = $title.text()
+        expect($title).to.not.be.empty
+        expect($title).to.be.visible
+      });
+      cy.get('span.text-value', { timeout: 2000 }).should(($text) => {
+        textText = $text.text()
+        expect($text).to.not.be.empty
+        expect($text).to.be.visible
+      });
     });
   });
     
@@ -69,6 +90,44 @@ describe("Displays and updates media section configurations", () => {
         .type(title);
       cy.get("button.submit").contains("Update Config").click();
       cy.contains(title, { timeout: 2000 }).should("be.visible");
+    });
+  });
+
+  describe("Doesn't render media section if no values present", () => {
+    it("Clears values and doesn't render section", () => {
+      cy.get("input[value='edit']").parent().click();
+      cy.get("#clear-values").click();
+      cy.get("button.submit").contains("Update Config").click();
+
+      cy.visit("/");
+      cy.get("div.media-section-wrapper", { timeout: 2000 }).should('not.exist');
+      cy.visit("/siteAdmin");
+    });
+  });
+
+  describe("Renders media section if values present", () => {
+    it("Adds values back and renders section", () => {
+      cy.get("input[value='edit']")
+        .parent()
+        .click();
+      cy.get("input[name='link']", { timeout: 2000 })
+        .clear()
+        .type(linkText);
+      cy.get("textarea[name='mediaEmbed']", { timeout: 2000 })
+        .clear()
+        .type(mediaEmbedText);
+      cy.get("input[name='title']", { timeout: 2000 })
+        .clear()
+        .type(titleText);
+      cy.get("input[name='text']", { timeout: 2000 })
+        .clear()
+        .type(textText);
+      cy.get("button.submit").contains("Update Config").click();
+
+
+      cy.visit("/");
+      cy.get("div.media-section-wrapper", { timeout: 2000 }).should("be.visible");
+      cy.visit("/siteAdmin");
     });
   });
 
