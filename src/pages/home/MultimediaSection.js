@@ -5,6 +5,7 @@ import "../../css/MultimediaSection.scss";
 class MultimediaSection extends Component {
   hasMediaSection() {
     return !!(
+      this.props.mediaSection &&
       this.props.mediaSection.link &&
       this.props.mediaSection.mediaEmbed &&
       this.props.mediaSection.title &&
