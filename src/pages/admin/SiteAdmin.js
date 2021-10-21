@@ -65,26 +65,6 @@ class SiteAdmin extends Component {
     this.setState({ form: form });
   };
 
-  getForm() {
-    const formProps = {
-      site: this.state.site,
-      updateSite: this.updateSiteHandler
-    };
-    const forms = {
-      site: <SiteForm />,
-      contentUpload: <ContentUpload />,
-      sitePages: <SitePagesForm />,
-      homepage: <HomepageForm {...formProps} />,
-      searchPage: <SearchPageForm />,
-      browseCollections: <BrowseCollectionsForm {...formProps} />,
-      displayedAttributes: <DisplayedAttributesForm />,
-      mediaSection: <MediaSectionForm />,
-      updateArchive: <IdentifierForm type="archive" />,
-      collectionForm: <IdentifierForm type="collection" />
-    };
-    return forms[this.state.form];
-  }
-
   getForm = () => {
     const formProps = {
       site: this.state.site,
@@ -258,6 +238,11 @@ class SiteAdmin extends Component {
                 New / Update Collection
               </Link>
             </li>
+            {this.state.site && this.state.site.siteId === "podcasts" && (
+              <li>
+                <Link to={"/podcastDeposit"}>Add Podcast Episode</Link>
+              </li>
+            )}
           </ul>
           <AmplifySignOut />
         </div>

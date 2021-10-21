@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { AmplifySignOut, withAuthenticator } from "@aws-amplify/ui-react";
 import { Form } from "semantic-ui-react";
+import { Link } from "react-router-dom";
 import { updatedDiff } from "deep-object-diff";
 import { API, Auth, Storage } from "aws-amplify";
 import { getPodcastCollections, mintNOID } from "../../lib/fetchTools";
@@ -407,6 +408,9 @@ class PodcastDeposit extends Component {
       content = (
         <div>
           <div className="col-lg-9 col-sm-12 admin-content">
+            <Link className="siteAdmin-return-link" to={"/siteAdmin"}>
+              Return to Site Admin Page
+            </Link>
             <Form>
               <Form.Group inline>
                 <label>Current mode:</label>
