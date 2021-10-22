@@ -99,23 +99,23 @@ describe("Displays and updates search page configurations", () => {
       cy.contains("Add Value")
         .first()
         .click();
-      cy.get("input[name='creator_value_10']")
+      cy.get("input[name='creator_value_1']")
         .first()
         .clear()
-        .type("Creator 10");
+        .type("Creator 1");
       cy.contains("Update Facet and Sort Fields").click();
-      cy.contains("Creator 10").should("be.visible");
+      cy.contains("Creator 1").should("be.visible");
     })
 
     it("Removes the added creator value", () => {
       cy.get("input[value='edit']")
         .parent()
         .click();
-      cy.get("#content-wrapper > div > div > div > form > section:nth-child(2) > fieldset > ul > li:nth-child(11)")
+      cy.get("#creator_1_delete")
         .contains("X")
         .click();
       cy.contains("Update Facet and Sort Fields").click();
-      cy.contains("Creator 10").should("not.be.visible");
+      cy.contains("Creator 1").should("not.be.visible");
     });
   });
 
@@ -129,7 +129,7 @@ describe("Displays and updates search page configurations", () => {
         .first()
         .clear()
         .type("Collection Type");
-      cy.get("#content-wrapper > div > div > div > form > section:nth-child(9) > fieldset")
+      cy.get("#collection > fieldset > button")
         .contains("Add Value")
         .click();
       cy.get("input[name='collection_value_0']")

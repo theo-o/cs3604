@@ -12,7 +12,8 @@ const GetCollectionItems = `query SearchCollectionItems(
   ) {
   searchArchives(
     filter: { 
-      heirarchy_path: { eq: $parent_id }
+      heirarchy_path: { eq: $parent_id },
+      visibility: { eq: true }
     },
     sort: {
       field: identifier,

@@ -8,7 +8,7 @@ describe('Selecting English loads English results', () => {
       .should('equal', 'Category');
     cy.get('input#archive', { timeout: 2000 }).click();
     cy.get('div.facet-fields')
-      .find(':nth-child(5) h3 button#language')
+      .find('button#language')
       .click()
       .invoke('text')
       .should('equal', 'Language');

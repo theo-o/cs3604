@@ -301,6 +301,7 @@ class SearchPageForm extends Component {
         ) : (
           <button
             type="button"
+            id={`${facetKey}_${idx}_delete`}
             onClick={this.handleRemoveValue(facetKey, idx)}
             className="small deleteValue"
           >
