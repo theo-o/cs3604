@@ -1,4 +1,4 @@
-describe('Search by title by clicking search button', () => {
+describe('search_bar: Search by title by clicking search button', () => {
   beforeEach(() => {
     cy.visit('/search');
     cy.get('input')
@@ -29,7 +29,7 @@ describe('Search by title by clicking search button', () => {
   });
 });
 
-describe('Search by description by hitting enter key', () => {
+describe('search_bar: Search by description by hitting enter key', () => {
   beforeEach(() => {
     cy.visit('/search');
     cy.get('select').select('description');
@@ -54,7 +54,7 @@ describe('Search by description by hitting enter key', () => {
   });
 });
 
-describe('Search by all fields by hitting enter key', () => {
+describe('search_bar: Search by all fields by hitting enter key', () => {
   beforeEach(() => {
     cy.visit('/search');
     cy.get('select').select('all');

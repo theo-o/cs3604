@@ -1,4 +1,4 @@
-describe('Search facet checkboxes correspond to the facet values of a facet field', () => {
+describe('searchfacet_checkbox: Search facet checkboxes correspond to the facet values of a facet field', () => {
   beforeEach(() => {
     cy.visit('/search');
     cy.get('[data-cy=filter-collapsibles] > :nth-child(6)')

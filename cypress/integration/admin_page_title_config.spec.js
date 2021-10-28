@@ -1,7 +1,7 @@
 const USERNAME = "devtest";
 const PASSWORD = Cypress.env('password');
 
-describe("Update Site title and change it back", function() {
+describe("admin_page_title_config: Update Site title and change it back", function() {
   beforeEach(() => {
     cy.visit("/siteAdmin");
     cy.get("amplify-authenticator")

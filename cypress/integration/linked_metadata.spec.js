@@ -1,4 +1,4 @@
-describe('Archive metadata', () => {
+describe('linked_metadata: Archive metadata', () => {
   it('lands on search facet by the metadata field', () => {
     cy.visit('/archive/cv65x38f');
     cy.get('[data-cy=multi-field-span] a')
@@ -18,7 +18,7 @@ describe('Archive metadata', () => {
   });
 });
 
-describe('Collection metadata', () => {
+describe('linked_metadata: Collection metadata', () => {
   it('lands on search facet by the metadata field', () => {
     cy.visit('/collection/vb765t25demo');
     cy.get('[data-cy=multi-field-span] a')

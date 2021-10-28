@@ -1,4 +1,4 @@
-describe('Archive static img view', () => {
+describe('archive_media_views: Archive static img view', () => {
   it('shows correct img tag', () => {
     cy.visit('/archive/m58xyh90');
     cy.get('img.item-img')
@@ -7,7 +7,7 @@ describe('Archive static img view', () => {
   });
 });
 
-describe('Archive audio player', () => {
+describe('archive_media_views: Archive audio player', () => {
   it('renders audio file thumbnail', () => {
     cy.visit('/archive/m69xyh01');
     cy.get('div.audio-img-wrapper')
@@ -23,7 +23,7 @@ describe('Archive audio player', () => {
   });
 });
 
-describe('Archive video player', () => {
+describe('archive_media_views: Archive video player', () => {
   it('renders html5 video player', () => {
     cy.visit('/archive/m70xyh12');
     cy.get('video')
@@ -38,7 +38,7 @@ describe('Archive video player', () => {
   })
 });
 
-describe('Archive kaltura embed', () => {
+describe('archive_media_views: Archive kaltura embed', () => {
   it('renders kaltura video player inside iframe', () => {
     cy.visit('http://localhost:3000/archive/m81xyh23');
     cy.get('iframe')
@@ -48,7 +48,7 @@ describe('Archive kaltura embed', () => {
   });
 });
 
-describe('Archive pdf embed', () => {
+describe('archive_media_views: Archive pdf embed', () => {
   it('renders pdf file inside iframe', () => {
     cy.visit('http://localhost:3000/archive/m92xyh34');
     cy.get('iframe')
@@ -58,7 +58,7 @@ describe('Archive pdf embed', () => {
   });
 });
 
-describe('Archive Mirador viewer', () => {
+describe('archive_media_views: Archive Mirador viewer', () => {
   it('renders viewer if manifest.json', () => {
     cy.visit('/archive/cv65x38f');
     cy.get('div#mirador_viewer > div > main')
@@ -71,7 +71,7 @@ describe('Archive Mirador viewer', () => {
   });
 });
 
-describe('Archive 3d .obj viewer', () => {
+describe('archive_media_views: Archive 3d .obj viewer', () => {
   it('renders 3d viewer for 3d .obj records', () => {
     cy.visit('http://localhost:3000/archive/cz94zm9p');
     cy.get('div.obj-wrapper canvas')
@@ -80,7 +80,7 @@ describe('Archive 3d .obj viewer', () => {
   });
 });
 
-describe('Archive 3d .x3d viewer', () => {
+describe('archive_media_views: Archive 3d .x3d viewer', () => {
   it('renders 3d viewer for 3d .x3d records', () => {
     cy.visit('http://localhost:3000/archive/h387pp1c');
     cy.get('div.obj-wrapper x3d#x3dElement canvas')

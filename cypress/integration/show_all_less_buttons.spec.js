@@ -1,4 +1,4 @@
-describe('Search Facet field with more than 5 selectable values', () => {
+describe('show_all_less_buttons: Search Facet field with more than 5 selectable values', () => {
   beforeEach(() => {
     cy.visit('/search');
     cy.get('[data-cy=filter-collapsibles] > :nth-child(6)')

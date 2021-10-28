@@ -1,7 +1,7 @@
 const USERNAME = "devtest";
 const PASSWORD = Cypress.env("password");
 
-describe("Displays and updates contact configurations", () => {
+describe("admin_page_contact_config: Displays and updates contact configurations", () => {
   beforeEach(() => {
     cy.visit("/siteAdmin");
     cy.get("amplify-authenticator")
@@ -25,7 +25,7 @@ describe("Displays and updates contact configurations", () => {
       .click({ force: true });
   })
 
-  describe("Displays contact fields", () => {
+  describe("admin_page_contact_config: Displays contact fields", () => {
     it("Displays contact fields", () => {
       cy.get("input[value='viewSite']")
         .parent()
@@ -37,7 +37,7 @@ describe("Displays and updates contact configurations", () => {
     });
   });
     
-  describe("Updates first contact's title and changes it back", () => {
+  describe("admin_page_contact_config: Updates first contact's title and changes it back", () => {
     it("Updates contact fields", () => {
       cy.get("input[value='editSite']").parent().click();
       cy.get("#c0_title").clear().type("Director");

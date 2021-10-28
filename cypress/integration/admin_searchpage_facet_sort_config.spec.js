@@ -1,7 +1,7 @@
 const USERNAME = "devtest";
 const PASSWORD = Cypress.env("password");
 
-describe("Displays and updates search page configurations", () => {
+describe("admin_searchpage_facet_sort_config: Displays and updates search page configurations", () => {
   beforeEach(() => {
     cy.visit("/siteAdmin");
     cy.get("amplify-authenticator")
@@ -31,7 +31,7 @@ describe("Displays and updates search page configurations", () => {
     cy.url().should("include", "/siteAdmin");
   });
 
-  describe("Displays search facet fields", () => {
+  describe("admin_searchpage_facet_sort_config: Displays search facet fields", () => {
     it("Displays search facets fields", () => {
       cy.get("input[value='view']")
         .parent()
@@ -44,7 +44,7 @@ describe("Displays and updates search page configurations", () => {
     });
   });
 
-  describe("Updates category facet's label and changes it back", () => {
+  describe("admin_searchpage_facet_sort_config: Updates category facet's label and changes it back", () => {
     it("Updates search facet's label", () => {
       cy.get("input[value='edit']").parent().click();
       cy.get("input[name='category_label']")
@@ -68,7 +68,7 @@ describe("Displays and updates search page configurations", () => {
     });
   });
 
-  describe("Updates creator facet's value and changes it back", () => {
+  describe("admin_searchpage_facet_sort_config: Updates creator facet's value and changes it back", () => {
     it("Updates creator facet's value", () => {
       cy.get("input[value='edit']").parent().click();
       cy.get("input[name='creator_value_0']")
@@ -93,7 +93,7 @@ describe("Displays and updates search page configurations", () => {
     });
   });
 
-  describe("Adds creator facet's value and removes it", () => {
+  describe("admin_searchpage_facet_sort_config: Adds creator facet's value and removes it", () => {
     it("Adds creator facet's value", () => {
       cy.get("input[value='edit']").parent().click();
       cy.contains("Add Value")
@@ -119,7 +119,7 @@ describe("Displays and updates search page configurations", () => {
     });
   });
 
-  describe("Adds a new facet field and removes it", () => {
+  describe("admin_searchpage_facet_sort_config: Adds a new facet field and removes it", () => {
     const input = "Alberta Pfeiffer Architectural Collection, 1929-1976 (Ms1988-017)";
     it("Adds a new search facet field", () => {
       cy.get("input[value='edit']").parent().click();
@@ -156,7 +156,7 @@ describe("Displays and updates search page configurations", () => {
     });
   });
 
-  describe("Adds Subject facet field and removes it", () => {
+  describe("admin_searchpage_facet_sort_config: Adds Subject facet field and removes it", () => {
     it("Adds Subject search facet field", () => {
       cy.get("input[value='edit']").parent().click();
       cy.get("select").eq(0).select("subject");
@@ -181,7 +181,7 @@ describe("Displays and updates search page configurations", () => {
     });
   });
 
-  describe("Adds a new sort field and removes it", () => {
+  describe("admin_searchpage_facet_sort_config: Adds a new sort field and removes it", () => {
     it("Adds a new sort field", () => {
       cy.get("input[value='edit']").parent().click();
       cy.get("select").eq(1).select("identifier (asc)");

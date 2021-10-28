@@ -1,4 +1,4 @@
-describe('Site nav menu', () => {
+describe('additional_pages: Site nav menu', () => {
   it('shows generated About link', () => {
     cy.visit('/');
     cy.get('#vt_main_nav > li:nth-child(4)')
@@ -11,7 +11,7 @@ describe('Site nav menu', () => {
   });
 });
 
-describe('About link', () => {
+describe('additional_pages: About link', () => {
   it('links to correct About page', () => {
     cy.visit('/');
     cy.get('nav.top-navbar > ul > li:nth-child(4) > a')

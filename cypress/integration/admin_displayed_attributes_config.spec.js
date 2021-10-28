@@ -1,7 +1,7 @@
 const USERNAME = "devtest";
 const PASSWORD = Cypress.env('password');
 
-describe("Update attribute and change it back", function() {
+describe("admin_displayed_attributes_config: Update attribute and change it back", function() {
   beforeEach(() => {
     cy.visit("/siteAdmin");
     cy.get("amplify-authenticator")

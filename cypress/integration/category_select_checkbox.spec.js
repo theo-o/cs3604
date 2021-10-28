@@ -1,4 +1,4 @@
-describe('Object category options are mutually exclusive facet checkboxes', () => {
+describe('category_select_checkbox: Object category options are mutually exclusive facet checkboxes', () => {
   beforeEach(() => {
     cy.visit('/search');
     cy.get('[data-cy=filter-collapsibles] > :nth-child(1)')

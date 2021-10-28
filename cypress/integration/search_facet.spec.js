@@ -1,6 +1,6 @@
 import { Children } from "react";
 
-describe('Heading text', () => {
+describe('search_facet: Heading text', () => {
   it('contains the correct title', () => {
     cy.visit('/search');
     cy.get('h2')
@@ -9,7 +9,7 @@ describe('Heading text', () => {
   });
 });
 
-describe('Collapsible search filter field', () => {
+describe('search_facet: Collapsible search filter field', () => {
   beforeEach(() => {
     cy.visit('/search');
   });

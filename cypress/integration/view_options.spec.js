@@ -1,4 +1,4 @@
-describe('Viewing options interaction', () => {
+describe('view_options: Interaction', () => {
   beforeEach(() => {
     cy.visit('/collections');
   });

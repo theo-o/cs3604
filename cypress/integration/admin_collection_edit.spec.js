@@ -1,7 +1,7 @@
 const USERNAME = "devtest";
 const PASSWORD = Cypress.env('password');
 
-describe("Update collection metadata and change it back", function() {
+describe("admin_collection_edit: Update collection metadata and change it back", function() {
   beforeEach(() => {
     cy.visit("/siteAdmin");
     cy.get("amplify-authenticator")

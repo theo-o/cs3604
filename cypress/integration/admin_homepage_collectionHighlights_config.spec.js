@@ -1,7 +1,7 @@
 const USERNAME = "devtest";
 const PASSWORD = Cypress.env("password");
 
-describe("Update collection highlights fields and revert", function () {
+describe("admin_homepage_collectionHighlights_config: Update collection highlights fields and revert", function () {
     beforeEach(() => {
         cy.visit("/siteAdmin");
         cy.get("amplify-authenticator")

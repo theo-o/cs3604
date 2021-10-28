@@ -1,4 +1,4 @@
-describe('A single Collection Show page metadata section', () => {
+describe('collection_metadata_display: A single Collection Show page metadata section', () => {
   beforeEach(() => {
     cy.visit('/collection/vb765t25demo');
     cy.get('#content-wrapper')

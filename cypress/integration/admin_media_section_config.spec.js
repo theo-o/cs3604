@@ -5,7 +5,7 @@ let mediaEmbedText;
 let titleText;
 let textText;
 
-describe("Displays and updates media section configurations", () => {
+describe("admin_media_section_config: Displays and updates media section configurations", () => {
   beforeEach(() => {
     cy.visit("/siteAdmin");
     cy.get("amplify-authenticator")
@@ -35,7 +35,7 @@ describe("Displays and updates media section configurations", () => {
     cy.url({ timeout: 2000 }).should("include", "/siteAdmin");
   })
 
-  describe("Displays media section fields", () => {
+  describe("admin_media_section_config: Displays media section fields", () => {
     it("Displays media section fields", () => {
       cy.get("input[value='view']")
         .parent()
@@ -64,7 +64,7 @@ describe("Displays and updates media section configurations", () => {
     });
   });
     
-  describe("Updates title and changes it back", () => {
+  describe("admin_media_section_config: Updates title and changes it back", () => {
     let title;
     it("Updates media section-title", () => {
       cy.get("input[value='view']")
@@ -93,7 +93,7 @@ describe("Displays and updates media section configurations", () => {
     });
   });
 
-  describe("Doesn't render media section if no values present", () => {
+  describe("admin_media_section_config: Doesn't render media section if no values present", () => {
     it("Clears values and doesn't render section", () => {
       cy.get("input[value='edit']").parent().click();
       cy.get("#clear-values").click();
@@ -105,7 +105,7 @@ describe("Displays and updates media section configurations", () => {
     });
   });
 
-  describe("Renders media section if values present", () => {
+  describe("admin_media_section_config: Renders media section if values present", () => {
     it("Adds values back and renders section", () => {
       cy.get("input[value='edit']")
         .parent()

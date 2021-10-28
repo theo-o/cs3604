@@ -1,4 +1,4 @@
-describe("Related items on archives page", () => {
+describe("related_items: Related items on archives page", () => {
 
     it("Related items section shows on the page", () => {
         cy.visit("http://localhost:3000/archive/pf59ds4d");

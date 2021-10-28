@@ -1,4 +1,4 @@
-describe('Browse collections page', () => {
+describe('browse_collections: Browse collections page', () => {
   beforeEach(() => {
     cy.visit('/collections');
   })
