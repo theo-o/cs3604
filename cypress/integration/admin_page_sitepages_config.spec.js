@@ -1,7 +1,7 @@
 const USERNAME = "devtest";
 const PASSWORD = Cypress.env("password");
 
-describe("Displays and updates sitepages configurations", () => {
+describe("admin_page_sitepages_config: Displays and updates sitepages configurations", () => {
   beforeEach(() => {
     cy.visit("/siteAdmin");
     cy.get("amplify-authenticator")
@@ -31,7 +31,7 @@ describe("Displays and updates sitepages configurations", () => {
     cy.url({ timeout: 2000 }).should("include", "/siteAdmin");
   });
 
-  describe("Displays site pages fields", () => {
+  describe("admin_page_sitepages_config: Displays site pages fields", () => {
     it("Displays site pages fields", () => {
       cy.get("input[value='view']")
         .parent()
@@ -45,7 +45,7 @@ describe("Displays and updates sitepages configurations", () => {
     });
   });
     
-  describe("Updates first page's ID and changes it back", () => {
+  describe("admin_page_sitepages_config: Updates first page's ID and changes it back", () => {
     it("Updates site page's fields", () => {
       cy.get("input[value='edit']").parent().click();
       cy.get("input[name='terms_pageName']", { timeout: 5000 })
@@ -69,7 +69,7 @@ describe("Displays and updates sitepages configurations", () => {
     });
   });
 
-  describe("Uploads files successfully", () =>{
+  describe("admin_page_sitepages_config: Uploads files successfully", () =>{
     it("Uploads asset file", () => {
       cy.get("input[value='edit']").parent().click();
       const docPath = "sitecontent/PubPermission.doc";

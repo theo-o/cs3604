@@ -1,7 +1,7 @@
 const USERNAME = "devtest";
 const PASSWORD = Cypress.env("password");
 
-describe("Displays and updates browse collections page configurations", () => {
+describe("admin_collectionpage_filter_sort_config: Displays and updates browse collections page configurations", () => {
   beforeEach(() => {
     cy.visit("/siteAdmin");
     cy.get("amplify-authenticator")
@@ -31,7 +31,7 @@ describe("Displays and updates browse collections page configurations", () => {
     cy.url().should("include", "/siteAdmin");
   });
 
-  describe("Displays filter and sort fields", () => {
+  describe("admin_collectionpage_filter_sort_config: Displays filter and sort fields", () => {
     it("Displays filter field", () => {
       cy.get("input[value='view']")
         .parent()
@@ -54,7 +54,7 @@ describe("Displays and updates browse collections page configurations", () => {
     });
   });
 
-  describe("Updates filter's value and changes it back", () => {
+  describe("admin_collectionpage_filter_sort_config: Updates filter's value and changes it back", () => {
     it("Updates filter's value", () => {
       cy.get("input[value='edit']").parent().click();
       cy.get("input[name='filter_value_2']")
@@ -77,7 +77,7 @@ describe("Displays and updates browse collections page configurations", () => {
     });
   });
 
-  describe("Adds filter's value and removes it", () => {
+  describe("admin_collectionpage_filter_sort_config: Adds filter's value and removes it", () => {
     it("Adds filter's value", () => {
       cy.get("input[value='edit']").parent().click();
       cy.contains("Add Value").first().click();
@@ -99,7 +99,7 @@ describe("Displays and updates browse collections page configurations", () => {
     });
   });
 
-  describe("Adds a new sort field and removes it", () => {
+  describe("admin_collectionpage_filter_sort_config: Adds a new sort field and removes it", () => {
     it("Adds a new sort field", () => {
       cy.get("input[value='edit']").parent().click();
       cy.get("select").select("identifier (asc)");

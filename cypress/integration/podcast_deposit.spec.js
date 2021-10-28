@@ -1,7 +1,7 @@
 const USERNAME = "devtest";
 const PASSWORD = Cypress.env("password");
 
-describe("Creates Podcast Archive record", () => {
+describe("podcast_deposit: Creates Podcast Archive record", () => {
   beforeEach(() => {
     cy.visit("/podcastDeposit");
     cy.get("amplify-authenticator")
@@ -25,7 +25,7 @@ describe("Creates Podcast Archive record", () => {
       .click({ force: true });
   });
     
-  describe("Creates New Podcast", () => {
+  describe("podcast_deposit: Creates New Podcast", () => {
     const title = "Test title";
     const description = "Test description";
     const source_link = "https://sites.google.com/vt.edu/test/home";

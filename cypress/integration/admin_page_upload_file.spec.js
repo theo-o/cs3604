@@ -1,7 +1,7 @@
 const USERNAME = "devtest";
 const PASSWORD = Cypress.env('password');
 
-describe("Upload Site Content test", () => {
+describe("admin_page_upload_file: Upload Site Content test", () => {
     beforeEach(() => {
       cy.visit("/siteAdmin");
       cy.get("amplify-authenticator")
@@ -31,7 +31,7 @@ describe("Upload Site Content test", () => {
       cy.url().should("include", "/siteAdmin");
     })
  
-    describe("Upload an HTML file", () => {
+    describe("admin_page_upload_file: Upload an HTML file", () => {
       it("Displays successful upload and stores it in S3", () => {
         const htmlPath = "sitecontent/about1.html"
         cy.get("input[type=file]").eq(0).attachFile(htmlPath).trigger('change', { force: true });
@@ -44,7 +44,7 @@ describe("Upload Site Content test", () => {
       })
     })
 
-    describe("Upload an image file", () => {
+    describe("admin_page_upload_file: Upload an image file", () => {
       it("displays successful upload", () => {
         const imgPath = "sitecontent/cover_image1.jpg"
         cy.get("input[type=file]").eq(0).attachFile(imgPath).trigger('change', { force: true });
@@ -58,7 +58,7 @@ describe("Upload Site Content test", () => {
       })
     })
 
-    describe("Upload a file other than image or HTML type", () => {
+    describe("admin_page_upload_file: Upload a file other than image or HTML type", () => {
       it("displays error message", () => {
         const filePath = "sitecontent/test.txt"
         cy.get("input[type=file]").eq(0).attachFile(filePath).trigger('change', { force: true });

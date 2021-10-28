@@ -1,7 +1,7 @@
 const USERNAME = "devtest";
 const PASSWORD = Cypress.env('password');
 
-describe("Update Homepage fields and revert", function() {
+describe("admin_homepage_top_config: Update Homepage fields and revert", function() {
   beforeEach(() => {
     cy.visit("/siteAdmin");
     cy.get("amplify-authenticator")

@@ -1,12 +1,12 @@
 const USERNAME = "devtest";
 const PASSWORD = Cypress.env('password');
 
-describe("Authenticator:", function() {
+describe("authenticator_spec: Authenticator:", function() {
     beforeEach(function() {
       cy.visit("/siteAdmin");
     });
  
-    describe("Sign in and Sign out:", () => {
+    describe("authenticator_spec: Sign in and Sign out:", () => {
       it("allows a user to signin and signout", () => {
         cy.get("amplify-authenticator")
           .find(selectors.usernameInput, {

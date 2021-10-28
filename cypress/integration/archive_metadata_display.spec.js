@@ -1,4 +1,4 @@
-describe('A single Archive Show page metadata section', () => {
+describe('archive_metadata_display: A single Archive Show page metadata section', () => {
   beforeEach(() => {
     cy.visit('/archive/cv65x38f');
     cy.get('#content-wrapper > div.item-page-wrapper > div.item-details-section > div.details-section-metadata > table')

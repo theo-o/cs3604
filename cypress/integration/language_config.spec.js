@@ -1,4 +1,4 @@
-describe('Selecting English loads English results', () => {
+describe('language_config.spec: Selecting English loads English results', () => {
   it('Language checkbox exists and updates url', () => {
     cy.visit("/search");
     cy.get('div.facet-fields')
