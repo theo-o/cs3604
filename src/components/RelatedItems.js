@@ -22,7 +22,8 @@ class RelatedItems extends Component {
     const items = await API.graphql(
       graphqlOperation(queries.searchArchives, {
         filter: {
-          heirarchy_path: { eq: collection_id }
+          heirarchy_path: { eq: collection_id },
+          visibility: { eq: true }
         },
         sort: {
           field: "identifier",

@@ -1,9 +1,9 @@
 const USERNAME = "devtest";
 const PASSWORD = Cypress.env("password");
-let linkText;
-let mediaEmbedText;
-let titleText;
-let textText;
+const linkText = "https://lib.vt.edu/";
+const mediaEmbedText = '<iframe src="https://www.youtube.com/embed/8fswmAtvCqI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+const titleText = "Welcome to the University Libraries at Virginia Tech";
+const textText = "The University Libraries play an essential role in furthering Virginia Tech’s mission as a global land-grant university by providing a diversity of resources to produce, disseminate, use, share and sustain data and information.";
 
 describe("admin_media_section_config: Displays and updates media section configurations", () => {
   beforeEach(() => {
@@ -41,44 +41,36 @@ describe("admin_media_section_config: Displays and updates media section configu
         .parent()
         .click();
       
-      cy.get('span.link-value', { timeout: 2000 }).should(($link) => {
-        linkText = $link.text()
-        expect($link).to.not.be.empty
-        expect($link).to.be.visible
-      });
-      cy.get('span.media-embed-value', { timeout: 2000 }).should(($mediaEmbed) => {
-        mediaEmbedText = $mediaEmbed.text()
-        expect($mediaEmbed).to.not.be.empty
-        expect($mediaEmbed).to.be.visible
-      });
-      cy.get('span.title-value', { timeout: 2000 }).should(($title) => {
-        titleText = $title.text()
-        expect($title).to.not.be.empty
-        expect($title).to.be.visible
-      });
-      cy.get('span.text-value', { timeout: 2000 }).should(($text) => {
-        textText = $text.text()
-        expect($text).to.not.be.empty
-        expect($text).to.be.visible
-      });
+      cy.get('span.link-value', { timeout: 2000 })
+        .should("not.be.empty")
+        .should("be.visible");
+
+      cy.get('span.media-embed-value', { timeout: 2000 })
+        .should("not.be.empty")
+        .should("be.visible");
+
+      cy.get('span.title-value', { timeout: 2000 })
+        .should("not.be.empty")
+        .should("be.visible");
+
+      cy.get('span.text-value', { timeout: 2000 })
+        .should("not.be.empty")
+        .should("be.visible");
+
     });
   });
     
   describe("admin_media_section_config: Updates title and changes it back", () => {
-    let title;
     it("Updates media section-title", () => {
       cy.get("input[value='view']")
         .parent()
         .click();
-      cy.get("span.title-value").then(($title) => {
-        title = $title.text();
-        cy.get("input[value='edit']").parent().click();
-        cy.get("input[name='title']", { timeout: 2000 })
-          .clear()
-          .type("Test title");
-        cy.get("button.submit").contains("Update Config").click();
-        cy.contains("Title: Test title", { timeout: 2000 }).should("be.visible");
-      });
+      cy.get("input[value='edit']").parent().click();
+      cy.get("input[name='title']", { timeout: 2000 })
+        .clear()
+        .type("Test title");
+      cy.get("button.submit").contains("Update Config").click();
+      cy.contains("Title: Test title", { timeout: 2000 }).should("be.visible");
     });
   
     it("Reverses update", () => {
@@ -87,9 +79,9 @@ describe("admin_media_section_config: Displays and updates media section configu
         .click();
       cy.get("input[name='title']", { timeout: 2000 })
         .clear()
-        .type(title);
+        .type(titleText);
       cy.get("button.submit").contains("Update Config").click();
-      cy.contains(title, { timeout: 2000 }).should("be.visible");
+      cy.contains(titleText, { timeout: 2000 }).should("be.visible");
     });
   });
 
