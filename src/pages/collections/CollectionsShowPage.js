@@ -2,14 +2,11 @@ import React, { Component } from "react";
 import { API, graphqlOperation } from "aws-amplify";
 import { searchCollections } from "../../graphql/queries";
 import SiteTitle from "../../components/SiteTitle";
-import SubCollectionsLoader from "./SubCollectionsLoader";
+import CollectionMetadataSection from "../../components/CollectionMetadataSection";
 import CollectionItemsLoader from "./CollectionItemsLoader";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import CollectionTopContent from "../../components/CollectionTopContent";
-import {
-  RenderItemsDetailed,
-  addNewlineInDesc
-} from "../../lib/MetadataRenderer";
+import { addNewlineInDesc } from "../../lib/MetadataRenderer";
 import {
   fetchLanguages,
   getTopLevelParentForCollection
@@ -215,6 +212,44 @@ class CollectionsShowPage extends Component {
     return title;
   }
 
+  collectionMainContent() {
+    const items = (
+      <CollectionItemsLoader
+        key="collection-items-section"
+        parent={this}
+        collection={this.state.collection}
+        updateCollectionArchives={this.updateCollectionArchives.bind(this)}
+      />
+    );
+    const metadata = (
+      <CollectionMetadataSection
+        key="collection-metadata-section"
+        site={this.props.site}
+        languages={this.state.languages}
+        collection={this.state.collection}
+        metadataTitle={this.metadataTitle()}
+        subCollectionDescription={this.subCollectionDescription()}
+        collectionCustomKey={this.state.collectionCustomKey}
+      />
+    );
+
+    const blocks = [];
+    const options = JSON.parse(this.props.site.siteOptions);
+    if (options && options.collectionPageSettings) {
+      if (parseInt(options.collectionPageSettings.itemsPosition) === 0) {
+        blocks.push(items);
+        blocks.push(metadata);
+      } else {
+        blocks.push(metadata);
+        blocks.push(items);
+      }
+    } else {
+      blocks.push(metadata);
+      blocks.push(items);
+    }
+    return <div>{blocks}</div>;
+  }
+
   componentDidUpdate(prevProps) {
     if (this.props !== prevProps) {
       this.getCollection(this.props.customKey);
@@ -252,60 +287,7 @@ class CollectionsShowPage extends Component {
             TRUNCATION_LENGTH={TRUNCATION_LENGTH}
             creator={this.state.creator}
           />
-
-          <div className="container">
-            <div className="mid-content-row row">
-              <div
-                className="col-12 col-lg-8 details-section"
-                role="region"
-                aria-labelledby="collection-details-section-header"
-              >
-                <h2
-                  className="details-section-header"
-                  id="collection-details-section-header"
-                >
-                  {this.metadataTitle()}
-                </h2>
-
-                <div className="details-section-content-grid">
-                  {this.subCollectionDescription()}
-                  <table aria-label="Collection Metadata">
-                    <tbody>
-                      <RenderItemsDetailed
-                        keyArray={
-                          JSON.parse(this.props.site.displayedAttributes)[
-                            "collection"
-                          ]
-                        }
-                        item={this.state.collection}
-                        languages={this.state.languages}
-                        collectionCustomKey={this.state.collectionCustomKey}
-                        type="table"
-                        site={this.props.site}
-                      />
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-              <div
-                className="col-12 col-lg-4 subcollections-section"
-                role="region"
-                aria-labelledby="collection-subcollections-section"
-              >
-                <SubCollectionsLoader
-                  parent={this}
-                  collection={this.state.collection}
-                  updateSubCollections={this.updateSubCollections}
-                />
-              </div>
-            </div>
-          </div>
-
-          <CollectionItemsLoader
-            parent={this}
-            collection={this.state.collection}
-            updateCollectionArchives={this.updateCollectionArchives.bind(this)}
-          />
+          {this.collectionMainContent()}
         </div>
       );
     } else {
