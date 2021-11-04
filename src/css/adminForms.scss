@@ -119,3 +119,7 @@ div.checkbox-inline {
   display: inline-block;
   margin: 10px 0 15px 0;
 }
+
+select.form-control:not([size]):not([multiple]) {
+  height: unset;
+}

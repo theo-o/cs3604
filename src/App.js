@@ -44,11 +44,18 @@ class App extends Component {
     });
   }
 
-  setColor(color) {
-    if (color) {
+  setStyles() {
+    if (this.state.site.siteColor) {
       document.documentElement.style.setProperty(
         "--themeHighlightColor",
-        color
+        this.state.site.siteColor
+      );
+    }
+    const homepage = JSON.parse(this.state.site.homePage);
+    if (homepage.staticImage.titleSize) {
+      document.documentElement.style.setProperty(
+        "--titleFontSize",
+        homepage.staticImage.titleSize
       );
     }
   }
@@ -63,7 +70,7 @@ class App extends Component {
 
   render() {
     if (!this.state.isLoading && this.state.site) {
-      this.setColor(this.state.site.siteColor);
+      this.setStyles();
       const customRoutes = buildRoutes(this.state.site);
       return (
         <Router>

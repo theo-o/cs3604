@@ -11,10 +11,13 @@ import {
 import * as sanitizeHtml from "sanitize-html";
 
 const initialFormState = {
-  staticImageSrc: "",
-  staticImageAltText: "",
   homeStatementHeading: "",
   homeStatement: "",
+  staticImageSrc: "",
+  staticImageAltText: "",
+  staticImageTitleFont: "",
+  staticImageTitleSize: "",
+  staticImageTextStyle: "",
   sponsors: [],
   featuredItems: [],
   collectionHighlights: []
@@ -80,10 +83,14 @@ class HomepageForm extends Component {
       let siteInfo = {};
       try {
         siteInfo = {
-          staticImageSrc: homepage.staticImage.src || "",
-          staticImageAltText: homepage.staticImage.altText || "",
           homeStatementHeading: homepage.homeStatement.heading || "",
           homeStatement: homepage.homeStatement.statement,
+          staticImageSrc: homepage.staticImage.src || "",
+          staticImageAltText: homepage.staticImage.altText || "",
+          staticImageTitleFont:
+            homepage.staticImage.titleFont || "crimson-text, serif",
+          staticImageTitleSize: homepage.staticImage.titleSize || "40px",
+          staticImageTextStyle: homepage.staticImage.textStyle || "uppercase",
           sponsors: homepage.sponsors || [],
           featuredItems: homepage.featuredItems || [],
           collectionHighlights: homepage.collectionHighlights || []
@@ -134,6 +141,9 @@ class HomepageForm extends Component {
     );
     homePage.staticImage.src = this.state.formState.staticImageSrc;
     homePage.staticImage.altText = this.state.formState.staticImageAltText;
+    homePage.staticImage.titleFont = this.state.formState.staticImageTitleFont;
+    homePage.staticImage.titleSize = this.state.formState.staticImageTitleSize;
+    homePage.staticImage.textStyle = this.state.formState.staticImageTextStyle;
     homePage.sponsors = this.state.formState.sponsors;
     homePage.featuredItems = this.state.formState.featuredItems;
     homePage.collectionHighlights = this.state.formState.collectionHighlights;
@@ -187,7 +197,8 @@ class HomepageForm extends Component {
             />
           </section>
           <section className="static-image">
-            <h3>Static Image</h3>
+            <h3>Homepage Image and Title</h3>
+            <h4>Cover Image</h4>
             <FileUploadField
               value={this.state.formState.staticImageSrc}
               label={this.fileUploadLabel(this.state.formState.staticImageSrc)}
@@ -205,6 +216,45 @@ class HomepageForm extends Component {
               placeholder="Enter Alt Text"
               onChange={this.updateInputValue}
             />
+            <h4>Style Site Title</h4>
+            <div className="form-group">
+              <label htmlFor="staticImageTitleFont">Font</label>
+              <select
+                className="form-control"
+                id="staticImageTitleFont"
+                name="staticImageTitleFont"
+                value={this.state.formState.staticImageTitleFont}
+                placeholder="Choose a font"
+                onChange={this.updateInputValue}
+              >
+                <option value="Acherus, sans-serif">Acherus</option>
+                <option value="crimson-text, serif">Crimson</option>
+                <option value="gineso-condensed, sans-serif">Gineso</option>
+              </select>
+            </div>
+            <Form.Input
+              label="Font Size"
+              name="staticImageTitleSize"
+              value={this.state.formState.staticImageTitleSize}
+              placeholder="40px"
+              onChange={this.updateInputValue}
+            />
+            <div className="form-group">
+              <label htmlFor="staticImageTextStyle">Text Style</label>
+              <select
+                className="form-control"
+                id="staticImageTextStyle"
+                name="staticImageTextStyle"
+                value={this.state.formState.staticImageTextStyle}
+                placeholder="Choose a font"
+                onChange={this.updateInputValue}
+              >
+                <option value="capitalize">Capitalize each word</option>
+                <option value="uppercase">Uppercase</option>
+                <option value="lowercase">Lowercase</option>
+                <option value="none">None</option>
+              </select>
+            </div>
           </section>
         </Form>
         <FeaturedItemsForm
@@ -260,6 +310,18 @@ class HomepageForm extends Component {
             <p>
               <span className="key">Alt text:</span>{" "}
               {this.state.formState.staticImageAltText}
+            </p>
+            <p>
+              <span className="key">Title Font:</span>{" "}
+              {this.state.formState.staticImageTitleFont}
+            </p>
+            <p>
+              <span className="key">Title Font Size:</span>{" "}
+              {this.state.formState.staticImageTitleSize}
+            </p>
+            <p>
+              <span className="key">Title Text Style:</span>{" "}
+              {this.state.formState.staticImageTextStyle}
             </p>
             <h3>Featured Items</h3>
             <FeaturedItems itemList={this.state.formState.featuredItems} />

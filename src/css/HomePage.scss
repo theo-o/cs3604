@@ -10,7 +10,6 @@
   width: 100%;
   max-height: 500px;
   text-align: center;
-  text-transform: uppercase;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -22,6 +21,7 @@
   color: white;
   font-size: 25px;
   font-family: "crimson-text", serif;
+  text-transform: uppercase;
   font-weight: 600;
   text-shadow: -2px 3px 5px #000000b5;
 }
@@ -119,6 +119,6 @@
 
 @media (min-width: 768px) {
   .home-wrapper #home-site-title-wrapper h1 {
-    font-size: 40px;
+    font-size: var(--titleFontSize);
   }
 }

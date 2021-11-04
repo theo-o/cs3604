@@ -11,6 +11,14 @@ import CollectionHighlights from "./home/CollectionHighlights";
 import "../css/HomePage.scss";
 
 class HomePage extends Component {
+  getStyles = styles => {
+    let titleStyle = {
+      fontFamily: styles.titleFont || "crimson-text, serif",
+      textTransform: styles.textStyle || "uppercase"
+    };
+    return titleStyle;
+  };
+
   render() {
     let featuredItems = null;
     let homeStatement = null;
@@ -36,7 +44,9 @@ class HomePage extends Component {
           <div className="home-featured-image-wrapper">
             <FeaturedStaticImage staticImage={staticImage} />
             <div id="home-site-title-wrapper">
-              <h1>{this.props.site.siteName}</h1>
+              <h1 style={this.getStyles(staticImage)}>
+                {this.props.site.siteName}
+              </h1>
             </div>
           </div>
           <div className="home-search-wrapper">
