@@ -31,7 +31,11 @@ class SiteSponsors extends Component {
     ) {
       return (
         <div
-          className="container home-sponsors-section"
+          className={
+            this.props.style
+              ? `container home-sponsors-section sponsors-${this.props.style}`
+              : "container home-sponsors-section"
+          }
           role="region"
           aria-label="Sponsors"
         >

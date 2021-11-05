@@ -25,6 +25,7 @@ class HomePage extends Component {
     let staticImage = null;
     let mediaSection = null;
     let sponsors = null;
+    let sponsorsStyle = null;
     let collectionHighlights = null;
     try {
       const homePageInfo = JSON.parse(this.props.site.homePage);
@@ -33,6 +34,7 @@ class HomePage extends Component {
       staticImage = homePageInfo["staticImage"];
       mediaSection = homePageInfo["mediaSection"];
       sponsors = homePageInfo["sponsors"];
+      sponsorsStyle = homePageInfo["sponsorsStyle"];
       collectionHighlights = homePageInfo["collectionHighlights"];
     } catch (error) {
       console.error("Error setting config property");
@@ -64,7 +66,7 @@ class HomePage extends Component {
           </div>
           <FeaturedItems featuredItems={featuredItems} />
           <MultimediaSection mediaSection={mediaSection} />
-          <SiteSponsors sponsors={sponsors} />
+          <SiteSponsors sponsors={sponsors} style={sponsorsStyle} />
           <CollectionHighlights collectionHighlights={collectionHighlights} />
         </div>
       </>

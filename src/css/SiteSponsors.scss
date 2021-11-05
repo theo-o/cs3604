@@ -1,6 +1,16 @@
 .home-sponsors-section {
-  background-color: var(--dark-gray);
+  background-color: var(--sponsorsColor);
   padding-bottom: 10px;
+}
+
+.sponsors-solid {
+  border: 0px;
+  background-color: var(--sponsorsColor);
+}
+
+.sponsors-divider {
+  background-color: #ffffff;
+  border-top: solid 5px var(--sponsorsColor);
 }
 
 .home-sponsors-wrapper {

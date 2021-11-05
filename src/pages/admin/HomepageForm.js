@@ -19,6 +19,8 @@ const initialFormState = {
   staticImageTitleSize: "",
   staticImageTextStyle: "",
   sponsors: [],
+  sponsorsColor: "",
+  sponsorsStyle: "",
   featuredItems: [],
   collectionHighlights: []
 };
@@ -92,6 +94,8 @@ class HomepageForm extends Component {
           staticImageTitleSize: homepage.staticImage.titleSize || "40px",
           staticImageTextStyle: homepage.staticImage.textStyle || "uppercase",
           sponsors: homepage.sponsors || [],
+          sponsorsColor: homepage.sponsorsColor || "#75787b",
+          sponsorsStyle: homepage.sponsorsStyle || "solid",
           featuredItems: homepage.featuredItems || [],
           collectionHighlights: homepage.collectionHighlights || []
         };
@@ -145,6 +149,8 @@ class HomepageForm extends Component {
     homePage.staticImage.titleSize = this.state.formState.staticImageTitleSize;
     homePage.staticImage.textStyle = this.state.formState.staticImageTextStyle;
     homePage.sponsors = this.state.formState.sponsors;
+    homePage.sponsorsColor = this.state.formState.sponsorsColor;
+    homePage.sponsorsStyle = this.state.formState.sponsorsStyle;
     homePage.featuredItems = this.state.formState.featuredItems;
     homePage.collectionHighlights = this.state.formState.collectionHighlights;
     const initialHomePage = JSON.parse(this.props.site.homePage);
@@ -273,6 +279,44 @@ class HomepageForm extends Component {
           removeItem={this.removeItem}
           site={this.props.site}
         />
+        <Form>
+          <section>
+            <h3>Style Sponsors Section</h3>
+            <div className="form-group">
+              <label htmlFor="sponsorsColor">Background Color</label>
+              <select
+                className="form-control"
+                id="sponsorsColor"
+                name="sponsorsColor"
+                value={this.state.formState.sponsorsColor}
+                placeholder="Choose a color"
+                onChange={this.updateInputValue}
+              >
+                <option value="#861f41">Maroon</option>
+                <option value="#E87722">Orange</option>
+                <option value="#FFFFFF">White</option>
+                <option value="#75787B">Gray</option>
+                <option value="#D7D2CB">Light Gray</option>
+                <option value="#508590">Teal</option>
+                <option value="#CE0058">Pink</option>
+              </select>
+            </div>
+            <div className="form-group">
+              <label htmlFor="sponsorsStyle">Background Style</label>
+              <select
+                className="form-control"
+                id="sponsorsStyle"
+                name="sponsorsStyle"
+                value={this.state.formState.sponsorsStyle}
+                placeholder="Choose a style"
+                onChange={this.updateInputValue}
+              >
+                <option value="solid">Solid Background</option>
+                <option value="divider">Divider Line</option>
+              </select>
+            </div>
+          </section>
+        </Form>
         <CollectionHighlightsForm
           highlightsList={this.state.formState.collectionHighlights}
           updateItemValue={this.updateItemValue}
@@ -326,6 +370,14 @@ class HomepageForm extends Component {
             <h3>Featured Items</h3>
             <FeaturedItems itemList={this.state.formState.featuredItems} />
             <h3>Sponsors</h3>
+            <p>
+              <span className="key">Background Color:</span>{" "}
+              {this.state.formState.sponsorsColor}
+            </p>
+            <p>
+              <span className="key">Background Style:</span>{" "}
+              {this.state.formState.sponsorsStyle}
+            </p>
             <Sponsors sponsorsList={this.state.formState.sponsors} />
             <h3>Collection Highlights</h3>
             <CollectionHighlights

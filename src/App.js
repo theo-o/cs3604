@@ -58,6 +58,12 @@ class App extends Component {
         homepage.staticImage.titleSize
       );
     }
+    if (homepage.sponsorsColor) {
+      document.documentElement.style.setProperty(
+        "--sponsorsColor",
+        homepage.sponsorsColor.replace(/["]+/g, "")
+      );
+    }
   }
 
   setPaginationClick(event) {
