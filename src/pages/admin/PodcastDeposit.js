@@ -21,6 +21,8 @@ const initialFormState = {
   owner_name: "",
   source_link: "",
   source_text: "",
+  season_number: "",
+  episode_number: "",
   publication_date: "",
   visibility: false,
   manifest_file_characterization: {}
@@ -157,7 +159,10 @@ class PodcastDeposit extends Component {
     let archive = {
       id: id,
       title: this.state.formState.title,
-      identifier: id,
+      identifier:
+        selectedCollection.identifier +
+        this.state.formState.season_number +
+        this.state.formState.episode_number,
       description: this.state.formState.description,
       creator: [selectedCollection.title],
       source: this.sourceLinkFormatted(
@@ -281,19 +286,30 @@ class PodcastDeposit extends Component {
               <span class="validation_msg">Please enter a valid URL below</span>
             )}
             {input({
-              label: "Source Link",
+              label: "Season Number. E.g, 001",
+              name: "season_number",
+              placeholder: "Enter Season number",
+              onChange: this.updateInputValue
+            })}
+            {input({
+              label: "Episode Number. E.g, 001",
+              name: "episode_number",
+              placeholder: "Enter episode number",
+              onChange: this.updateInputValue
+            })}
+            {input({
+              label: "Website Link",
               name: "source_link",
-              placeholder: "Enter source link",
+              placeholder: "Enter Website link",
               onChange: this.updateInputValue,
               onBlur: this.validateURL
             })}
             {input({
-              label: "Source Text",
+              label: "Website Text",
               name: "source_text",
-              placeholder: "Enter source text",
+              placeholder: "Enter Website text",
               onChange: this.updateInputValue
             })}
-
             {input(
               {
                 outerClass: "field",
