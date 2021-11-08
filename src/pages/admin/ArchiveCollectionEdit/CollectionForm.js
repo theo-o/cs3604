@@ -155,7 +155,7 @@ const CollectionForm = React.memo(props => {
       const customKey = `${customKeyPrefix}/${noid}`;
 
       collection.id = id;
-      collection.identifier = id.toString();
+      collection.identifier = noid;
       collection.heirarchy_path = [id.toString()];
       collection.custom_key = customKey;
       collection.collection_category = siteContext.site.groups[0];
