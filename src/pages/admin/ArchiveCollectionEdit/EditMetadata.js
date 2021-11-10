@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { Form, Input } from "semantic-ui-react";
+import { Form, Input, TextArea } from "semantic-ui-react";
 
 const EditMetadata = React.memo(props => {
   let editInput = null;
@@ -10,9 +10,8 @@ const EditMetadata = React.memo(props => {
           {props.values &&
             props.values.map((value, idx) => (
               <li key={`${props.label}_${idx}`}>
-                <Input
+                <TextArea
                   name={`${props.field}_${idx}`}
-                  type="text"
                   onChange={event =>
                     props.onChangeValue(event, props.field, idx)
                   }
@@ -50,8 +49,7 @@ const EditMetadata = React.memo(props => {
     );
   } else {
     editInput = (
-      <Input
-        type="text"
+      <TextArea
         name={`${props.field}`}
         onChange={event => props.onChangeValue(event, props.field)}
         placeholder={`Enter ${props.field} for the record`}

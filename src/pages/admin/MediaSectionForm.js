@@ -138,7 +138,7 @@ class MediaSectionForm extends Component {
               placeholder="Enter Title"
               onChange={this.updateInputValue}
             />
-            <Form.Input
+            <Form.TextArea
               label="Text"
               value={this.state.formState.text}
               name="text"

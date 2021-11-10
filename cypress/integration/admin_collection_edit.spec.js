@@ -43,7 +43,7 @@ describe("admin_collection_edit: Update collection metadata and change it back",
 
   it("Update single-valued metadata", () => {
     cy.get("input[value='edit']").parent().click();
-    cy.get("input[name='title']")
+    cy.get("textarea[name='title']")
       .clear().type("New Title");
     cy.contains("Update Collection Metadata").click();
     cy.contains("Title: New Title").should('be.visible');
@@ -51,7 +51,7 @@ describe("admin_collection_edit: Update collection metadata and change it back",
 
   it("Change single-valued metadata back", () => {
     cy.get("input[value='edit']").parent().click();
-    cy.get("input[name='title']")
+    cy.get("textarea[name='title']")
       .clear().type("Alberta Pfeiffer Architectural Collection, 1929-1976 (Ms1988-017)");
     cy.contains("Update Collection Metadata").click();
     cy.contains("Title: Alberta Pfeiffer Architectural Collection, 1929-1976 (Ms1988-017)").should('be.visible');

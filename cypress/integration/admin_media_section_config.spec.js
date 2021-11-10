@@ -111,7 +111,7 @@ describe("admin_media_section_config: Displays and updates media section configu
       cy.get("input[name='title']", { timeout: 2000 })
         .clear()
         .type(titleText);
-      cy.get("input[name='text']", { timeout: 2000 })
+      cy.get("textarea[name='text']", { timeout: 2000 })
         .clear()
         .type(textText);
       cy.get("button.submit").contains("Update Config").click();

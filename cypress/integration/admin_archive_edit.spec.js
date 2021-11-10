@@ -45,14 +45,14 @@ describe("admin_archive_edit: Update item metadata and change it back", function
     cy.get("input[value='edit']").parent().click();
     cy.get("div[class='required field']")
       .first()
-      .find("input").clear().type("  ");
+      .find("textarea").clear().type("  ");
     cy.contains("Update Item Metadata").click();
     cy.contains("Please fill in the required field!").should('be.visible');
   })
 
   it("Update single-valued metadata", () => {
     cy.get("input[value='edit']").parent().click();
-    cy.get("input[name='title']")
+    cy.get("textarea[name='title']")
       .clear().type("New Title");
     cy.contains("Update Item Metadata").click();
     cy.contains("Title: New Title").should('be.visible');
@@ -62,7 +62,7 @@ describe("admin_archive_edit: Update item metadata and change it back", function
 
   it("Change single-valued metadata back", () => {
     cy.get("input[value='edit']").parent().click();
-    cy.get("input[name='title']")
+    cy.get("textarea[name='title']")
       .clear().type("Unidentified building site, c. 1979. Photographs (Ms1990-025)");
     cy.contains("Update Item Metadata").click();
     cy.contains("Title: Unidentified building site, c. 1979. Photographs (Ms1990-025)").should('be.visible');
@@ -70,7 +70,7 @@ describe("admin_archive_edit: Update item metadata and change it back", function
 
   it("Can delete single-valued metadata", () => {
     cy.get("input[value='edit']").parent().click();
-    cy.get("input[name='description']")
+    cy.get("textarea[name='description']")
       .clear();
     cy.contains("Update Item Metadata").click();
     cy.contains("Description: ").should('not.exist');
@@ -78,7 +78,7 @@ describe("admin_archive_edit: Update item metadata and change it back", function
 
   it("Can add single-valued metadata", () => {
     cy.get("input[value='edit']").parent().click();
-    cy.get("input[name='description']")
+    cy.get("textarea[name='description']")
       .clear().type("Two photographs of an unidentified industrial building site.");
       cy.contains("Update Item Metadata").click();
       cy.contains("Description: Two photographs of an unidentified industrial building site.").should('be.visible');
@@ -86,8 +86,7 @@ describe("admin_archive_edit: Update item metadata and change it back", function
 
   it("Can delete multi-valued metadata", () => {
     cy.get("input[value='edit']").parent().click();
-    cy.get("input[name='belongs_to_1']")
-      .parent()
+    cy.get("textarea[name='belongs_to_1']")
       .siblings(".deleteValue")
       .click();
     cy.contains("Update Item Metadata").click();
@@ -96,11 +95,11 @@ describe("admin_archive_edit: Update item metadata and change it back", function
 
   it("Can add multi-valued metadata", () => {
     cy.get("input[value='edit']").parent().click();
-    cy.get("input[name='belongs_to_0']")
-      .parent().parent().parent()
+    cy.get("textarea[name='belongs_to_0']")
+      .parent().parent()
       .siblings(".small")
       .click();
-    cy.get("input[name='belongs_to_1']").should("have.value", "new belongs_to")
+    cy.get("textarea[name='belongs_to_1']").should("have.value", "new belongs_to")
       .clear()
       .type("Ms1990-025, Box 1, Folder 1");
     cy.contains("Update Item Metadata").click();
