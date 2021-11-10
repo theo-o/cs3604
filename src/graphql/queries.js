@@ -46,6 +46,7 @@ export const searchObjects = /* GraphQL */ `
         ... on Collection {
           collection_category
           collectionmap_id
+          collectionOptions
           explicit_content
           ownerinfo
           collectionmap {
@@ -84,6 +85,7 @@ export const searchObjects = /* GraphQL */ `
             circa
             collection_category
             collectionmap_id
+            collectionOptions
             create_date
             creator
             custom_key
@@ -140,6 +142,7 @@ export const fulltextCollections = /* GraphQL */ `
         circa
         collection_category
         collectionmap_id
+        collectionOptions
         create_date
         creator
         custom_key
@@ -247,6 +250,7 @@ export const fulltextArchives = /* GraphQL */ `
           circa
           collection_category
           collectionmap_id
+          collectionOptions
           create_date
           creator
           custom_key
@@ -297,6 +301,7 @@ export const getCollectionmap = /* GraphQL */ `
         circa
         collection_category
         collectionmap_id
+        collectionOptions
         create_date
         creator
         custom_key
@@ -361,6 +366,7 @@ export const listCollectionmaps = /* GraphQL */ `
           circa
           collection_category
           collectionmap_id
+          collectionOptions
           create_date
           creator
           custom_key
@@ -402,6 +408,7 @@ export const getCollection = /* GraphQL */ `
       circa
       collection_category
       collectionmap_id
+      collectionOptions
       create_date
       creator
       custom_key
@@ -441,6 +448,7 @@ export const getCollection = /* GraphQL */ `
           circa
           collection_category
           collectionmap_id
+          collectionOptions
           create_date
           creator
           custom_key
@@ -533,6 +541,7 @@ export const listCollections = /* GraphQL */ `
         circa
         collection_category
         collectionmap_id
+        collectionOptions
         create_date
         creator
         custom_key
@@ -598,6 +607,7 @@ export const collectionByIdentifier = /* GraphQL */ `
         circa
         collection_category
         collectionmap_id
+        collectionOptions
         create_date
         creator
         custom_key
@@ -663,6 +673,7 @@ export const searchCollections = /* GraphQL */ `
         circa
         collection_category
         collectionmap_id
+        collectionOptions
         create_date
         creator
         custom_key
@@ -757,6 +768,7 @@ export const getArchive = /* GraphQL */ `
         circa
         collection_category
         collectionmap_id
+        collectionOptions
         create_date
         creator
         custom_key
@@ -854,6 +866,7 @@ export const listArchives = /* GraphQL */ `
           circa
           collection_category
           collectionmap_id
+          collectionOptions
           create_date
           creator
           custom_key
@@ -949,6 +962,7 @@ export const archiveByIdentifier = /* GraphQL */ `
           circa
           collection_category
           collectionmap_id
+          collectionOptions
           create_date
           creator
           custom_key
@@ -1044,6 +1058,7 @@ export const searchArchives = /* GraphQL */ `
           circa
           collection_category
           collectionmap_id
+          collectionOptions
           create_date
           creator
           custom_key

@@ -45,6 +45,7 @@ type Collection implements Object
   circa: String
   collection_category: String!
   collectionmap_id: String
+  collectionOptions: AWSJSON
   create_date: String
   creator: [String!]
   custom_key: String

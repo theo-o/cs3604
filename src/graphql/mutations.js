@@ -17,6 +17,7 @@ export const createCollectionmap = /* GraphQL */ `
         circa
         collection_category
         collectionmap_id
+        collectionOptions
         create_date
         creator
         custom_key
@@ -76,6 +77,7 @@ export const updateCollectionmap = /* GraphQL */ `
         circa
         collection_category
         collectionmap_id
+        collectionOptions
         create_date
         creator
         custom_key
@@ -135,6 +137,7 @@ export const deleteCollectionmap = /* GraphQL */ `
         circa
         collection_category
         collectionmap_id
+        collectionOptions
         create_date
         creator
         custom_key
@@ -186,6 +189,7 @@ export const createCollection = /* GraphQL */ `
       circa
       collection_category
       collectionmap_id
+      collectionOptions
       create_date
       creator
       custom_key
@@ -225,6 +229,7 @@ export const createCollection = /* GraphQL */ `
           circa
           collection_category
           collectionmap_id
+          collectionOptions
           create_date
           creator
           custom_key
@@ -312,6 +317,7 @@ export const updateCollection = /* GraphQL */ `
       circa
       collection_category
       collectionmap_id
+      collectionOptions
       create_date
       creator
       custom_key
@@ -351,6 +357,7 @@ export const updateCollection = /* GraphQL */ `
           circa
           collection_category
           collectionmap_id
+          collectionOptions
           create_date
           creator
           custom_key
@@ -438,6 +445,7 @@ export const deleteCollection = /* GraphQL */ `
       circa
       collection_category
       collectionmap_id
+      collectionOptions
       create_date
       creator
       custom_key
@@ -477,6 +485,7 @@ export const deleteCollection = /* GraphQL */ `
           circa
           collection_category
           collectionmap_id
+          collectionOptions
           create_date
           creator
           custom_key
@@ -605,6 +614,7 @@ export const createArchive = /* GraphQL */ `
         circa
         collection_category
         collectionmap_id
+        collectionOptions
         create_date
         creator
         custom_key
@@ -697,6 +707,7 @@ export const updateArchive = /* GraphQL */ `
         circa
         collection_category
         collectionmap_id
+        collectionOptions
         create_date
         creator
         custom_key
@@ -789,6 +800,7 @@ export const deleteArchive = /* GraphQL */ `
         circa
         collection_category
         collectionmap_id
+        collectionOptions
         create_date
         creator
         custom_key

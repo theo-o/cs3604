@@ -19,7 +19,6 @@
       "Region": "us-east-1",
       "DeploymentBucketName": "amplify-iawav2-preprod-113011-deployment",
       "UnauthRoleName": "amplify-iawav2-preprod-113011-unauthRole",
-
       "StackName": "amplify-iawav2-preprod-113011",
       "StackId": "arn:aws:cloudformation:us-east-1:226388486048:stack/amplify-iawav2-preprod-113011/9ecde220-3671-11ec-b2e8-0e6434153721",
       "AmplifyAppId": "dtymh07qpzdn7"
@@ -59,7 +58,7 @@
         "iawav2658176f3PostConfirmation": {
           "GROUP": "public",
           "deploymentBucketName": "amplify-iawav2-newdev-125018-deployment",
-          "s3Key": "amplify-builds/iawav2658176f3PostConfirmation-3545625574616b454472-build.zip"
+          "s3Key": "amplify-builds/iawav2658176f3PostConfirmation-5577444947435030664f-build.zip"
         }
       }
     }
