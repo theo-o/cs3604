@@ -60,6 +60,13 @@
           "deploymentBucketName": "amplify-iawav2-newdev-125018-deployment",
           "s3Key": "amplify-builds/iawav2658176f3PostConfirmation-5577444947435030664f-build.zip"
         }
+      },
+      "api": {
+        "collectionarchives" : {
+          "ElasticSearchInstanceCount": 1,
+          "ElasticSearchInstanceType": "t2.medium.elasticsearch",
+          "ElasticSearchEBSVolumeGB": 20
+        }
       }
     }
   }
