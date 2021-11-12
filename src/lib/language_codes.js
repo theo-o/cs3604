@@ -227,6 +227,8 @@ export const language_codes = {
     nl: "Dutch",
     dz: "Dzongkha",
     en: "English",
+    english: "English",
+    English: "English",
     eo: "Esperanto",
     et: "Estonian",
     ee: "Ewe",
