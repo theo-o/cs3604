@@ -76,8 +76,12 @@ type Collection implements Object
 }
 
 type Collectionmap
-  @model
-  {
+  @model@auth(rules: [
+    { allow: public, operations: [read] },
+    { allow: groups, groups: ["Admin", "Editor"] },
+    { allow: groups, groupsField: "collectionmap_category" }
+  ]){
+    collectionmap_category: String!
     collection_id: String!
     create_date: String
     id: ID!
@@ -465,3 +469,4 @@ input SearchableStringFilterInput {
   wildcard: String
   regexp: String
 }
+

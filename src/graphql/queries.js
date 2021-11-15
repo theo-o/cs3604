@@ -49,7 +49,10 @@ export const searchObjects = /* GraphQL */ `
           collectionOptions
           explicit_content
           ownerinfo
+          createdAt
+          updatedAt
           collectionmap {
+            collectionmap_category
             collection_id
             create_date
             id
@@ -58,8 +61,6 @@ export const searchObjects = /* GraphQL */ `
             createdAt
             updatedAt
           }
-          createdAt
-          updatedAt
           archives {
             nextToken
           }
@@ -168,7 +169,10 @@ export const fulltextCollections = /* GraphQL */ `
         thumbnail_path
         title
         visibility
+        createdAt
+        updatedAt
         collectionmap {
+          collectionmap_category
           collection_id
           create_date
           id
@@ -177,8 +181,6 @@ export const fulltextCollections = /* GraphQL */ `
           createdAt
           updatedAt
         }
-        createdAt
-        updatedAt
         archives {
           nextToken
         }
@@ -285,121 +287,6 @@ export const fulltextArchives = /* GraphQL */ `
     }
   }
 `;
-export const getCollectionmap = /* GraphQL */ `
-  query GetCollectionmap($id: ID!) {
-    getCollectionmap(id: $id) {
-      collection_id
-      create_date
-      id
-      map_object
-      modified_date
-      createdAt
-      updatedAt
-      collection {
-        belongs_to
-        bibliographic_citation
-        circa
-        collection_category
-        collectionmap_id
-        collectionOptions
-        create_date
-        creator
-        custom_key
-        description
-        display_date
-        end_date
-        explicit_content
-        heirarchy_path
-        id
-        identifier
-        language
-        location
-        modified_date
-        ownerinfo
-        parent_collection
-        provenance
-        related_url
-        rights_holder
-        rights_statement
-        source
-        start_date
-        subject
-        thumbnail_path
-        title
-        visibility
-        collectionmap {
-          collection_id
-          create_date
-          id
-          map_object
-          modified_date
-          createdAt
-          updatedAt
-        }
-        createdAt
-        updatedAt
-        archives {
-          nextToken
-        }
-      }
-    }
-  }
-`;
-export const listCollectionmaps = /* GraphQL */ `
-  query ListCollectionmaps(
-    $filter: ModelCollectionmapFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listCollectionmaps(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        collection_id
-        create_date
-        id
-        map_object
-        modified_date
-        createdAt
-        updatedAt
-        collection {
-          belongs_to
-          bibliographic_citation
-          circa
-          collection_category
-          collectionmap_id
-          collectionOptions
-          create_date
-          creator
-          custom_key
-          description
-          display_date
-          end_date
-          explicit_content
-          heirarchy_path
-          id
-          identifier
-          language
-          location
-          modified_date
-          ownerinfo
-          parent_collection
-          provenance
-          related_url
-          rights_holder
-          rights_statement
-          source
-          start_date
-          subject
-          thumbnail_path
-          title
-          visibility
-          createdAt
-          updatedAt
-        }
-      }
-      nextToken
-    }
-  }
-`;
 export const getCollection = /* GraphQL */ `
   query GetCollection($id: ID!) {
     getCollection(id: $id) {
@@ -434,7 +321,10 @@ export const getCollection = /* GraphQL */ `
       thumbnail_path
       title
       visibility
+      createdAt
+      updatedAt
       collectionmap {
+        collectionmap_category
         collection_id
         create_date
         id
@@ -478,8 +368,6 @@ export const getCollection = /* GraphQL */ `
           updatedAt
         }
       }
-      createdAt
-      updatedAt
       archives {
         items {
           belongs_to
@@ -567,7 +455,10 @@ export const listCollections = /* GraphQL */ `
         thumbnail_path
         title
         visibility
+        createdAt
+        updatedAt
         collectionmap {
+          collectionmap_category
           collection_id
           create_date
           id
@@ -576,8 +467,6 @@ export const listCollections = /* GraphQL */ `
           createdAt
           updatedAt
         }
-        createdAt
-        updatedAt
         archives {
           nextToken
         }
@@ -633,7 +522,10 @@ export const collectionByIdentifier = /* GraphQL */ `
         thumbnail_path
         title
         visibility
+        createdAt
+        updatedAt
         collectionmap {
+          collectionmap_category
           collection_id
           create_date
           id
@@ -642,8 +534,6 @@ export const collectionByIdentifier = /* GraphQL */ `
           createdAt
           updatedAt
         }
-        createdAt
-        updatedAt
         archives {
           nextToken
         }
@@ -699,7 +589,10 @@ export const searchCollections = /* GraphQL */ `
         thumbnail_path
         title
         visibility
+        createdAt
+        updatedAt
         collectionmap {
+          collectionmap_category
           collection_id
           create_date
           id
@@ -708,14 +601,130 @@ export const searchCollections = /* GraphQL */ `
           createdAt
           updatedAt
         }
-        createdAt
-        updatedAt
         archives {
           nextToken
         }
       }
       nextToken
       total
+    }
+  }
+`;
+export const getCollectionmap = /* GraphQL */ `
+  query GetCollectionmap($id: ID!) {
+    getCollectionmap(id: $id) {
+      collectionmap_category
+      collection_id
+      create_date
+      id
+      map_object
+      modified_date
+      createdAt
+      updatedAt
+      collection {
+        belongs_to
+        bibliographic_citation
+        circa
+        collection_category
+        collectionmap_id
+        collectionOptions
+        create_date
+        creator
+        custom_key
+        description
+        display_date
+        end_date
+        explicit_content
+        heirarchy_path
+        id
+        identifier
+        language
+        location
+        modified_date
+        ownerinfo
+        parent_collection
+        provenance
+        related_url
+        rights_holder
+        rights_statement
+        source
+        start_date
+        subject
+        thumbnail_path
+        title
+        visibility
+        createdAt
+        updatedAt
+        collectionmap {
+          collectionmap_category
+          collection_id
+          create_date
+          id
+          map_object
+          modified_date
+          createdAt
+          updatedAt
+        }
+        archives {
+          nextToken
+        }
+      }
+    }
+  }
+`;
+export const listCollectionmaps = /* GraphQL */ `
+  query ListCollectionmaps(
+    $filter: ModelCollectionmapFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listCollectionmaps(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        collectionmap_category
+        collection_id
+        create_date
+        id
+        map_object
+        modified_date
+        createdAt
+        updatedAt
+        collection {
+          belongs_to
+          bibliographic_citation
+          circa
+          collection_category
+          collectionmap_id
+          collectionOptions
+          create_date
+          creator
+          custom_key
+          description
+          display_date
+          end_date
+          explicit_content
+          heirarchy_path
+          id
+          identifier
+          language
+          location
+          modified_date
+          ownerinfo
+          parent_collection
+          provenance
+          related_url
+          rights_holder
+          rights_statement
+          source
+          start_date
+          subject
+          thumbnail_path
+          title
+          visibility
+          createdAt
+          updatedAt
+        }
+      }
+      nextToken
     }
   }
 `;
@@ -794,7 +803,10 @@ export const getArchive = /* GraphQL */ `
         thumbnail_path
         title
         visibility
+        createdAt
+        updatedAt
         collectionmap {
+          collectionmap_category
           collection_id
           create_date
           id
@@ -803,8 +815,6 @@ export const getArchive = /* GraphQL */ `
           createdAt
           updatedAt
         }
-        createdAt
-        updatedAt
         archives {
           nextToken
         }
