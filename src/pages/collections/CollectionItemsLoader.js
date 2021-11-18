@@ -27,6 +27,9 @@ const GetCollectionItems = `query SearchCollectionItems(
       thumbnail_path
       custom_key
       identifier
+      description
+      tags
+      creator
     }
     total
     nextToken
@@ -120,24 +123,26 @@ class CollectionItemsLoader extends Component {
     if (this.state.items !== null && this.state.total > 0) {
       return (
         <div
-          className="collection-items-list-wrapper"
+          className={`collection-items-list-wrapper ${this.props.sectionSize}`}
           role="region"
           aria-labelledby="collection-items-section-header"
         >
-          <div className="mb-3">
+          <div className="row justify-content-between mb-3">
             <h2
-              className="collection-items-header"
+              className="collection-items-header col-auto"
               id="collection-items-section-header"
             >
               Items in Collection ({this.state.total})
             </h2>
-          </div>
-          <div className="form-group">
-            <ResultsNumberDropdown setLimit={this.setLimit.bind(this)} />
+            <div className="col-auto">
+              <ResultsNumberDropdown setLimit={this.setLimit.bind(this)} />
+            </div>
           </div>
           <CollectionItemsList
             items={this.state.items}
             collection={this.props.collection}
+            view={this.props.view}
+            site={this.props.site}
           />
           <div aria-live="polite">
             <Pagination
