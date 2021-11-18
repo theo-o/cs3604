@@ -2,7 +2,8 @@ import React, { useEffect, useState, useContext } from "react";
 import { Form } from "semantic-ui-react";
 import ViewMetadata from "./ViewMetadata";
 import EditMetadata from "./EditMetadata";
-import { API, Storage } from "aws-amplify";
+import { API, graphqlOperation, Storage } from "aws-amplify";
+import * as queries from "../../../graphql/queries";
 import { getCollectionByIdentifier, mintNOID } from "../../../lib/fetchTools";
 import { addedDiff, updatedDiff } from "deep-object-diff";
 import * as mutations from "../../../graphql/mutations";
@@ -43,20 +44,24 @@ const editableFields = singleFields.concat(multiFields).concat(booleanFields);
 const CollectionForm = React.memo(props => {
   const { identifier, newCollection } = props;
   const [error, setError] = useState(null);
+  const [fullCollection, setFullCollection] = useState(null);
   const [oldCollection, setOldCollection] = useState(null);
   const [collection, setCollection] = useState(null);
   const [collectionId, setCollectionId] = useState(null);
   const [viewState, setViewState] = useState("view");
   const [validForm, setValidForm] = useState(true);
+  const [topLevelCollection, setTopLevelCollection] = useState(false);
 
   const siteContext = useContext(SiteContext);
 
   useEffect(() => {
     async function loadItem() {
+      let item;
       let editableCollection = {};
       let item_id = null;
       try {
-        const item = await getCollectionByIdentifier(identifier);
+        item = await getCollectionByIdentifier(identifier);
+        setFullCollection(item);
         setError(null);
 
         const defaultValue = key => {
@@ -85,6 +90,7 @@ const CollectionForm = React.memo(props => {
       setOldCollection(editableCollection);
       setCollection(editableCollection);
       setCollectionId(item_id);
+      setTopLevelCollection(!item.parent_collection);
     }
 
     function setNewCollection() {
@@ -120,6 +126,37 @@ const CollectionForm = React.memo(props => {
 
   const viewChangeHandler = (e, { value }) => {
     setViewState(value);
+  };
+
+  const titleChanged = newTitle => {
+    let changed = true;
+    if (newCollection) {
+      changed = false;
+    } else {
+      if (fullCollection) {
+        changed = newTitle !== fullCollection.title;
+      } else {
+        changed = false;
+      }
+    }
+    return changed;
+  };
+
+  const createCollectionMap = collection => {
+    const mapId = uuidv4();
+    const customKeyPrefix = "ark:/53696/";
+    const mapObject = {
+      id: collection.id,
+      name: collection.title,
+      custom_key: collection.custom_key.replace(customKeyPrefix, "")
+    };
+
+    return {
+      id: mapId,
+      collection_id: collection.id,
+      collectionmap_category: collection.collection_category,
+      map_object: JSON.stringify(mapObject)
+    };
   };
 
   const submitCollectionHandler = async event => {
@@ -171,6 +208,15 @@ const CollectionForm = React.memo(props => {
     let mutation = mutations.updateCollection;
     if (newCollection) {
       mutation = mutations.createCollection;
+
+      const collectionMap = createCollectionMap(collection);
+
+      await API.graphql({
+        query: mutations.createCollectionmap,
+        variables: { input: collectionMap },
+        authMode: "AMAZON_COGNITO_USER_POOLS"
+      });
+      collectionInfo.collectionmap_id = collectionMap.id;
     }
 
     await API.graphql({
@@ -178,6 +224,38 @@ const CollectionForm = React.memo(props => {
       variables: { input: collectionInfo },
       authMode: "AMAZON_COGNITO_USER_POOLS"
     });
+
+    const newTitle = titleChanged(collection.title);
+    if (newTitle) {
+      const response = await API.graphql(
+        graphqlOperation(queries.getCollectionmap, {
+          id: fullCollection.collectionmap_id
+        })
+      );
+      let updatedMap = null;
+      let map_object_string = null;
+      let collectionmap_object = null;
+      try {
+        updatedMap = response.data.getCollectionmap;
+        map_object_string = updatedMap.map_object;
+        collectionmap_object = JSON.parse(map_object_string);
+        collectionmap_object.name = collection.title;
+        updatedMap.map_object = JSON.stringify(collectionmap_object);
+        delete updatedMap.createdAt;
+        delete updatedMap.updatedAt;
+        delete updatedMap.collection;
+      } catch (error) {
+        console.error("error fetching collectionmap");
+      }
+
+      if (updatedMap && collectionmap_object) {
+        await API.graphql({
+          query: mutations.updateCollectionmap,
+          variables: { input: updatedMap },
+          authMode: "AMAZON_COGNITO_USER_POOLS"
+        });
+      }
+    }
 
     const addedData = addedDiff(oldCollection, collection);
     const newData = updatedDiff(oldCollection, collection);
@@ -311,23 +389,25 @@ const CollectionForm = React.memo(props => {
         />
       );
     } else if (attribute !== "ownerinfo") {
-      element = (
-        <EditMetadata
-          key={`edit_${index}`}
-          required={isRequiredField(attribute)}
-          field={attribute}
-          label={
-            attribute[0].toUpperCase() +
-            attribute.substring(1).replace("_", " ")
-          }
-          isMulti={multiFields.includes(attribute)}
-          isBoolean={booleanFields.includes(attribute)}
-          values={collection[attribute]}
-          onChangeValue={changeValueHandler}
-          onRemoveValue={deleteMetadataHandler}
-          onAddValue={addMetadataHandler}
-        />
-      );
+      if (attribute !== "title" || topLevelCollection || newCollection) {
+        element = (
+          <EditMetadata
+            key={`edit_${index}`}
+            required={isRequiredField(attribute)}
+            field={attribute}
+            label={
+              attribute[0].toUpperCase() +
+              attribute.substring(1).replace("_", " ")
+            }
+            isMulti={multiFields.includes(attribute)}
+            isBoolean={booleanFields.includes(attribute)}
+            values={collection[attribute]}
+            onChangeValue={changeValueHandler}
+            onRemoveValue={deleteMetadataHandler}
+            onAddValue={addMetadataHandler}
+          />
+        );
+      }
     }
     return element;
   };
