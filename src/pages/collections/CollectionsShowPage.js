@@ -4,6 +4,7 @@ import { searchCollections } from "../../graphql/queries";
 import SiteTitle from "../../components/SiteTitle";
 import CollectionMetadataSection from "../../components/CollectionMetadataSection";
 import CollectionItemsLoader from "./CollectionItemsLoader";
+import CollectionsListView from "./CollectionsListView";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import CollectionTopContent from "../../components/CollectionTopContent";
 import { addNewlineInDesc } from "../../lib/MetadataRenderer";
@@ -219,18 +220,22 @@ class CollectionsShowPage extends Component {
         parent={this}
         collection={this.state.collection}
         updateCollectionArchives={this.updateCollectionArchives.bind(this)}
+        sectionSize="no-size"
       />
     );
     const metadata = (
-      <CollectionMetadataSection
-        key="collection-metadata-section"
-        site={this.props.site}
-        languages={this.state.languages}
-        collection={this.state.collection}
-        metadataTitle={this.metadataTitle()}
-        subCollectionDescription={this.subCollectionDescription()}
-        collectionCustomKey={this.state.collectionCustomKey}
-      />
+      <div className="mid-content-row row">
+        <CollectionMetadataSection
+          key="collection-metadata-section"
+          site={this.props.site}
+          languages={this.state.languages}
+          collection={this.state.collection}
+          metadataTitle={this.metadataTitle()}
+          subCollectionDescription={this.subCollectionDescription()}
+          collectionCustomKey={this.state.collectionCustomKey}
+          sectionsSizes={["col-12 col-lg-8", "col-12 col-lg-4"]}
+        />
+      </div>
     );
 
     const blocks = [];
@@ -262,6 +267,10 @@ class CollectionsShowPage extends Component {
   }
 
   render() {
+    const options = JSON.parse(this.props.site.siteOptions);
+    const viewOption = options.collectionPageSettings
+      ? options.collectionPageSettings.viewOption
+      : null;
     if (this.state.languages && this.state.collection) {
       return (
         <div>
@@ -287,7 +296,23 @@ class CollectionsShowPage extends Component {
             TRUNCATION_LENGTH={TRUNCATION_LENGTH}
             creator={this.state.creator}
           />
-          {this.collectionMainContent()}
+          {viewOption === "listView" ? (
+            <CollectionsListView
+              site={this.props.site}
+              languages={this.state.languages}
+              collection={this.state.collection}
+              metadataTitle={this.metadataTitle()}
+              subCollectionDescription={this.subCollectionDescription()}
+              collectionCustomKey={this.state.collectionCustomKey}
+              parent={this}
+              updateCollectionArchives={this.updateCollectionArchives.bind(
+                this
+              )}
+              view={viewOption}
+            />
+          ) : (
+            this.collectionMainContent()
+          )}
         </div>
       );
     } else {

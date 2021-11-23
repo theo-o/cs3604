@@ -73,10 +73,14 @@ span.creator:after {
   display: none;
 }
 
-.mid-content-row {
-  margin: 40px 0;
+.mid-content-row.row {
+  margin: 40px 0px;
   padding: 20px 10px;
   background-color: var(--light-gray);
+}
+.mid-content-row.list-view {
+  background-color: white;
+  padding: 0px;
 }
 
 .mid-content-row a,
@@ -95,13 +99,23 @@ span.creator:after {
   border-bottom: 1px solid var(--dark-gray);
   border-right: none;
 }
+.mid-content-row.list-view .details-section {
+  background-color: var(--light-gray);
+  padding: 20px;
+}
+
 @media only screen and (min-width: 992px) {
   .mid-content-row {
     padding: 20px;
   }
+
   .mid-content-row .details-section {
     border-right: 1px solid var(--dark-gray);
     border-bottom: none;
+  }
+  .mid-content-row.list-view .details-section {
+    border-bottom: 1px solid var(--dark-gray);
+    border-right: none;
   }
 }
 
@@ -133,6 +147,9 @@ span.creator:after {
 .mid-content-row div.details-section-content-grid {
   margin-bottom: 15px;
 }
+.mid-content-row.list-view div.details-section-content-grid {
+  margin-bottom: 0px;
+}
 
 @media only screen and (min-width: 992px) {
   .mid-content-row .details-section-content-grid {
@@ -159,6 +176,10 @@ span.creator:after {
 .mid-content-row div.subcollections-section {
   padding-left: 20px;
   line-height: 1.2em;
+}
+.mid-content-row.list-view div.subcollections-section {
+  padding: 20px;
+  background-color: var(--light-gray);
 }
 
 div.collection-items-grid {
@@ -215,18 +236,23 @@ div.collection-item .item-image img {
   font-weight: 400;
 }
 
-div.collection-items-list-wrapper {
+.mid-content-row div.collection-items-list-wrapper {
   margin-top: 30px;
+}
+.mid-content-row.list-view div.collection-items-list-wrapper {
+  margin-top: 0px;
 }
 .collection-items-list-wrapper h2.collection-items-header {
   font-family: "gineso-condensed", sans-serif;
   font-size: 1.3125rem;
 }
 
-.collection-items-list-wrapper h3.subcollection-header {
+.collection-items-list-wrapper h2.subcollection-header {
   font-family: "gineso-condensed", sans-serif;
   font-size: 1.25rem;
+  font-weight: 400;
 }
+
 .collection-items-list-wrapper .results-text {
   font-family: "gineso-condensed", sans-serif;
 }
@@ -234,4 +260,12 @@ div.collection-items-list-wrapper {
 .collection-items-list-wrapper .subCollectionList a:visited {
   font-family: "gineso-condensed", sans-serif;
   font-size: 1rem;
+}
+
+@media only screen and (min-width: 768px) {
+  .collection-items-list-wrapper .collection-items-list div.collection-img img {
+    width: 150px;
+    height: 108px;
+    object-fit: cover;
+  }
 }

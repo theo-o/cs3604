@@ -158,12 +158,12 @@ class SubCollectionsLoader extends Component {
       return_value = (
         <div className="collection-items-list-wrapper">
           <div className="mb-3">
-            <h3
+            <h2
               className="subcollection-header"
               id="collection-subcollections-section"
             >
               Collection Organization
-            </h3>
+            </h2>
           </div>
 
           <TreeView

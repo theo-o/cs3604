@@ -111,53 +111,51 @@ class CollectionMetadataSection extends Component {
   render() {
     if (this.props.languages && this.props.collection) {
       return (
-        <div className="container">
-          <div className="mid-content-row row">
-            <div
-              className="col-12 col-lg-8 details-section"
-              role="region"
-              aria-labelledby="collection-details-section-header"
+        <>
+          <div
+            className={`${this.props.sectionsSizes[0]} details-section`}
+            role="region"
+            aria-labelledby="collection-details-section-header"
+          >
+            <h2
+              className="details-section-header"
+              id="collection-details-section-header"
             >
-              <h2
-                className="details-section-header"
-                id="collection-details-section-header"
-              >
-                {this.props.metadataTitle}
-              </h2>
+              {this.props.metadataTitle}
+            </h2>
 
-              <div className="details-section-content-grid">
-                {this.props.subCollectionDescription}
-                <table aria-label="Collection Metadata">
-                  <tbody>
-                    <RenderItemsDetailed
-                      keyArray={
-                        JSON.parse(this.props.site.displayedAttributes)[
-                          "collection"
-                        ]
-                      }
-                      item={this.props.collection}
-                      languages={this.props.languages}
-                      collectionCustomKey={this.props.collectionCustomKey}
-                      type="table"
-                      site={this.props.site}
-                    />
-                  </tbody>
-                </table>
-              </div>
-            </div>
-            <div
-              className="col-12 col-lg-4 subcollections-section"
-              role="region"
-              aria-labelledby="collection-subcollections-section"
-            >
-              <SubCollectionsLoader
-                parent={this}
-                collection={this.props.collection}
-                updateSubCollections={this.updateSubCollections}
-              />
+            <div className="details-section-content-grid">
+              {this.props.subCollectionDescription}
+              <table aria-label="Collection Metadata">
+                <tbody>
+                  <RenderItemsDetailed
+                    keyArray={
+                      JSON.parse(this.props.site.displayedAttributes)[
+                        "collection"
+                      ]
+                    }
+                    item={this.props.collection}
+                    languages={this.props.languages}
+                    collectionCustomKey={this.props.collectionCustomKey}
+                    type="table"
+                    site={this.props.site}
+                  />
+                </tbody>
+              </table>
             </div>
           </div>
-        </div>
+          <div
+            className={`${this.props.sectionsSizes[1]} subcollections-section`}
+            role="region"
+            aria-labelledby="collection-subcollections-section"
+          >
+            <SubCollectionsLoader
+              parent={this}
+              collection={this.props.collection}
+              updateSubCollections={this.updateSubCollections}
+            />
+          </div>
+        </>
       );
     } else {
       return null;
