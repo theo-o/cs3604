@@ -17,7 +17,8 @@ class SubCollectionsLoader extends Component {
       page: 0,
       totalPages: 1,
       mapID: null,
-      collectionMap: null
+      collectionMap: null,
+      expanded: null
     };
   }
 
@@ -39,12 +40,18 @@ class SubCollectionsLoader extends Component {
       if (map) {
         const mapObj = JSON.parse(map);
         const sorted = this.sortMap(mapObj);
-        this.setState({ collectionMap: sorted }, function() {
-          this.updateParentSubcollections(
-            this.props.collection,
-            sorted.children
-          );
-        });
+        this.setState(
+          {
+            collectionMap: sorted,
+            expanded: this.props.collection.heirarchy_path
+          },
+          function() {
+            this.updateParentSubcollections(
+              this.props.collection,
+              sorted.children
+            );
+          }
+        );
       }
     }
   }
@@ -105,6 +112,10 @@ class SubCollectionsLoader extends Component {
       subCollections
     );
   }
+
+  handleToggle = (event, nodeIds) => {
+    this.setState({ expanded: nodeIds });
+  };
 
   componentDidUpdate(prevProps) {
     if (this.props.collection.id !== prevProps.collection.id) {
@@ -169,8 +180,9 @@ class SubCollectionsLoader extends Component {
           <TreeView
             defaultCollapseIcon={<MinusSquare />}
             defaultExpandIcon={<PlusSquare />}
-            expanded={this.props.collection.heirarchy_path}
+            expanded={this.state.expanded}
             selected={[this.props.collection.id]}
+            onNodeToggle={this.handleToggle}
           >
             {renderTree(this.state.collectionMap)}
           </TreeView>
