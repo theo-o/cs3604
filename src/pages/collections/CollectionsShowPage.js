@@ -224,7 +224,7 @@ class CollectionsShowPage extends Component {
       />
     );
     const metadata = (
-      <div className="mid-content-row row">
+      <div className="mid-content-row row" key="collection-metadata-row">
         <CollectionMetadataSection
           key="collection-metadata-section"
           site={this.props.site}
