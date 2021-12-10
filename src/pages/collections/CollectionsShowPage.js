@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Helmet } from "react-helmet";
 import { API, graphqlOperation } from "aws-amplify";
 import { searchCollections } from "../../graphql/queries";
 import SiteTitle from "../../components/SiteTitle";
@@ -7,6 +8,7 @@ import CollectionItemsLoader from "./CollectionItemsLoader";
 import CollectionsListView from "./CollectionsListView";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import CollectionTopContent from "../../components/CollectionTopContent";
+import { buildRichSchema } from "../../lib/richSchemaTools";
 import { addNewlineInDesc } from "../../lib/MetadataRenderer";
 import {
   fetchLanguages,
@@ -31,6 +33,7 @@ class CollectionsShowPage extends Component {
       thumbnail_path: "",
       creator: "",
       updatedAt: "",
+      info: {},
       titleList: []
     };
     this.onMoreLessClick = this.onMoreLessClick.bind(this);
@@ -57,6 +60,8 @@ class CollectionsShowPage extends Component {
         collection
       );
       const collectionCustomKey = topLevelParentCollection.custom_key;
+      const collectionSchema = this.buildCollectionSchema(collection);
+
       this.setState(
         { collection: collection, collectionCustomKey: collectionCustomKey },
         function() {
@@ -70,9 +75,24 @@ class CollectionsShowPage extends Component {
           this.setTopLevelAttributes(topLevelAttributes);
         }
       );
+
+      this.setState({
+        info: collectionSchema
+      });
     } catch (error) {
       console.error(`Error fetching collection: ${customKey}`);
     }
+  }
+
+  buildCollectionSchema(item) {
+    let info = {};
+    info["description"] = item.description;
+    info["title"] = item.title;
+    info["creator"] = item.creator;
+    info["thumbnail_path"] = item.thumbnail_path;
+    info["url"] = window.location.href;
+
+    return info;
   }
 
   handleZeroItems(collection) {
@@ -267,6 +287,14 @@ class CollectionsShowPage extends Component {
     this.getCollection(this.props.customKey);
   }
 
+  findCollectionType() {
+    if (this.props.site.siteId === "podcasts") {
+      return "PodcastSeries";
+    } else {
+      return "Unknown";
+    }
+  }
+
   render() {
     const options = JSON.parse(this.props.site.siteOptions);
     const viewOption = options.collectionPageSettings
@@ -279,6 +307,18 @@ class CollectionsShowPage extends Component {
             siteTitle={this.props.site.siteTitle}
             pageTitle={this.state.collection.title}
           />
+          <Helmet
+            script={[
+              { type: "text/javascript" },
+              {
+                type: "application/ld+json",
+                innerHTML: buildRichSchema(
+                  this.findCollectionType(),
+                  this.state.info
+                )
+              }
+            ]}
+          ></Helmet>
           <div className="breadcrumbs-wrapper">
             <nav aria-label="Collection breadcrumbs">
               <Breadcrumbs
