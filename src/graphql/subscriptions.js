@@ -84,6 +84,7 @@ export const onCreateCollection = /* GraphQL */ `
       }
       archives {
         items {
+          archiveOptions
           belongs_to
           bibliographic_citation
           circa
@@ -213,6 +214,7 @@ export const onUpdateCollection = /* GraphQL */ `
       }
       archives {
         items {
+          archiveOptions
           belongs_to
           bibliographic_citation
           circa
@@ -342,6 +344,7 @@ export const onDeleteCollection = /* GraphQL */ `
       }
       archives {
         items {
+          archiveOptions
           belongs_to
           bibliographic_citation
           circa
@@ -577,6 +580,7 @@ export const onDeleteCollectionmap = /* GraphQL */ `
 export const onCreateArchive = /* GraphQL */ `
   subscription OnCreateArchive {
     onCreateArchive {
+      archiveOptions
       belongs_to
       bibliographic_citation
       circa
@@ -671,6 +675,7 @@ export const onCreateArchive = /* GraphQL */ `
 export const onUpdateArchive = /* GraphQL */ `
   subscription OnUpdateArchive {
     onUpdateArchive {
+      archiveOptions
       belongs_to
       bibliographic_citation
       circa
@@ -765,6 +770,7 @@ export const onUpdateArchive = /* GraphQL */ `
 export const onDeleteArchive = /* GraphQL */ `
   subscription OnDeleteArchive {
     onDeleteArchive {
+      archiveOptions
       belongs_to
       bibliographic_citation
       circa

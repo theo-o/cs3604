@@ -66,6 +66,7 @@ export const searchObjects = /* GraphQL */ `
           }
         }
         ... on Archive {
+          archiveOptions
           contributor
           explicit
           extent
@@ -206,6 +207,7 @@ export const fulltextArchives = /* GraphQL */ `
       nextToken: $nextToken
     ) {
       items {
+        archiveOptions
         belongs_to
         bibliographic_citation
         circa
@@ -370,6 +372,7 @@ export const getCollection = /* GraphQL */ `
       }
       archives {
         items {
+          archiveOptions
           belongs_to
           bibliographic_citation
           circa
@@ -731,6 +734,7 @@ export const listCollectionmaps = /* GraphQL */ `
 export const getArchive = /* GraphQL */ `
   query GetArchive($id: ID!) {
     getArchive(id: $id) {
+      archiveOptions
       belongs_to
       bibliographic_citation
       circa
@@ -830,6 +834,7 @@ export const listArchives = /* GraphQL */ `
   ) {
     listArchives(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
+        archiveOptions
         belongs_to
         bibliographic_citation
         circa
@@ -926,6 +931,7 @@ export const archiveByIdentifier = /* GraphQL */ `
       nextToken: $nextToken
     ) {
       items {
+        archiveOptions
         belongs_to
         bibliographic_citation
         circa
@@ -1022,6 +1028,7 @@ export const searchArchives = /* GraphQL */ `
       from: $from
     ) {
       items {
+        archiveOptions
         belongs_to
         bibliographic_citation
         circa

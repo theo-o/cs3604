@@ -84,6 +84,7 @@ export const createCollection = /* GraphQL */ `
       }
       archives {
         items {
+          archiveOptions
           belongs_to
           bibliographic_citation
           circa
@@ -213,6 +214,7 @@ export const updateCollection = /* GraphQL */ `
       }
       archives {
         items {
+          archiveOptions
           belongs_to
           bibliographic_citation
           circa
@@ -342,6 +344,7 @@ export const deleteCollection = /* GraphQL */ `
       }
       archives {
         items {
+          archiveOptions
           belongs_to
           bibliographic_citation
           circa
@@ -577,6 +580,7 @@ export const deleteCollectionmap = /* GraphQL */ `
 export const createArchive = /* GraphQL */ `
   mutation CreateArchive($input: CreateArchiveInput!) {
     createArchive(input: $input) {
+      archiveOptions
       belongs_to
       bibliographic_citation
       circa
@@ -671,6 +675,7 @@ export const createArchive = /* GraphQL */ `
 export const updateArchive = /* GraphQL */ `
   mutation UpdateArchive($input: UpdateArchiveInput!) {
     updateArchive(input: $input) {
+      archiveOptions
       belongs_to
       bibliographic_citation
       circa
@@ -765,6 +770,7 @@ export const updateArchive = /* GraphQL */ `
 export const deleteArchive = /* GraphQL */ `
   mutation DeleteArchive($input: DeleteArchiveInput!) {
     deleteArchive(input: $input) {
+      archiveOptions
       belongs_to
       bibliographic_citation
       circa

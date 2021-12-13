@@ -103,6 +103,7 @@ type Archive implements Object
     { allow: groups, groups: ["Admin", "Editor"] },
     { allow: groups, groupsField: "item_category" }
   ]){
+  archiveOptions: AWSJSON
   belongs_to: [String!]
   bibliographic_citation: String
   circa: String
