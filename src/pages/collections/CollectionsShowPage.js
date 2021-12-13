@@ -221,6 +221,7 @@ class CollectionsShowPage extends Component {
         collection={this.state.collection}
         updateCollectionArchives={this.updateCollectionArchives.bind(this)}
         sectionSize="no-size"
+        site={this.props.site}
       />
     );
     const metadata = (

@@ -2,12 +2,14 @@ import React, { Component } from "react";
 import { API, graphqlOperation } from "aws-amplify";
 
 import ResultsNumberDropdown from "../../components/ResultsNumberDropdown";
+import SortOrderDropdown from "../../components/SortOrderDropdown";
 import CollectionItemsList from "./CollectionItemsList.js";
 import Pagination from "../../components/Pagination";
 
 const GetCollectionItems = `query SearchCollectionItems(
     $parent_id: String!
     $limit: Int
+    $sort_order: SearchableSortDirection
     $nextToken: String
   ) {
   searchArchives(
@@ -16,8 +18,8 @@ const GetCollectionItems = `query SearchCollectionItems(
       visibility: { eq: true }
     },
     sort: {
-      field: identifier,
-      direction: asc
+      field: identifier
+      direction: $sort_order
     },
     limit: $limit
     nextToken: $nextToken
@@ -46,7 +48,8 @@ class CollectionItemsLoader extends Component {
       nextTokens: [],
       limit: 10,
       page: 0,
-      totalPages: 1
+      totalPages: 1,
+      sort_order: "desc"
     };
   }
 
@@ -77,7 +80,18 @@ class CollectionItemsLoader extends Component {
       {
         limit: parseInt(result.value)
       },
-      function() {
+      () => {
+        this.loadItems(this.props.collection.id);
+      }
+    );
+  }
+
+  setSortOrder(event, result) {
+    this.setState(
+      {
+        sort_order: result.value
+      },
+      () => {
         this.loadItems(this.props.collection.id);
       }
     );
@@ -88,9 +102,11 @@ class CollectionItemsLoader extends Component {
       graphqlOperation(GetCollectionItems, {
         parent_id: collectionID,
         limit: this.state.limit,
+        sort_order: this.state.sort_order,
         nextToken: this.state.nextTokens[this.state.page]
       })
     );
+
     nextTokens[this.state.page + 1] = items.data.searchArchives.nextToken;
     this.setState(
       {
@@ -120,7 +136,7 @@ class CollectionItemsLoader extends Component {
   }
 
   render() {
-    if (this.state.items !== null && this.state.total > 0) {
+    if (this.props.site && this.state.items !== null && this.state.total > 0) {
       return (
         <div
           className={`collection-items-list-wrapper ${this.props.sectionSize}`}
@@ -136,6 +152,11 @@ class CollectionItemsLoader extends Component {
             </h2>
             <div className="col-auto">
               <ResultsNumberDropdown setLimit={this.setLimit.bind(this)} />
+              {this.props.site.siteId === "podcasts" && (
+                <SortOrderDropdown
+                  setSortOrder={this.setSortOrder.bind(this)}
+                />
+              )}
             </div>
           </div>
           <CollectionItemsList
