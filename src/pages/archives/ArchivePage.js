@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Helmet } from "react-helmet";
 import { API, graphqlOperation } from "aws-amplify";
 import PDFViewer from "../../components/PDFViewer";
 import KalturaPlayer from "../../components/KalturaPlayer";
@@ -17,6 +18,7 @@ import {
   fetchLanguages,
   getTopLevelParentForCollection
 } from "../../lib/fetchTools";
+import { buildRichSchema } from "../../lib/richSchemaTools";
 import { searchArchives } from "../../graphql/queries";
 import RelatedItems from "../../components/RelatedItems";
 import Citation from "../../components/Citation";
@@ -32,10 +34,12 @@ class ArchivePage extends Component {
     this.state = {
       item: null,
       collectionCustomKey: "",
+      collectionTitle: "",
       page: 0,
       category: "archive",
       searchField: "title",
       view: "Gallery",
+      info: {},
       languages: null
     };
   }
@@ -60,10 +64,15 @@ class ArchivePage extends Component {
       const topLevelParentCollection = await getTopLevelParentForCollection(
         item
       );
+
       const collectionCustomKey = topLevelParentCollection.custom_key;
+      const archiveSchema = this.buildArchiveSchema(item);
+
       this.setState({
         item: item,
-        collectionCustomKey: collectionCustomKey
+        collectionCustomKey: collectionCustomKey,
+        collectionTitle: topLevelParentCollection.title,
+        info: archiveSchema
       });
     } catch (error) {
       console.error(`Error fetching item: ${customKey}`);
@@ -122,6 +131,26 @@ class ArchivePage extends Component {
   }
   isX3DUrl(url) {
     return url.match(/\.(x3d|X3D)$/) != null;
+  }
+
+  buildArchiveSchema(item) {
+    let info = {};
+    info["audio"] = item.manifest_url;
+    info["collectionTitle"] = this.state.collectionTitle;
+    let collectionURL = window.location.href.replace("archive", "collection");
+    let collectionNoid = this.state.collectionCustomKey.replace(
+      "ark:/53696/",
+      ""
+    );
+
+    info["collectionURL"] =
+      collectionURL.substring(0, collectionURL.length - 8) + collectionNoid;
+    info["datePublished"] = item.create_date;
+    info["description"] = item.description;
+    info["title"] = item.title;
+    info["url"] = window.location.href;
+
+    return info;
   }
 
   buildTrack(url, thumbnail_path) {
@@ -213,6 +242,14 @@ class ArchivePage extends Component {
     return url.pathname.split("/").reverse()[0];
   }
 
+  findResourceType() {
+    if (this.state.item.resource_type.find(item => item === "podcast")) {
+      return "PodcastEpisode";
+    } else {
+      return "Unknown";
+    }
+  }
+
   mediaElement(src, type, config, tracks, title = "") {
     const filename = this.fileNameFromUrl(src);
     const typeString = `${type}/${this.fileExtensionFromFileName(filename)}`;
@@ -280,6 +317,18 @@ class ArchivePage extends Component {
             siteTitle={this.props.site.siteTitle}
             pageTitle={this.state.item.title}
           />
+          <Helmet
+            script={[
+              { type: "text/javascript" },
+              {
+                type: "application/ld+json",
+                innerHTML: buildRichSchema(
+                  this.findResourceType(),
+                  this.state.info
+                )
+              }
+            ]}
+          ></Helmet>
           <SearchBar
             category={this.state.category}
             view={this.state.view}
