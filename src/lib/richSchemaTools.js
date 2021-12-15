@@ -18,7 +18,7 @@ function buildPodcastEpisodeSchema(info) {
     "url": "${info["url"]}",
     "name": "${info["title"]}",
     "datePublished": "${info["datePublished"]}",
-    "timeRequired": "",
+    "duration": "${info["duration"]}",
     "description": "${info["description"]}",
     "associatedMedia": {
       "@type": "MediaObject",
@@ -42,7 +42,7 @@ function buildPodcastSeriesSchema(info) {
       "url": "${info["url"]}",
       "name": "${info["title"]}",
       "description": "${info["description"]}",
-      "webFeed": "",
+      "webFeed": "${info["webFeed"]}",
       "author": {
         "@type": "Person",
         "name": "${info["creator"]}"

@@ -86,11 +86,15 @@ class CollectionsShowPage extends Component {
 
   buildCollectionSchema(item) {
     let info = {};
-    info["description"] = item.description;
-    info["title"] = item.title;
     info["creator"] = item.creator;
+    info["description"] = item.description;
     info["thumbnail_path"] = item.thumbnail_path;
+    info["title"] = item.title;
     info["url"] = window.location.href;
+    if (item.collectionOptions) {
+      const collectionOptions = JSON.parse(item.collectionOptions);
+      info["webFeed"] = collectionOptions.webfeed;
+    }
 
     return info;
   }
