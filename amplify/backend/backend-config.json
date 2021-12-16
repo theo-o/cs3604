@@ -87,7 +87,7 @@
           "category": "auth",
           "resourceName": "userPoolGroups",
           "attributes": [
-            "SiteAdminGroupRole"
+            "EditorGroupRole"
           ]
         }
       ]

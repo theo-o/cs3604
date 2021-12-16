@@ -203,281 +203,11 @@
         },
      
     
-        "iawaSiteAdminGroup": {
-          "Type" : "AWS::Cognito::UserPoolGroup",
-          "Properties" : {
-              "GroupName" : "iawaSiteAdmin",
-              "Precedence" : 4,
-              
-              "RoleArn" : {
-                "Fn::GetAtt": [
-                    "iawaSiteAdminGroupRole",
-                    "Arn"
-                ]
-              },
-              
-              "UserPoolId" : {
-                "Ref": "authiawav2658176f3UserPoolId"
-              }
-            }
-        },
-        
-        "iawaSiteAdminGroupRole": {
-            "Type": "AWS::IAM::Role",
-            "Properties": {
-                "RoleName":{
-                    "Fn::Join": [
-                        "",
-                        [
-                          {
-                            "Ref": "authiawav2658176f3UserPoolId"
-                          },
-                          "-iawaSiteAdminGroupRole"
-                        ]
-                    ]
-                },
-                "AssumeRolePolicyDocument": {
-                    "Version": "2012-10-17",
-                    "Statement": [
-                        {
-                            "Sid": "",
-                            "Effect": "Allow",
-                            "Principal": {
-                                "Federated": "cognito-identity.amazonaws.com"
-                            },
-                            "Action": "sts:AssumeRoleWithWebIdentity",
-                            "Condition": {
-                              "StringEquals": {"cognito-identity.amazonaws.com:aud": {"Ref":"authiawav2658176f3IdentityPoolId"}},
-                              "ForAnyValue:StringLike": {"cognito-identity.amazonaws.com:amr": "authenticated"}
-                            }
-                        }
-                    ]
-                }
-            }
-        },
-     
-    
-        "swvaSiteAdminGroup": {
-          "Type" : "AWS::Cognito::UserPoolGroup",
-          "Properties" : {
-              "GroupName" : "swvaSiteAdmin",
-              "Precedence" : 5,
-              
-              "RoleArn" : {
-                "Fn::GetAtt": [
-                    "swvaSiteAdminGroupRole",
-                    "Arn"
-                ]
-              },
-              
-              "UserPoolId" : {
-                "Ref": "authiawav2658176f3UserPoolId"
-              }
-            }
-        },
-        
-        "swvaSiteAdminGroupRole": {
-            "Type": "AWS::IAM::Role",
-            "Properties": {
-                "RoleName":{
-                    "Fn::Join": [
-                        "",
-                        [
-                          {
-                            "Ref": "authiawav2658176f3UserPoolId"
-                          },
-                          "-swvaSiteAdminGroupRole"
-                        ]
-                    ]
-                },
-                "AssumeRolePolicyDocument": {
-                    "Version": "2012-10-17",
-                    "Statement": [
-                        {
-                            "Sid": "",
-                            "Effect": "Allow",
-                            "Principal": {
-                                "Federated": "cognito-identity.amazonaws.com"
-                            },
-                            "Action": "sts:AssumeRoleWithWebIdentity",
-                            "Condition": {
-                              "StringEquals": {"cognito-identity.amazonaws.com:aud": {"Ref":"authiawav2658176f3IdentityPoolId"}},
-                              "ForAnyValue:StringLike": {"cognito-identity.amazonaws.com:amr": "authenticated"}
-                            }
-                        }
-                    ]
-                }
-            }
-        },
-     
-    
-        "podcastSiteAdminGroup": {
-          "Type" : "AWS::Cognito::UserPoolGroup",
-          "Properties" : {
-              "GroupName" : "podcastSiteAdmin",
-              "Precedence" : 6,
-              
-              "RoleArn" : {
-                "Fn::GetAtt": [
-                    "podcastSiteAdminGroupRole",
-                    "Arn"
-                ]
-              },
-              
-              "UserPoolId" : {
-                "Ref": "authiawav2658176f3UserPoolId"
-              }
-            }
-        },
-        
-        "podcastSiteAdminGroupRole": {
-            "Type": "AWS::IAM::Role",
-            "Properties": {
-                "RoleName":{
-                    "Fn::Join": [
-                        "",
-                        [
-                          {
-                            "Ref": "authiawav2658176f3UserPoolId"
-                          },
-                          "-podcastSiteAdminGroupRole"
-                        ]
-                    ]
-                },
-                "AssumeRolePolicyDocument": {
-                    "Version": "2012-10-17",
-                    "Statement": [
-                        {
-                            "Sid": "",
-                            "Effect": "Allow",
-                            "Principal": {
-                                "Federated": "cognito-identity.amazonaws.com"
-                            },
-                            "Action": "sts:AssumeRoleWithWebIdentity",
-                            "Condition": {
-                              "StringEquals": {"cognito-identity.amazonaws.com:aud": {"Ref":"authiawav2658176f3IdentityPoolId"}},
-                              "ForAnyValue:StringLike": {"cognito-identity.amazonaws.com:amr": "authenticated"}
-                            }
-                        }
-                    ]
-                }
-            }
-        },
-     
-    
-        "demoSiteAdminGroup": {
-          "Type" : "AWS::Cognito::UserPoolGroup",
-          "Properties" : {
-              "GroupName" : "demoSiteAdmin",
-              "Precedence" : 7,
-              
-              "RoleArn" : {
-                "Fn::GetAtt": [
-                    "demoSiteAdminGroupRole",
-                    "Arn"
-                ]
-              },
-              
-              "UserPoolId" : {
-                "Ref": "authiawav2658176f3UserPoolId"
-              }
-            }
-        },
-        
-        "demoSiteAdminGroupRole": {
-            "Type": "AWS::IAM::Role",
-            "Properties": {
-                "RoleName":{
-                    "Fn::Join": [
-                        "",
-                        [
-                          {
-                            "Ref": "authiawav2658176f3UserPoolId"
-                          },
-                          "-demoSiteAdminGroupRole"
-                        ]
-                    ]
-                },
-                "AssumeRolePolicyDocument": {
-                    "Version": "2012-10-17",
-                    "Statement": [
-                        {
-                            "Sid": "",
-                            "Effect": "Allow",
-                            "Principal": {
-                                "Federated": "cognito-identity.amazonaws.com"
-                            },
-                            "Action": "sts:AssumeRoleWithWebIdentity",
-                            "Condition": {
-                              "StringEquals": {"cognito-identity.amazonaws.com:aud": {"Ref":"authiawav2658176f3IdentityPoolId"}},
-                              "ForAnyValue:StringLike": {"cognito-identity.amazonaws.com:amr": "authenticated"}
-                            }
-                        }
-                    ]
-                }
-            }
-        },
-     
-    
-        "hokiesSiteAdminGroup": {
-          "Type" : "AWS::Cognito::UserPoolGroup",
-          "Properties" : {
-              "GroupName" : "hokiesSiteAdmin",
-              "Precedence" : 8,
-              
-              "RoleArn" : {
-                "Fn::GetAtt": [
-                    "hokiesSiteAdminGroupRole",
-                    "Arn"
-                ]
-              },
-              
-              "UserPoolId" : {
-                "Ref": "authiawav2658176f3UserPoolId"
-              }
-            }
-        },
-        
-        "hokiesSiteAdminGroupRole": {
-            "Type": "AWS::IAM::Role",
-            "Properties": {
-                "RoleName":{
-                    "Fn::Join": [
-                        "",
-                        [
-                          {
-                            "Ref": "authiawav2658176f3UserPoolId"
-                          },
-                          "-hokiesSiteAdminGroupRole"
-                        ]
-                    ]
-                },
-                "AssumeRolePolicyDocument": {
-                    "Version": "2012-10-17",
-                    "Statement": [
-                        {
-                            "Sid": "",
-                            "Effect": "Allow",
-                            "Principal": {
-                                "Federated": "cognito-identity.amazonaws.com"
-                            },
-                            "Action": "sts:AssumeRoleWithWebIdentity",
-                            "Condition": {
-                              "StringEquals": {"cognito-identity.amazonaws.com:aud": {"Ref":"authiawav2658176f3IdentityPoolId"}},
-                              "ForAnyValue:StringLike": {"cognito-identity.amazonaws.com:amr": "authenticated"}
-                            }
-                        }
-                    ]
-                }
-            }
-        },
-     
-    
         "IAWAGroup": {
           "Type" : "AWS::Cognito::UserPoolGroup",
           "Properties" : {
               "GroupName" : "IAWA",
-              "Precedence" : 9,
+              "Precedence" : 4,
               
               "RoleArn" : {
                 "Fn::GetAtt": [
@@ -531,7 +261,7 @@
           "Type" : "AWS::Cognito::UserPoolGroup",
           "Properties" : {
               "GroupName" : "hokies",
-              "Precedence" : 10,
+              "Precedence" : 5,
               
               "RoleArn" : {
                 "Fn::GetAtt": [
@@ -585,7 +315,7 @@
           "Type" : "AWS::Cognito::UserPoolGroup",
           "Properties" : {
               "GroupName" : "SWVA",
-              "Precedence" : 11,
+              "Precedence" : 6,
               
               "RoleArn" : {
                 "Fn::GetAtt": [
@@ -639,7 +369,7 @@
           "Type" : "AWS::Cognito::UserPoolGroup",
           "Properties" : {
               "GroupName" : "podcasts",
-              "Precedence" : 12,
+              "Precedence" : 7,
               
               "RoleArn" : {
                 "Fn::GetAtt": [
@@ -693,7 +423,7 @@
           "Type" : "AWS::Cognito::UserPoolGroup",
           "Properties" : {
               "GroupName" : "Default",
-              "Precedence" : 13,
+              "Precedence" : 8,
               
               "RoleArn" : {
                 "Fn::GetAtt": [
@@ -747,7 +477,7 @@
           "Type" : "AWS::Cognito::UserPoolGroup",
           "Properties" : {
               "GroupName" : "federated",
-              "Precedence" : 14,
+              "Precedence" : 9,
               
               "RoleArn" : {
                 "Fn::GetAtt": [
@@ -801,7 +531,7 @@
           "Type" : "AWS::Cognito::UserPoolGroup",
           "Properties" : {
               "GroupName" : "test",
-              "Precedence" : 15,
+              "Precedence" : 10,
               
               "RoleArn" : {
                 "Fn::GetAtt": [
@@ -1079,61 +809,6 @@
             "Value": {
                 "Fn::GetAtt": [
                     "SiteAdminGroupRole",
-                    "Arn"
-                ]
-            }
-        
-        },
-        
-      
-        "iawaSiteAdminGroupRole": {
-            "Value": {
-                "Fn::GetAtt": [
-                    "iawaSiteAdminGroupRole",
-                    "Arn"
-                ]
-            }
-        
-        },
-        
-      
-        "swvaSiteAdminGroupRole": {
-            "Value": {
-                "Fn::GetAtt": [
-                    "swvaSiteAdminGroupRole",
-                    "Arn"
-                ]
-            }
-        
-        },
-        
-      
-        "podcastSiteAdminGroupRole": {
-            "Value": {
-                "Fn::GetAtt": [
-                    "podcastSiteAdminGroupRole",
-                    "Arn"
-                ]
-            }
-        
-        },
-        
-      
-        "demoSiteAdminGroupRole": {
-            "Value": {
-                "Fn::GetAtt": [
-                    "demoSiteAdminGroupRole",
-                    "Arn"
-                ]
-            }
-        
-        },
-        
-      
-        "hokiesSiteAdminGroupRole": {
-            "Value": {
-                "Fn::GetAtt": [
-                    "hokiesSiteAdminGroupRole",
                     "Arn"
                 ]
             }

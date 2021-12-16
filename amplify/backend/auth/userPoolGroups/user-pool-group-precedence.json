@@ -12,51 +12,31 @@
         "precedence": 3
     },
     {
-        "groupName": "iawaSiteAdmin",
+        "groupName": "IAWA",
         "precedence": 4
     },
     {
-        "groupName": "swvaSiteAdmin",
+        "groupName": "hokies",
         "precedence": 5
     },
     {
-        "groupName": "podcastSiteAdmin",
+        "groupName": "SWVA",
         "precedence": 6
     },
     {
-        "groupName": "demoSiteAdmin",
+        "groupName": "podcasts",
         "precedence": 7
     },
     {
-        "groupName": "hokiesSiteAdmin",
+        "groupName": "Default",
         "precedence": 8
     },
     {
-        "groupName": "IAWA",
+        "groupName": "federated",
         "precedence": 9
     },
     {
-        "groupName": "hokies",
-        "precedence": 10
-    },
-    {
-        "groupName": "SWVA",
-        "precedence": 11
-    },
-    {
-        "groupName": "podcasts",
-        "precedence": 12
-    },
-    {
-        "groupName": "Default",
-        "precedence": 13
-    },
-    {
-        "groupName": "federated",
-        "precedence": 14
-    },
-    {
         "groupName": "test",
-        "precedence": 15
+        "precedence": 10
     }
 ]

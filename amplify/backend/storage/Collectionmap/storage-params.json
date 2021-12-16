@@ -1,14 +1,14 @@
 {
-    "groupPermissionMap": {
-        "Admin": [
-            "create/update",
-            "read",
-            "delete"
-        ],
-        "SiteAdmin": [
-            "create/update",
-            "read",
-            "delete"
-        ]
-    }
+  "groupPermissionMap": {
+    "Admin": [
+      "create/update",
+      "read",
+      "delete"
+    ],
+    "Editor": [
+      "create/update",
+      "read",
+      "delete"
+    ]
+  }
 }
