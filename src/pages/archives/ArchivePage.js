@@ -147,6 +147,10 @@ class ArchivePage extends Component {
       collectionURL.substring(0, collectionURL.length - 8) + collectionNoid;
     info["datePublished"] = item.create_date;
     info["description"] = item.description;
+    if (item.manifest_file_characterization) {
+      const characterization = JSON.parse(item.manifest_file_characterization);
+      info["duration"] = characterization.duration;
+    }
     info["title"] = item.title;
     info["url"] = window.location.href;
 
@@ -243,7 +247,10 @@ class ArchivePage extends Component {
   }
 
   findResourceType() {
-    if (this.state.item.resource_type.find(item => item === "podcast")) {
+    if (
+      this.state.item.resource_type &&
+      this.state.item.resource_type.find(item => item === "podcast")
+    ) {
       return "PodcastEpisode";
     } else {
       return "Unknown";
