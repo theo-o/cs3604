@@ -1,23 +1,25 @@
-# DLP Access Website
-A Multi-Tenant Serverless Website built with GraphQL, React, AWS Amplify, AWS AppSync, DynamoDB, and ElasticSearch.
+# VTDLP Access Website
+A Multi-Tenant Serverless Website built with GraphQL, React, AWS Amplify, AWS AppSync, DynamoDB, and OpenSearch. This project is part of the [Virginia Tech Digital Library Platform](https://about.digital.lib.vt.edu/project/) (VTDLP). We used this software to host several Virginia Tech University Libraries digital collections, see showcase below.
 
-We have a [Live Demo](https://vtdlp-demo.cloud.lib.vt.edu/) site! We also have several University Libraries sites. [International Archive of Women in Architecture (IAWA)](https://iawa.lib.vt.edu/) is one of them.
+We also have a [Live Demo](https://vtdlp-demo.cloud.lib.vt.edu/) site.
+
+## Project Showcase
+* [HOKIES@HOME](https://hokiesathome.lib.vt.edu/)
+* [International Archive of Women in Architecture (IAWA)](https://iawa.lib.vt.edu/)
+* [Southwest Virginia Digital Archive](https://swva.lib.vt.edu/)
 
 ## Features
-* Keyword and Full-text search
-* Faceted search for selected fields (configurable!)
-* Supports
+* Full-text search and configurable faceted search
+* Supports multiple viewers 
   * Mirador viewer
-  * HTML5 audio player
-  * HTML5 video player
-  * HTML5 image viewer
+  * HTML5 audio, video, and image player
   * Kaltura video player
   * PDF viewer
 * Configurable Home page and menus
   * Cover image
   * Featured items
   * Welcome statement
-  * Sponsors
+  * Sponsors section
   * Collection highlights
   * Contact information
   * Media Section
@@ -26,16 +28,11 @@ We have a [Live Demo](https://vtdlp-demo.cloud.lib.vt.edu/) site! We also have s
 ## Screens
 <img src="https://img.cloud.lib.vt.edu/images/show.gif" width="80%"/>
 
-## Schema
-This application utilizes two DynamoDB tables:
-* Collection table stores collection information. A ```Collection``` type that presents a group of archives (digital asset or digital object).
-* Archive table stores digital object information. A ```Archive``` type that presents a digital asset or digital object.
-* Each type has many properties, see [Data Models](docs/data_model.md)
-
-## Techniques
-* AppSync: We use AppSync to handle the communication with backend DynamoDB and ElasiticSearch. Please see the initial [examples](docs/appsync.md). This [file](src/graphql/queries.js) elaborates all the operations currently in use.
+## Software Stack 
+* AppSync: We use AppSync to handle the communication with backend DynamoDB and OpenSearch. Please see the initial [examples](docs/appsync.md). This [file](src/graphql/queries.js) elaborates all the operations currently in use.
+* [AWS Amplify](https://aws.amazon.com/amplify/): We use Amplify to handle the authentication and authorization and connect to the backend AWS services. 
 * DynamoDB: We use DynamoDB tables to store all the metadata.
-* ElasticSearch: We use ElasticSearch to enable full-text and faceted search.
+* OpenSearch: We use OpenSearch to enable full-text and faceted search.
 * IIIF Images: We use [aws-batch-iiif-generator](https://github.com/vt-digital-libraries-platform/aws-batch-iiif-generator) to generate IIIF tiles and manifest in AWS.
 
 ## Launching the app
@@ -102,6 +99,14 @@ REACT_APP_REP_TYPE=Default
 
 <img src="https://img.cloud.lib.vt.edu/images/amplify_env.png" width="80%"/>
 
+### More Environment variables
+
+| Variable | Description |
+| --- | --- |
+| REACT_APP_MINT_LINK | [Mint service](https://github.com/vt-digital-libraries-platform/mint) API URL |
+| REACT_APP_MINT_API_KEY | Mint service API key |
+| USER_DISABLE_TESTS | Enable/disable Amplify tests |
+
 If deploying an instance of the Podcast Repository he site must be able to authenticate itself with the NOID minting servicein order to support creating Podcast episode records through the site admin interface. So two additional environment variables are required. The values to be assigned to these variables can be found in the AWS API Gateway console.
 
 ```
@@ -110,10 +115,6 @@ REACT_APP_MINT_LINK=https://<api id here>.execute-api.us-east-1.amazonaws.com/Pr
 REACT_APP_MINT_API_KEY=<your api key here>
 ```
 
-See instruction and site configuration example below:
-* [Instruction](https://github.com/VTUL/dlp-access/wiki/Customization)
-* [Demo site](https://vtdlp-demo.cloud.lib.vt.edu/) configuration: [examples/default.json](examples/default.json).
-
 ## Site custom images and HTML files
 We put custom static images (e.g., site cover image) and HTML files (e.g, about page) in a S3 bucket with Cloudfront setup.
 
@@ -121,6 +122,7 @@ See instruction and various site content examples below:
 * [Instruction](https://github.com/VTUL/dlp-access/wiki/Customization)
 * [html](examples/html/) exampes
 * [images](examples/images/) exampes
+* [Demo site](https://vtdlp-demo.cloud.lib.vt.edu/) configuration: [examples/default.json](examples/default.json).
 
 ## Running the tests
 * An end-to-end testing framework using [Cypress.io](https://www.cypress.io/) has been setup for this project.
@@ -141,6 +143,9 @@ If you'd like to tear down the project & delete all of the resources created by 
 ```sh
 amplify delete
 ```
+
+## Documentation
+* See [Wiki](https://github.com/VTUL/dlp-access/wiki) for more information. We are keeping update!
 
 ## Communication
 * GitHub issues: bug reports, feature requests, install issues, thoughts, etc.
