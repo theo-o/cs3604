@@ -43,10 +43,10 @@ describe("admin_collection_edit: Update collection metadata and change it back",
 
   it("Update single-valued metadata", () => {
     cy.get("input[value='edit']").parent().click();
-    cy.get("textarea[name='title']")
-      .clear().type("New Title");
+    cy.get("textarea[name='title']").invoke('val', '');
+    cy.get("textarea[name='title']").type("New Title");
     cy.contains("Update Collection Metadata").click();
-    cy.contains("Title: New Title").should('be.visible');
+    cy.contains("New Title").should('be.visible');
   })
 
   it("Change single-valued metadata back", () => {

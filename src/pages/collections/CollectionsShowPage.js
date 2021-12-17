@@ -340,6 +340,11 @@ class CollectionsShowPage extends Component {
             description={this.state.description}
             TRUNCATION_LENGTH={TRUNCATION_LENGTH}
             creator={this.state.creator}
+            customKey={this.props.customKey}
+            collectionOptions={JSON.parse(
+              this.state.collection.collectionOptions
+            )}
+            siteId={this.props.site.siteId}
           />
           {viewOption === "listView" ? (
             <CollectionsListView

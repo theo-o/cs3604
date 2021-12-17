@@ -11,7 +11,7 @@ div.nav-row {
   display: none;
 }
 
-@media only screen and (min-width: 576px) {
+@media only screen and (min-width: 768px) {
   .top-content-row .collection-img-col {
     display: block;
     height: 300px;
@@ -73,8 +73,95 @@ span.creator:after {
   display: none;
 }
 
+.feed-links {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  margin-top: 15px;
+  margin-bottom: 0px;
+}
+
+@media only screen and (min-width: 992px) {
+  .feed-links {
+    border-bottom: 1px solid rgb(117, 120, 123);
+    padding-bottom: 40px;
+  }
+}
+
+.feed-links li {
+  margin: 0 10px 10px 0;
+  height: 40px;
+  display: flex;
+}
+
+.feed-links li.custom-badge {
+  border: 1px solid var(--dark-gray);
+  border-radius: 10px;
+}
+
+.feed-links img {
+  height: 100%;
+  width: auto;
+}
+
+.feed-links .custom-badge img {
+  margin-right: 10px;
+}
+
+.feed-links .custom-badge .fa-rss {
+  margin-right: 10px;
+}
+
+.feed-links li.badge-outline {
+  border: 1px solid var(--dark-gray);
+  border-radius: 10px;
+}
+
+.feed-links a {
+  height: 100%;
+  width: 100%;
+}
+
+.feed-links a.border-square {
+  border-radius: 6px;
+}
+
+.feed-links a.border-curved {
+  border-radius: 10px;
+}
+
+.feed-links a:hover,
+.feed-link a:active,
+.feed-links a:focus {
+  box-shadow: 0px 0px 3px 1px rgba(0, 0, 0, 0.4);
+}
+
+.feed-links .custom-badge a {
+  font-family: "gineso-condensed", sans-serif;
+  font-size: 1.125rem;
+  font-weight: 500;
+  padding: 5px 10px;
+  text-transform: uppercase;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  border-radius: 6px;
+}
+
+.feed-links .custom-badge a,
+.feed-links .custom-badge a:visited {
+  color: var(--hokieMaroon);
+}
+
+.feed-links .custom-badge a:hover,
+.feed-links .custom-badge a:focus,
+.feed-links .custom-badge a:active {
+  text-decoration: none;
+}
+
 .mid-content-row.row {
-  margin: 40px 0px;
+  margin-top: 40px;
+  margin-bottom: 40px;
   padding: 20px 10px;
   background-color: var(--light-gray);
 }
@@ -267,5 +354,9 @@ div.collection-item .item-image img {
     width: 150px;
     height: 108px;
     object-fit: cover;
+  }
+
+  .collection-items-list-wrapper .collection-items-list div.collection-details {
+    width: calc(100% - 182px);
   }
 }

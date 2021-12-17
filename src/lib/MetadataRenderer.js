@@ -153,7 +153,11 @@ function textFormat(item, attr, languages, collectionCustomKey, site) {
       `<a href="${redirect}/${item.custom_key}">${redirect}/${item.custom_key}</a>`
     );
   } else if (attr === "description") {
-    return <MoreLink category={category} item={item} />;
+    if (item["description"].length <= 120) {
+      return item["description"];
+    } else {
+      return <MoreLink category={category} item={item} />;
+    }
   } else if (attr === "display_date" || attr === "start_date") {
     return dateFormatted(item);
   } else if (attr === "size") {

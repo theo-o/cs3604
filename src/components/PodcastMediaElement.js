@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import flvjs from "flv.js";
 import hlsjs from "hls.js";
 import "mediaelement";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "mediaelement/build/mediaelementplayer.min.css";
 import "mediaelement/build/mediaelement-flash-video.swf";
 import { asyncGetFile } from "../lib/fetchTools";
@@ -88,8 +88,15 @@ export default class PodcastMediaElement extends Component {
   transcriptButton() {
     if (this.props.transcript) {
       return (
-        <button type="button" className="transcript-button">
-          <i class="fas fa-file-alt" aria-label="Transcript"></i>
+        <button
+          type="button"
+          className="transcript-button"
+          aria-label="Transcript"
+        >
+          <span className="fa-layers fa-fw fa-3x">
+            <FontAwesomeIcon icon="circle" color="var(--themeHighlightColor)" />
+            <FontAwesomeIcon icon="file" inverse transform="shrink-7" />
+          </span>
         </button>
       );
     }
@@ -148,7 +155,13 @@ export default class PodcastMediaElement extends Component {
               download
               aria-label="Download episode"
             >
-              <i className="fa fa-download"></i>
+              <span className="fa-layers fa-fw fa-3x">
+                <FontAwesomeIcon
+                  icon="circle"
+                  color="var(--themeHighlightColor)"
+                />
+                <FontAwesomeIcon icon="download" inverse transform="shrink-7" />
+              </span>
             </a>
           </div>
         </div>
