@@ -1,0 +1,27 @@
+.social-buttons-wrapper-box {
+  background-color: var(--light-gray);
+  padding: 10px 20px;
+  margin-bottom: 30px;
+}
+
+.social-buttons-wrapper-line .line {
+  border-top: 1px solid var(--dark-gray);
+  padding-bottom: 10px;
+}
+
+.social-buttons-section h3,
+.social-buttons-wrapper-box h3 {
+  font-family: "gineso-condensed", sans-serif;
+  font-size: 1.3125rem;
+  font-weight: 500;
+}
+
+.social-buttons-wrapper-line h3 {
+  font-family: "gineso-condensed", sans-serif;
+  font-size: 1.125rem;
+  font-weight: 500;
+}
+.social-buttons-section button {
+  margin-right: 20px;
+  margin-bottom: 10px;
+}

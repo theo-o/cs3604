@@ -62,9 +62,9 @@ class CollectionTopContent extends Component {
     });
   }
 
-  createRssHtml(key, rssUrl, className, imageUrl, alt) {
-    const rssLinks = `<li key="${key}">
-          <a href="${rssUrl}" target="_blank" rel="noopener noreferrer" className="${className}">
+  createRssHtml(rssUrl, className, imageUrl, alt) {
+    const rssLinks = `<li>
+          <a href="${rssUrl}" target="_blank" rel="noopener noreferrer" class="${className}">
             <img
               src="${imageUrl}"
               alt="${alt}"
@@ -81,9 +81,9 @@ class CollectionTopContent extends Component {
       if (l.indexOf("amazon.com") >= 0) {
         return (
           <div
+            key={l}
             dangerouslySetInnerHTML={{
               __html: this.createRssHtml(
-                "amazon",
                 l,
                 "border-square",
                 "https://static.lib.vt.edu/vtdlp/images/Amazon.png",
@@ -95,9 +95,9 @@ class CollectionTopContent extends Component {
       } else if (l.indexOf("apple.com") >= 0) {
         return (
           <div
+            key={l}
             dangerouslySetInnerHTML={{
               __html: this.createRssHtml(
-                "apple",
                 l,
                 "border-square",
                 "https://static.lib.vt.edu/vtdlp/images/Apple.svg",
@@ -109,9 +109,9 @@ class CollectionTopContent extends Component {
       } else if (l.indexOf("goo.gl") >= 0) {
         return (
           <div
+            key={l}
             dangerouslySetInnerHTML={{
               __html: this.createRssHtml(
-                "google",
                 l,
                 "border-curved",
                 "https://static.lib.vt.edu/vtdlp/images/Google.svg",
@@ -123,9 +123,9 @@ class CollectionTopContent extends Component {
       } else if (l.indexOf("spotify.com") >= 0) {
         return (
           <div
+            key={l}
             dangerouslySetInnerHTML={{
               __html: this.createRssHtml(
-                "spotify",
                 l,
                 "badge-outline",
                 "https://static.lib.vt.edu/vtdlp/images/Spotify.png",
@@ -137,9 +137,9 @@ class CollectionTopContent extends Component {
       } else if (l.indexOf("stitcher.com") >= 0) {
         return (
           <div
+            key={l}
             dangerouslySetInnerHTML={{
               __html: this.createRssHtml(
-                "stitcher",
                 l,
                 "border-square",
                 "https://static.lib.vt.edu/vtdlp/images/Stitcher.png",
@@ -151,9 +151,9 @@ class CollectionTopContent extends Component {
       } else if (l.indexOf("breaker.audio") >= 0) {
         return (
           <div
+            key={l}
             dangerouslySetInnerHTML={{
               __html: this.createRssHtml(
-                "breaker",
                 l,
                 "badge-outline",
                 "https://static.lib.vt.edu/vtdlp/images/breaker--white.svg",
@@ -165,9 +165,9 @@ class CollectionTopContent extends Component {
       } else if (l.indexOf("radiopublic.com") >= 0) {
         return (
           <div
+            key={l}
             dangerouslySetInnerHTML={{
               __html: this.createRssHtml(
-                "radio_public",
                 l,
                 "border-square",
                 "https://static.lib.vt.edu/vtdlp/images/radiopublic-white.png",
@@ -179,9 +179,9 @@ class CollectionTopContent extends Component {
       } else if (l.indexOf("pocketcasts.com") >= 0) {
         return (
           <div
+            key={l}
             dangerouslySetInnerHTML={{
               __html: this.createRssHtml(
-                "pocket_casts",
                 l,
                 "border-square",
                 "https://static.lib.vt.edu/vtdlp/images/radiopublic-white.png",
@@ -193,9 +193,9 @@ class CollectionTopContent extends Component {
       } else if (l.indexOf("tunein.com") >= 0) {
         return (
           <div
+            key={l}
             dangerouslySetInnerHTML={{
               __html: this.createRssHtml(
-                "tunein",
                 l,
                 "border-square",
                 "https://static.lib.vt.edu/vtdlp/images/tunein.png",
@@ -207,9 +207,9 @@ class CollectionTopContent extends Component {
       } else if (l.indexOf("podchaser.com") >= 0) {
         return (
           <div
+            key={l}
             dangerouslySetInnerHTML={{
               __html: this.createRssHtml(
-                "podchaser",
                 l,
                 "border-square",
                 "https://static.lib.vt.edu/vtdlp/images/podchaser.png",
@@ -221,9 +221,9 @@ class CollectionTopContent extends Component {
       } else if (l.indexOf("podbean.com") >= 0) {
         return (
           <div
+            key={l}
             dangerouslySetInnerHTML={{
               __html: this.createRssHtml(
-                "podbean",
                 l,
                 "border-square",
                 "https://static.lib.vt.edu/vtdlp/images/podbean.png",
@@ -235,9 +235,9 @@ class CollectionTopContent extends Component {
       } else if (l.indexOf("castbox.fm") >= 0) {
         return (
           <div
+            key={l}
             dangerouslySetInnerHTML={{
               __html: this.createRssHtml(
-                "castbox",
                 l,
                 "border-square",
                 "https://static.lib.vt.edu/vtdlp/images/Castbox.svg",
@@ -258,7 +258,7 @@ class CollectionTopContent extends Component {
   getRSS = () => {
     if (this.state.rss) {
       return (
-        <li key="rss" className="custom-badge">
+        <li key="rss" className="custom-badge" key="rss">
           <a href={this.state.rss} target="_blank" rel="noopener noreferrer">
             <i className="fas fa-rss"></i>
             RSS Link

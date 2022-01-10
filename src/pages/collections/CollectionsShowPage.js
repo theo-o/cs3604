@@ -14,6 +14,7 @@ import {
   fetchLanguages,
   getTopLevelParentForCollection
 } from "../../lib/fetchTools";
+import SocialButtons from "../../components/SocialButtons";
 
 import "../../css/CollectionsShowPage.scss";
 
@@ -332,7 +333,6 @@ class CollectionsShowPage extends Component {
               />
             </nav>
           </div>
-
           <CollectionTopContent
             collectionImg={this.state.thumbnail_path}
             collectionTitle={this.state.title}
@@ -359,9 +359,23 @@ class CollectionsShowPage extends Component {
                 this
               )}
               view={viewOption}
+              title={this.state.title}
+              media={this.state.thumbnail_path}
             />
           ) : (
-            this.collectionMainContent()
+            <>
+              <div className="row justify-content-end">
+                <div className="social-buttons-wrapper-line col-12 col-md-8">
+                  <SocialButtons
+                    buttons={JSON.parse(this.props.site.siteOptions)}
+                    url={window.location.href}
+                    title={this.state.collectionTitle}
+                    media={this.state.thumbnail_path}
+                  />
+                </div>
+              </div>
+              {this.collectionMainContent()}
+            </>
           )}
         </div>
       );

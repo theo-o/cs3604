@@ -25,6 +25,7 @@ import Citation from "../../components/Citation";
 import Thumbnail from "../../components/Thumbnail";
 import MtlElement from "../../components/MtlElement";
 import X3DElement from "../../components/X3DElement";
+import SocialButtons from "../../components/SocialButtons";
 
 import "../../css/ArchivePage.scss";
 
@@ -371,6 +372,12 @@ class ArchivePage extends Component {
               {addNewlineInDesc(this.state.item.description)}
             </div>
             <div className="col-lg-6 details-section-metadata">
+              <SocialButtons
+                buttons={JSON.parse(this.props.site.siteOptions)}
+                url={window.location.href}
+                title={this.state.item.title}
+                media={this.state.item.thumbnail_path}
+              />
               <Citation item={this.state.item} site={this.props.site} />
               <table aria-label="Item Metadata">
                 <tbody>

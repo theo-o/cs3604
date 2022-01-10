@@ -27,8 +27,7 @@
 .media-player-wrapper {
   width: 100%;
   display: flex;
-  flex-wrap: wrap;
-  align-items: flex-end;
+  align-items: center;
 }
 
 .media-player {
@@ -46,7 +45,6 @@
   margin-left: 20px;
   margin-top: 15px;
   width: 100%;
-  text-align: right;
 }
 
 @media (min-width: 576px) {

@@ -1,12 +1,21 @@
 import React, { Component } from "react";
 import CollectionMetadataSection from "../../components/CollectionMetadataSection";
 import CollectionItemsLoader from "./CollectionItemsLoader";
+import SocialButtons from "../../components/SocialButtons";
 
 class CollectionsListView extends Component {
   render() {
     return (
       <div className="mid-content-row list-view row">
         <div className="col-12 col-lg-4 mb-5">
+          <div className="social-buttons-wrapper-box">
+            <SocialButtons
+              buttons={JSON.parse(this.props.site.siteOptions)}
+              url={window.location.href}
+              title={this.props.title}
+              media={this.props.media}
+            />
+          </div>
           <CollectionMetadataSection
             key="collection-metadata-section"
             site={this.props.site}

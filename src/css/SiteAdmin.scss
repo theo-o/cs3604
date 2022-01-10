@@ -32,3 +32,16 @@
   background-color: var(--light-gray);
   font-family: "Acherus", sans-serif;
 }
+
+.ui.form div.fields.sharing-options {
+  margin: 0 0.5em 1em;
+}
+
+.sharing-options .checkbox {
+  margin-right: 10px;
+}
+
+ul.sharing-options {
+  list-style: inside;
+  margin-left: 1em;
+}

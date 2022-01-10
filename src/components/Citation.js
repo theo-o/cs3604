@@ -38,7 +38,7 @@ class Citation extends Component {
 
     return (
       <div aria-label="Item Citation" className="citation-section">
-        <h2 className="citation-heading">Cite this Item</h2>
+        <h3 className="citation-heading">Cite this Item</h3>
         <div className="citation-text"></div>
         <div className="permanent-link">
           <div className="link-label">

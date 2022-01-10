@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { withAuthenticator } from "@aws-amplify/ui-react";
-import { Form } from "semantic-ui-react";
+import { Form, Checkbox } from "semantic-ui-react";
 import { updatedDiff } from "deep-object-diff";
 import { API, Auth } from "aws-amplify";
 import { getSite } from "../../lib/fetchTools";
@@ -14,7 +14,8 @@ const initialFormState = {
   siteOptions: {},
   siteTitle: "",
   contact: [],
-  redirectURL: ""
+  redirectURL: "",
+  socialMedia: []
 };
 
 class SiteForm extends Component {
@@ -48,7 +49,8 @@ class SiteForm extends Component {
               return JSON.parse(contact);
             })
           : [],
-        redirectURL: options ? options.redirectURL : ""
+        redirectURL: options ? options.redirectURL : "",
+        socialMedia: options.socialMedia ? options.socialMedia : []
       };
       this.setState({
         formState: siteInfo,
@@ -62,13 +64,28 @@ class SiteForm extends Component {
     this.loadSite();
   }
 
-  updateInputValue = event => {
+  updateInputValue = (event, data) => {
     const { name, value } = event.target;
-    this.setState(prevState => {
-      return {
-        formState: { ...prevState.formState, [name]: value }
-      };
-    });
+    if (data.name !== "socialMedia") {
+      this.setState(prevState => {
+        return {
+          formState: { ...prevState.formState, [name]: value }
+        };
+      });
+    } else {
+      let array = [...this.state.formState.socialMedia];
+      let index = array.indexOf(data.value);
+      if (index > -1) {
+        array.splice(index, 1);
+      } else {
+        array.push(data.value);
+      }
+      this.setState(prevState => {
+        return {
+          formState: { ...prevState.formState, socialMedia: array }
+        };
+      });
+    }
   };
 
   formatData = siteInfo => {
@@ -76,6 +93,7 @@ class SiteForm extends Component {
     site.contact = site.contact.map(contact => {
       return JSON.stringify(contact);
     });
+    site.siteOptions = JSON.stringify(site.siteOptions);
     return site;
   };
 
@@ -83,10 +101,17 @@ class SiteForm extends Component {
     const { siteTitle, siteName } = this.state.formState;
     if (!siteTitle || !siteName) return;
 
-    if (this.state.formState.redirectURL.length) {
-      const options = this.state.formState.siteOptions || {};
-      options.redirectURL = this.state.formState.redirectURL;
-      this.state.formState.siteOptions = JSON.stringify(options);
+    if (this.state.formState.siteOptions) {
+      const options = this.state.formState.siteOptions;
+      if (this.state.formState.redirectURL.length) {
+        options.redirectURL = this.state.formState.redirectURL;
+      }
+      options.socialMedia = this.state.formState.socialMedia;
+      this.setState(prevState => {
+        return {
+          formState: { ...prevState.formState, siteOptions: options }
+        };
+      });
     }
 
     this.setState({ viewState: "viewSite" });
@@ -94,6 +119,7 @@ class SiteForm extends Component {
     let siteInfo = { id: siteID, ...this.state.formState };
     siteInfo = this.formatData(siteInfo);
     delete siteInfo.redirectURL;
+    delete siteInfo.socialMedia;
 
     await API.graphql({
       query: mutations.updateSite,
@@ -228,6 +254,51 @@ class SiteForm extends Component {
             placeholder="Enter Redirection URL"
             onChange={this.updateInputValue}
           />
+          <h2>Sharing Options</h2>
+          <Form.Group className="sharing-options">
+            <Checkbox
+              label="Email"
+              name="socialMedia"
+              value="Email"
+              checked={this.state.formState.socialMedia.includes("Email")}
+              onChange={this.updateInputValue}
+            />
+            <Checkbox
+              label="Facebook"
+              name="socialMedia"
+              value="Facebook"
+              checked={this.state.formState.socialMedia.includes("Facebook")}
+              onChange={this.updateInputValue}
+            />
+            <Checkbox
+              label="Pinterest"
+              name="socialMedia"
+              value="Pinterest"
+              checked={this.state.formState.socialMedia.includes("Pinterest")}
+              onChange={this.updateInputValue}
+            />
+            <Checkbox
+              label="Reddit"
+              name="socialMedia"
+              value="Reddit"
+              checked={this.state.formState.socialMedia.includes("Reddit")}
+              onChange={this.updateInputValue}
+            />
+            <Checkbox
+              label="Twitter"
+              name="socialMedia"
+              value="Twitter"
+              checked={this.state.formState.socialMedia.includes("Twitter")}
+              onChange={this.updateInputValue}
+            />
+            <Checkbox
+              label="WhatsApp"
+              name="socialMedia"
+              value="Whatsapp"
+              checked={this.state.formState.socialMedia.includes("Whatsapp")}
+              onChange={this.updateInputValue}
+            />
+          </Form.Group>
           <ContactForm
             contactList={this.state.formState.contact}
             updateContactValue={this.updateContactValue}
@@ -251,6 +322,17 @@ class SiteForm extends Component {
             <p>Site Name: {this.state.formState.siteName}</p>
             <p>Site Title: {this.state.formState.siteTitle}</p>
             <p>Redirect URL: {this.state.formState.redirectURL}</p>
+            <p>Sharing Options:</p>
+            <ul className="sharing-options">
+              {this.state.formState.socialMedia.length ? (
+                this.state.formState.socialMedia.map(item => {
+                  return <li key={`${item}`}>{`${item}`}</li>;
+                })
+              ) : (
+                <li key="none">No items selected</li>
+              )}
+            </ul>
+
             <p>Contacts</p>
             <Contacts contactList={this.state.formState.contact} />
           </div>

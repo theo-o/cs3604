@@ -19,6 +19,7 @@ div.nav-row {
     text-align: center;
   }
 }
+
 .top-content-row .collection-img-col img {
   max-height: 100%;
   max-width: 100%;
@@ -30,24 +31,29 @@ h1.collection-title {
   font-weight: 400;
   display: block;
 }
+
 h2.subcollection-title {
   font-family: "gineso-condensed", sans-serif;
   font-size: 1.125rem;
   font-weight: 400;
   display: block;
 }
+
 div.post-heading {
   font-family: "gineso-condensed", sans-serif;
   padding-bottom: 20px;
   border-bottom: 1px solid var(--dark-gray);
 }
+
 span.item-count:after,
 span.creator:after {
   content: "\00a0\00a0•\00a0\00a0";
 }
+
 .description {
   padding: 15px 0 25px 0;
 }
+
 .description h2.introduction {
   font-family: "gineso-condensed", sans-serif;
   font-size: 1.125rem;
@@ -210,10 +216,10 @@ span.creator:after {
   width: 100%;
   border-bottom: 1px solid var(--light-gray);
 }
+
 .mid-content-row h2.details-section-header {
   font-family: "gineso-condensed", sans-serif;
-  font-size: 1.25rem;
-  font-weight: 400;
+  font-size: 1.3125rem;
 }
 
 .mid-content-row .details-section-content-grid {
@@ -275,6 +281,7 @@ div.collection-items-grid {
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   width: 100%;
 }
+
 div.collection-item {
   width: 250px;
   min-height: 300px;
@@ -288,9 +295,11 @@ div.collection-item .item-image {
   overflow: hidden;
   background-color: var(--light-gray);
 }
+
 div.collection-item .item-image .image-container {
   border: none;
 }
+
 div.collection-item .item-image img {
   width: 250px;
   height: 200px;
@@ -343,6 +352,7 @@ div.collection-item .item-image img {
 .collection-items-list-wrapper .results-text {
   font-family: "gineso-condensed", sans-serif;
 }
+
 .collection-items-list-wrapper .subCollectionList a,
 .collection-items-list-wrapper .subCollectionList a:visited {
   font-family: "gineso-condensed", sans-serif;
