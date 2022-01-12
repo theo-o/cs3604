@@ -205,15 +205,6 @@ const CollectionForm = React.memo(props => {
       collection.ownerinfo = JSON.stringify(collection.ownerinfo);
     }
 
-    const options = collection.collectionOptions || {};
-    for (const i in collectionOptions) {
-      const key = collectionOptions[i];
-      options[key] = collection[key];
-      collection.collectionOptions = JSON.stringify(options);
-
-      delete collection[key];
-    }
-
     if (newCollection) {
       const id = uuidv4();
       const noid = await mintNOID();
@@ -225,6 +216,31 @@ const CollectionForm = React.memo(props => {
       collection.heirarchy_path = [id.toString()];
       collection.custom_key = customKey;
       collection.collection_category = siteContext.site.groups[0];
+    }
+    let webFeed = null;
+    if (siteContext.site.siteId === "podcasts") {
+      const custom_key = newCollection
+        ? collection.custom_key
+        : fullCollection.custom_key;
+      const rssDirectory = `https://${Storage._config.AWSS3.bucket}.s3.${
+        Storage._config.AWSS3.region
+      }.amazonaws.com/public/sitecontent/text/${process.env.REACT_APP_REP_TYPE.toLowerCase()}/rss`;
+      webFeed = `${rssDirectory}/${custom_key.replace("ark:/53696/", "")}.rss`;
+    }
+
+    let options = collection.collectionOptions || {};
+    if (typeof options === "string") {
+      options = JSON.parse(options);
+    }
+    if (webFeed) {
+      options.webFeed = webFeed;
+    }
+    for (const i in collectionOptions) {
+      const key = collectionOptions[i];
+      options[key] = collection[key];
+      collection.collectionOptions = JSON.stringify(options);
+
+      delete collection[key];
     }
 
     const collectionInfo = {

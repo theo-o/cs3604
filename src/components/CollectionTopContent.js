@@ -276,6 +276,27 @@ class CollectionTopContent extends Component {
     }
   }
 
+  async getWebFeed() {
+    if (this.props.siteId === "podcasts") {
+      let webFeed = null;
+      if (
+        this.props.collectionOptions &&
+        this.props.collectionOptions.webFeed
+      ) {
+        webFeed = this.props.collectionOptions.webFeed;
+      } else {
+        webFeed = `https://${
+          Storage._config.AWSS3.bucket
+        }.s3.amazonaws.com/public/sitecontent/text/${process.env.REACT_APP_REP_TYPE.toLowerCase()}/rss/${
+          this.props.customKey
+        }.rss`;
+      }
+      if (webFeed) {
+        getFile(webFeed, "text", this, "rss");
+      }
+    }
+  }
+
   componentDidUpdate(prevProps) {
     if (this.props.collectionImg !== prevProps.collectionImg) {
       getFile(this.props.collectionImg, "image", this, "collectionThumbnail");
@@ -286,15 +307,7 @@ class CollectionTopContent extends Component {
     if (this.props.collectionImg) {
       getFile(this.props.collectionImg, "image", this, "collectionThumbnail");
     }
-
-    if (this.props.siteId === "podcasts") {
-      let rss_link = `https://${
-        Storage._config.AWSS3.bucket
-      }.s3.amazonaws.com/public/sitecontent/text/${process.env.REACT_APP_REP_TYPE.toLowerCase()}/rss/${
-        this.props.customKey
-      }.rss`;
-      getFile(rss_link, "text", this, "rss");
-    }
+    this.getWebFeed();
   }
 
   render() {
