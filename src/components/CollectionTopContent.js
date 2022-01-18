@@ -186,7 +186,7 @@ class CollectionTopContent extends Component {
               __html: this.createRssHtml(
                 link,
                 "border-square",
-                "https://static.lib.vt.edu/vtdlp/images/radiopublic-white.png",
+                "https://static.lib.vt.edu/vtdlp/images/pocketcasts.png",
                 "Listen on Pocket Casts"
               )
             }}

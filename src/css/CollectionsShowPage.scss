@@ -118,9 +118,10 @@ span.creator:after {
   margin-right: 10px;
 }
 
-.feed-links li.badge-outline {
+.feed-links .badge-outline {
   border: 1px solid var(--dark-gray);
   border-radius: 10px;
+  padding: 2px;
 }
 
 .feed-links a {
