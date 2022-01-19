@@ -20,7 +20,7 @@
         "iawav2658176f3PostConfirmation": {
           "GROUP": "public",
           "deploymentBucketName": "amplify-iawav2-newdev-125018-deployment",
-          "s3Key": "amplify-builds/iawav2658176f3PostConfirmation-5577444947435030664f-build.zip"
+          "s3Key": "amplify-builds/iawav2658176f3PostConfirmation-574e767749774939332b-build.zip"
         }
       },
       "api": {
