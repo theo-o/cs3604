@@ -145,6 +145,20 @@ type Archive implements Object
   collection: Collection @connection(name: "CollectionArchives")
 }
 
+type Embargo
+@model
+@auth(rules: [
+    { allow: groups, groups: ["Admin", "Editor"] },
+    { allow: groups, groupsField: "groups", operations: [read, create] }
+  ])
+{
+  id: ID!
+  identifier: String!
+  start_date: AWSDate
+  end_date: AWSDate
+  note: String 
+}
+
 type Site
   @model
   @key(fields: ["siteId"], name: "SiteId", queryField: "siteBySiteId")

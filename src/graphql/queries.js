@@ -1110,6 +1110,39 @@ export const searchArchives = /* GraphQL */ `
     }
   }
 `;
+export const getEmbargo = /* GraphQL */ `
+  query GetEmbargo($id: ID!) {
+    getEmbargo(id: $id) {
+      id
+      identifier
+      start_date
+      end_date
+      note
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listEmbargos = /* GraphQL */ `
+  query ListEmbargos(
+    $filter: ModelEmbargoFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listEmbargos(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        identifier
+        start_date
+        end_date
+        note
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
 export const getSite = /* GraphQL */ `
   query GetSite($id: ID!) {
     getSite(id: $id) {

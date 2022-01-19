@@ -862,6 +862,45 @@ export const onDeleteArchive = /* GraphQL */ `
     }
   }
 `;
+export const onCreateEmbargo = /* GraphQL */ `
+  subscription OnCreateEmbargo {
+    onCreateEmbargo {
+      id
+      identifier
+      start_date
+      end_date
+      note
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateEmbargo = /* GraphQL */ `
+  subscription OnUpdateEmbargo {
+    onUpdateEmbargo {
+      id
+      identifier
+      start_date
+      end_date
+      note
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteEmbargo = /* GraphQL */ `
+  subscription OnDeleteEmbargo {
+    onDeleteEmbargo {
+      id
+      identifier
+      start_date
+      end_date
+      note
+      createdAt
+      updatedAt
+    }
+  }
+`;
 export const onCreateSite = /* GraphQL */ `
   subscription OnCreateSite {
     onCreateSite {
