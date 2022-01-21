@@ -4,7 +4,7 @@ A Multi-Tenant Serverless Website built with GraphQL, React, AWS Amplify, AWS Ap
 We also have a [Live Demo](https://vtdlp-demo.cloud.lib.vt.edu/) site.
 
 ## Project Showcase
-* [HOKIES@HOME](https://hokiesathome.lib.vt.edu/)
+* [HOKIES@HOME](https://hokiesathome-dev.cloud.lib.vt.edu/)
 * [International Archive of Women in Architecture (IAWA)](https://iawa.lib.vt.edu/)
 * [Southwest Virginia Digital Archive](https://swva.lib.vt.edu/)
 

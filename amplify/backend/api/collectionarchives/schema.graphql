@@ -147,6 +147,8 @@ type Archive implements Object
 
 type Embargo
 @model
+@key(fields: ["start_date"], name: "start_date_index")
+@key(fields: ["end_date"], name: "end_date_index")
 @auth(rules: [
     { allow: groups, groups: ["Admin", "Editor"] },
     { allow: groups, groupsField: "groups", operations: [read, create] }
