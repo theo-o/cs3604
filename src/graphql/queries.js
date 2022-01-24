@@ -1118,6 +1118,7 @@ export const getEmbargo = /* GraphQL */ `
       start_date
       end_date
       note
+      record_type
       createdAt
       updatedAt
     }
@@ -1136,6 +1137,7 @@ export const listEmbargos = /* GraphQL */ `
         start_date
         end_date
         note
+        record_type
         createdAt
         updatedAt
       }

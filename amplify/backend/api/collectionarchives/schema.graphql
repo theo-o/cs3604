@@ -150,6 +150,7 @@ type Embargo
 @key(fields: ["start_date"], name: "start_date_index")
 @key(fields: ["end_date"], name: "end_date_index")
 @auth(rules: [
+    { allow: public, operations: [read] },
     { allow: groups, groups: ["Admin", "Editor"] },
     { allow: groups, groupsField: "groups", operations: [read, create] }
   ])
@@ -158,7 +159,8 @@ type Embargo
   identifier: String!
   start_date: AWSDate
   end_date: AWSDate
-  note: String 
+  note: String
+  record_type: String!
 }
 
 type Site

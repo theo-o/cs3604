@@ -870,6 +870,7 @@ export const onCreateEmbargo = /* GraphQL */ `
       start_date
       end_date
       note
+      record_type
       createdAt
       updatedAt
     }
@@ -883,6 +884,7 @@ export const onUpdateEmbargo = /* GraphQL */ `
       start_date
       end_date
       note
+      record_type
       createdAt
       updatedAt
     }
@@ -896,6 +898,7 @@ export const onDeleteEmbargo = /* GraphQL */ `
       start_date
       end_date
       note
+      record_type
       createdAt
       updatedAt
     }
