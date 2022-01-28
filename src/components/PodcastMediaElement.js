@@ -36,30 +36,32 @@ export default class PodcastMediaElement extends Component {
     if (audioResponse.success && this.props.poster) {
       await asyncGetFile(this.props.poster, "image", this, "audioImg");
     }
+
+    return audioResponse.success;
+  }
+
+  async loadAssets() {
+    const assetResponse = await this.getAssetFiles();
+    if (assetResponse) {
+      const { MediaElementPlayer } = global;
+      if (!MediaElementPlayer) {
+        return;
+      }
+
+      const options = Object.assign({}, JSON.parse(this.props.options), {
+        pluginPath: "./static/media/",
+        success: (media, node, instance) => this.success(media, node, instance),
+        error: (media, node) => this.error(media, node)
+      });
+
+      window.flvjs = flvjs;
+      window.Hls = hlsjs;
+      this.setState({ player: new MediaElementPlayer(this.props.id, options) });
+    }
   }
 
   componentDidMount() {
-    this.getAssetFiles();
-
-    const { MediaElementPlayer } = global;
-    if (!MediaElementPlayer) {
-      return;
-    }
-
-    const options = Object.assign({}, JSON.parse(this.props.options), {
-      pluginPath: "./static/media/",
-      success: (media, node, instance) => this.success(media, node, instance),
-      error: (media, node) => this.error(media, node)
-    });
-
-    window.flvjs = flvjs;
-    window.Hls = hlsjs;
-    this.setState(
-      { player: new MediaElementPlayer(this.props.id, options) },
-      () => {
-        console.log(this.state.player);
-      }
-    );
+    this.loadAssets();
   }
 
   componentWillUnmount() {
@@ -75,7 +77,7 @@ export default class PodcastMediaElement extends Component {
 
   audioImg() {
     return (
-      <div className="audio-img-wrapper">
+      <div className="audio-img-wrapper col-12 col-sm-4">
         <img
           className="audio-img"
           src={this.state.audioImg}
@@ -140,9 +142,9 @@ export default class PodcastMediaElement extends Component {
             ${mediaBody}
           </audio>`;
     return (
-      <div className="media-element-container">
+      <div className="media-element-container row">
         {props.mediaType === "audio" && this.audioImg()}
-        <div className="media-player-wrapper">
+        <div className="media-player-wrapper col-12 col-sm-8">
           <div
             className="media-player"
             dangerouslySetInnerHTML={{ __html: mediaHtml }}
