@@ -34,15 +34,17 @@ const singleFields = [
   "rights_holder",
   "rights_statement",
   "title",
-  "custom_key",
   "thumbnail_path"
 ];
 
-const editableFields = singleFields.concat(multiFields);
+const booleanFields = ["visibility"];
+
+const editableFields = singleFields.concat(multiFields).concat(booleanFields);
 
 const ArchiveForm = React.memo(props => {
   const { identifier } = props;
   const [error, setError] = useState(null);
+  const [fullArchive, setFullArchive] = useState(null);
   const [oldArchive, setOldArchive] = useState(null);
   const [archive, setArchive] = useState(null);
   const [archiveId, setArchiveId] = useState(null);
@@ -53,19 +55,30 @@ const ArchiveForm = React.memo(props => {
 
   useEffect(() => {
     async function loadItem() {
-      let editableArchive = null;
+      let item;
+      let editableArchive = {};
       let item_id = null;
       try {
-        const item = await getArchiveByIdentifier(identifier);
+        item = await getArchiveByIdentifier(identifier);
+        setFullArchive(item);
         setError(null);
-        editableArchive = Object.keys(item)
-          .filter(k => editableFields.includes(k))
-          .reduce((acc, key) => {
-            if (item[key]) {
-              acc[key] = item[key];
-            }
-            return acc;
-          }, {});
+
+        const defaultValue = key => {
+          let value = null;
+          if (singleFields.includes(key)) {
+            value = "";
+          } else if (multiFields.includes(key)) {
+            value = [];
+          } else if (booleanFields.includes(key)) {
+            value = false;
+          }
+          return value;
+        };
+
+        for (const idx in editableFields) {
+          const field = editableFields[idx];
+          editableArchive[field] = item[field] || defaultValue(field);
+        }
         item_id = item.id;
       } catch (e) {
         console.error(`Error fetch archive for ${identifier} due to ${e}`);
@@ -168,6 +181,9 @@ const ArchiveForm = React.memo(props => {
     if (inputValue.trim() === "") {
       inputValue = null;
     }
+    if (booleanFields.indexOf(field) !== -1) {
+      inputValue = event.target.checked;
+    }
     setArchive(prevArchive => {
       if (valueIdx === undefined) {
         return {
@@ -247,6 +263,7 @@ const ArchiveForm = React.memo(props => {
           field={attribute.field}
           label={attribute.label}
           isMulti={multiFields.includes(attribute.field)}
+          isBoolean={booleanFields.includes(attribute.field)}
           values={archive[attribute.field]}
           onChangeValue={changeValueHandler}
           onRemoveValue={deleteMetadataHandler}
@@ -263,21 +280,23 @@ const ArchiveForm = React.memo(props => {
       archiveDisplay = [
         <a
           key="view_custom_key"
-          href={`/archive/${archive.custom_key.split("/").pop()}`}
+          href={`/archive/${fullArchive.custom_key.split("/").pop()}`}
         >
           View Item
         </a>
       ];
       archiveDisplay.push(
         editableAttributes().map((attribute, index) => {
-          return (
+          return archive[attribute.field] !== null &&
+            archive[attribute.field].length ? (
             <ViewMetadata
               key={`view_${attribute.field}`}
               attribute={attribute}
               isMulti={multiFields.includes(attribute.field)}
+              isBoolean={booleanFields.includes(attribute.field)}
               values={archive[attribute.field]}
             />
-          );
+          ) : null;
         })
       );
     } else {
