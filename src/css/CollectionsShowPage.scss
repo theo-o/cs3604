@@ -223,6 +223,23 @@ span.creator:after {
   font-size: 1.3125rem;
 }
 
+.mid-content-row div.accordion.ui .title {
+  font-family: "gineso-condensed", sans-serif;
+  font-size: 1.3125rem;
+}
+
+.mid-content-row div.accordion.ui {
+  background-color: var(--light-gray);
+}
+
+.mid-content-row div.accordion.ui div.details-section {
+  padding: 0px 20px 20px 20px;
+}
+
+.mid-content-row div.accordion.ui div.details-section-content-grid {
+  margin-top: 0px;
+}
+
 .mid-content-row .details-section-content-grid {
   margin-top: 20px;
 }

@@ -118,7 +118,11 @@ class CollectionMetadataSection extends Component {
             aria-labelledby="collection-details-section-header"
           >
             <h2
-              className="details-section-header"
+              className={
+                this.props.viewOption === "listView"
+                  ? "d-none"
+                  : "details-section-header"
+              }
               id="collection-details-section-header"
             >
               {this.props.metadataTitle}

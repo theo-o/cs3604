@@ -358,7 +358,7 @@ class CollectionsShowPage extends Component {
               updateCollectionArchives={this.updateCollectionArchives.bind(
                 this
               )}
-              view={viewOption}
+              viewOption={viewOption}
               title={this.state.title}
               media={this.state.thumbnail_path}
             />

@@ -59,7 +59,9 @@ class SocialButtons extends Component {
       this.props.buttons.socialMedia.length ? (
       <div className="social-buttons-section">
         <div className="line"></div>
-        <h3>Share</h3>
+        <h3 className={this.props.viewOption === "listView" ? "d-none" : ""}>
+          Share
+        </h3>
         {this.getButtons()}
       </div>
     ) : (
