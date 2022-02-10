@@ -41,14 +41,14 @@ div.item-image-section img.item-img {
   padding-top: 40px;
 }
 
-.details-section-metadata a,
-.details-section-metadata a:visited {
+.item-page-wrapper a,
+.item-page-wrapper a:visited {
   color: var(--hokieOrange);
 }
 
-.details-section-metadata a:hover,
-.details-section-metadata a:focus,
-.details-section-metadata a:active {
+.item-page-wrapper a:hover,
+.item-page-wrapper a:focus,
+.item-page-wrapper a:active {
   color: var(--hokieOrangeHover);
 }
 
@@ -114,4 +114,19 @@ div.obj-wrapper {
   div.item-image-section div.breadcrumbs-wrapper {
     font-size: 1.09rem;
   }
+}
+
+.media-element-container .transcript-section {
+  margin: 30px;
+  height: 300px;
+  width: 100%;
+  text-align: right;
+}
+
+.media-element-container .transcript-section #transcript1 {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  border: solid 1px var(--dark-gray);
+  height: 300px;
 }

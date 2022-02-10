@@ -293,7 +293,7 @@ class ArchivePage extends Component {
         options={JSON.stringify(config)}
         tracks={JSON.stringify(tracks)}
         title={title}
-        transcript={false}
+        transcript={JSON.parse(this.state.item.archiveOptions)}
       />
     );
   }

@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { AmplifySignOut, withAuthenticator } from "@aws-amplify/ui-react";
 import { Form } from "semantic-ui-react";
-import { Link } from "react-router-dom";
 import { updatedDiff } from "deep-object-diff";
 import { API, Auth, Storage } from "aws-amplify";
 import { getPodcastCollections, mintNOID } from "../../lib/fetchTools";
@@ -25,7 +24,8 @@ const initialFormState = {
   episode_number: "",
   publication_date: "",
   visibility: false,
-  manifest_file_characterization: {}
+  manifest_file_characterization: {},
+  audioTranscript: ""
 };
 
 class PodcastDeposit extends Component {
@@ -156,6 +156,10 @@ class PodcastDeposit extends Component {
       this.state.formState.publication_date
     );
 
+    let options = {
+      audioTranscript: this.state.formState.audioTranscript
+    };
+
     let archive = {
       id: id,
       title: this.state.formState.title,
@@ -181,7 +185,8 @@ class PodcastDeposit extends Component {
         .manifest_file_characterization,
       heirarchy_path: selectedCollection.heirarchy_path,
       create_date: modifiedPubDate,
-      modified_date: modifiedPubDate
+      modified_date: modifiedPubDate,
+      archiveOptions: JSON.stringify(options)
     };
 
     await API.graphql({
@@ -283,7 +288,9 @@ class PodcastDeposit extends Component {
               "textArea"
             )}
             {!this.state.valid_source_link && (
-              <span class="validation_msg">Please enter a valid URL below</span>
+              <span className="validation_msg">
+                Please enter a valid URL below
+              </span>
             )}
             {input({
               label: "Season Number. E.g, 001",
@@ -350,7 +357,7 @@ class PodcastDeposit extends Component {
             )}
             {input(
               {
-                label: "Audio transcript (optional)",
+                label: "HTML audio transcript (optional)",
                 id: "audio_transcript_upload",
                 name: "audioTranscript",
                 placeholder: "Audio transcript",
@@ -422,11 +429,8 @@ class PodcastDeposit extends Component {
     let content = <></>;
     if (this.state.collections) {
       content = (
-        <div>
+        <>
           <div className="col-lg-9 col-sm-12 admin-content">
-            <Link className="siteAdmin-return-link" to={"/siteAdmin"}>
-              Return to Site Admin Page
-            </Link>
             <Form>
               <Form.Group inline>
                 <label>Current mode:</label>
@@ -453,7 +457,7 @@ class PodcastDeposit extends Component {
           <div className="signout-wrapper">
             <AmplifySignOut />
           </div>
-        </div>
+        </>
       );
     }
     return content;

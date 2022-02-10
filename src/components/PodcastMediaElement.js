@@ -5,7 +5,7 @@ import "mediaelement";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "mediaelement/build/mediaelementplayer.min.css";
 import "mediaelement/build/mediaelement-flash-video.swf";
-import { asyncGetFile } from "../lib/fetchTools";
+import { asyncGetFile, getFile } from "../lib/fetchTools";
 import "../css/podcastMediaElement.scss";
 
 export default class PodcastMediaElement extends Component {
@@ -14,7 +14,9 @@ export default class PodcastMediaElement extends Component {
     this.state = {
       player: null,
       audioImg: null,
-      audioSrc: null
+      audioSrc: null,
+      transcript: null,
+      isTranscriptActive: false
     };
   }
 
@@ -35,6 +37,14 @@ export default class PodcastMediaElement extends Component {
     }
     if (audioResponse.success && this.props.poster) {
       await asyncGetFile(this.props.poster, "image", this, "audioImg");
+    }
+    if (this.props.transcript && this.props.transcript.audioTranscript) {
+      await getFile(
+        this.props.transcript.audioTranscript,
+        "text",
+        this,
+        "transcript"
+      );
     }
 
     return audioResponse.success;
@@ -87,13 +97,23 @@ export default class PodcastMediaElement extends Component {
     );
   }
 
+  openTranscript = () => {
+    this.setState(prevState => {
+      return {
+        isTranscriptActive: !prevState.isTranscriptActive
+      };
+    });
+  };
+
   transcriptButton() {
-    if (this.props.transcript) {
+    if (this.props.transcript && this.props.transcript.audioTranscript) {
       return (
         <button
           type="button"
           className="transcript-button"
           aria-label="Transcript"
+          onClick={this.openTranscript}
+          title="View transcript"
         >
           <span className="fa-layers fa-fw fa-3x">
             <FontAwesomeIcon icon="circle" color="var(--themeHighlightColor)" />
@@ -156,6 +176,7 @@ export default class PodcastMediaElement extends Component {
               className="download-link"
               download
               aria-label="Download episode"
+              title="Download episode"
             >
               <span className="fa-layers fa-fw fa-3x">
                 <FontAwesomeIcon
@@ -166,6 +187,34 @@ export default class PodcastMediaElement extends Component {
               </span>
             </a>
           </div>
+        </div>
+        <div
+          className={
+            this.state.isTranscriptActive ? "transcript-section" : "d-none"
+          }
+        >
+          {this.state.transcript ? (
+            <>
+              <iframe
+                src={this.state.transcript}
+                title="transcript"
+                id="transcript1"
+                frameBorder="0"
+                border="0"
+                cellSpacing="0"
+              ></iframe>
+              <a
+                href={this.state.transcript}
+                className="download-link"
+                download
+                aria-label="Download transcript"
+              >
+                Download Transcript
+              </a>
+            </>
+          ) : (
+            <p>Loading transcript...</p>
+          )}
         </div>
       </div>
     );

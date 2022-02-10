@@ -14,6 +14,7 @@ import DisplayedAttributesForm from "./DisplayedAttributesForm";
 import MediaSectionForm from "./MediaSectionForm";
 import IdentifierForm from "./ArchiveCollectionEdit/IdentifierForm";
 import SiteContext from "./SiteContext";
+import PodcastDeposit from "./PodcastDeposit";
 
 import "../../css/SiteAdmin.scss";
 
@@ -91,6 +92,8 @@ class SiteAdmin extends Component {
         return <IdentifierForm type="archive" identifier={null} />;
       case "collectionForm":
         return <IdentifierForm type="collection" identifier={null} />;
+      case "podcastDeposit":
+        return <PodcastDeposit />;
       default:
         return <SiteForm />;
     }
@@ -239,8 +242,17 @@ class SiteAdmin extends Component {
               </Link>
             </li>
             {this.state.site && this.state.site.siteId === "podcasts" && (
-              <li>
-                <Link to={"/podcastDeposit"}>Add Podcast Episode</Link>
+              <li
+                className={
+                  this.state.form === "podcastDeposit" ? "admin-active" : ""
+                }
+              >
+                <Link
+                  onClick={() => this.setForm("podcastDeposit")}
+                  to={"/siteAdmin"}
+                >
+                  Add Podcast Episode
+                </Link>
               </li>
             )}
           </ul>

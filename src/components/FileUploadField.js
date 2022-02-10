@@ -19,7 +19,7 @@ class FileUploadField extends Component {
         match = file.type.match(/\/(jpeg|jpg|gif|png)$/g);
         break;
       case "text":
-        match = file.type.match(/\/(plain|csv|html)$/g);
+        match = file.type.match(/\/(text|plain|csv|html)$/g);
         break;
       case "application":
         match = file.type.match(/\/(msword|json|rss\+xml)$/g);
@@ -40,6 +40,9 @@ class FileUploadField extends Component {
     let foldername = "";
     switch (file.type) {
       case "text/html":
+        foldername = "text";
+        break;
+      case "text/plain":
         foldername = "text";
         break;
       case "audio/mpeg":
