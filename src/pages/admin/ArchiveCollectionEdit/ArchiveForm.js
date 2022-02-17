@@ -50,6 +50,7 @@ const ArchiveForm = React.memo(props => {
   const [archiveId, setArchiveId] = useState(null);
   const [viewState, setViewState] = useState("view");
   const [validForm, setValidForm] = useState(true);
+  const [url, setURL] = useState(null);
 
   const siteContext = useContext(SiteContext);
 
@@ -62,6 +63,16 @@ const ArchiveForm = React.memo(props => {
         item = await getArchiveByIdentifier(identifier);
         setFullArchive(item);
         setError(null);
+        setURL(item.manifest_url);
+
+        if (item.manifest_url) {
+          if (
+            item.manifest_url.match(/\.(mp3|ogg|wav)$/) ||
+            item.manifest_url.match(/\.(mp4|mov)$/)
+          ) {
+            editableFields.push("audioTranscript");
+          }
+        }
 
         const defaultValue = key => {
           let value = null;
@@ -75,9 +86,19 @@ const ArchiveForm = React.memo(props => {
           return value;
         };
 
+        const inOptions = key => {
+          let retVal = null;
+          if (item.archiveOptions && item.archiveOptions[key] !== null) {
+            const options = JSON.parse(item.archiveOptions);
+            retVal = options[key];
+          }
+          return retVal;
+        };
+
         for (const idx in editableFields) {
           const field = editableFields[idx];
-          editableArchive[field] = item[field] || defaultValue(field);
+          editableArchive[field] =
+            item[field] || inOptions(field) || defaultValue(field);
         }
         item_id = item.id;
       } catch (e) {
@@ -101,31 +122,6 @@ const ArchiveForm = React.memo(props => {
     setViewState(value);
   };
 
-  const editableAttributes = () => {
-    const displayedAttributes = JSON.parse(
-      siteContext.site.displayedAttributes
-    )["archive"].filter(
-      attribute =>
-        attribute.field !== "custom_key" &&
-        editableFields.includes(attribute.field)
-    );
-    displayedAttributes.unshift(
-      {
-        field: "title",
-        label: "Title"
-      },
-      {
-        field: "description",
-        label: "Description"
-      },
-      {
-        field: "thumbnail_path",
-        label: "Thumbnail image"
-      }
-    );
-    return displayedAttributes;
-  };
-
   const submitArchiveHandler = async event => {
     for (const key in archive) {
       if (isRequiredField(key) && !archive[key]) {
@@ -139,8 +135,18 @@ const ArchiveForm = React.memo(props => {
         }
       }
     }
-    setValidForm(true);
-    setViewState("view");
+
+    let options = null;
+    if (archive.archiveOptions) {
+      options = JSON.parse(archive.archiveOptions);
+      options.audioTranscript = archive.audioTranscript;
+    } else {
+      options = {
+        audioTranscript: archive.audioTranscript
+      };
+    }
+    archive.archiveOptions = JSON.stringify(options);
+    delete archive.audioTranscript;
 
     const archiveInfo = {
       id: archiveId,
@@ -174,6 +180,34 @@ const ArchiveForm = React.memo(props => {
     };
 
     siteContext.updateSite(eventInfo);
+
+    archive.audioTranscript = options.audioTranscript;
+    setValidForm(true);
+    setViewState("view");
+  };
+
+  const deleteMetadataHandler = (field, valueIdx) => {
+    setArchive(prevArchive => {
+      const values = [...prevArchive[field]];
+      values.splice(valueIdx, 1);
+      return {
+        ...prevArchive,
+        [field]: values.length === 0 ? null : values
+      };
+    });
+  };
+
+  const addMetadataHandler = field => {
+    setArchive(prevArchive => {
+      const values = Array.isArray(prevArchive[field])
+        ? [...prevArchive[field]]
+        : [];
+      values.push(`new ${field}`);
+      return {
+        ...prevArchive,
+        [field]: values
+      };
+    });
   };
 
   const changeValueHandler = (event, field, valueIdx) => {
@@ -201,58 +235,41 @@ const ArchiveForm = React.memo(props => {
     });
   };
 
-  const deleteMetadataHandler = (field, valueIdx) => {
-    setArchive(prevArchive => {
-      const values = [...prevArchive[field]];
-      values.splice(valueIdx, 1);
-      return {
-        ...prevArchive,
-        [field]: values.length === 0 ? null : values
-      };
-    });
-  };
-
-  const addMetadataHandler = field => {
-    setArchive(prevArchive => {
-      const values = Array.isArray(prevArchive[field])
-        ? [...prevArchive[field]]
-        : [];
-      values.push(`new ${field}`);
-      return {
-        ...prevArchive,
-        [field]: values
-      };
-    });
-  };
-
-  const getFileUrl = (name, value) => {
+  const getFileUrl = (name, value, type) => {
     const bucket = Storage._config.AWSS3.bucket;
-    const folder = "image";
-    const pathPrefix = `public/sitecontent/${folder}/${process.env.REACT_APP_REP_TYPE.toLowerCase()}/`;
+    const pathPrefix = `public/sitecontent/${type}/${process.env.REACT_APP_REP_TYPE.toLowerCase()}/`;
     return `https://${bucket}.s3.amazonaws.com/${pathPrefix}${value}`;
   };
 
-  const setThumbnailSrc = event => {
-    const fileUrl = getFileUrl(event.target.name, event.target.value);
+  const setSrc = (event, type, field) => {
+    const fileUrl = getFileUrl(event.target.name, event.target.value, type);
     event.target.value = fileUrl;
-    changeValueHandler(event, "thumbnail_path");
+    changeValueHandler(event, field);
   };
 
   const formElement = (attribute, index) => {
     let element = null;
-    if (attribute.field === "thumbnail_path") {
+    if (
+      attribute.field === "thumbnail_path" ||
+      attribute.field === "audioTranscript"
+    ) {
       element = (
         <FileUploadField
-          key={`thumbnail_path_upload_${index}`}
-          value={archive["thumbnail_path"]}
+          key={`${attribute.field}_${index}`}
+          value={archive[`${attribute.field}`]}
           site={siteContext.site}
-          label="Thumbnail image"
-          input_id={`thumbnail_path_upload_${index}`}
-          name={`thumbnail_path_upload_${index}`}
-          placeholder="Enter thumbnail source"
-          setSrc={setThumbnailSrc}
+          label={
+            attribute.field === "thumbnail_path"
+              ? "Thumbnail image"
+              : "HTML Audio Transcript"
+          }
+          input_id={`${attribute.field}_upload_${index}`}
+          name={`${attribute.field}_upload_${index}`}
+          placeholder="Enter source url"
+          setSrc={setSrc}
           siteID={siteContext.site.id}
-          fileType="image"
+          fileType={attribute.field === "thumbnail_path" ? "image" : "text"}
+          field={attribute.field}
         />
       );
     } else {
@@ -272,6 +289,54 @@ const ArchiveForm = React.memo(props => {
       );
     }
     return element;
+  };
+
+  const editableAttributes = () => {
+    const displayedAttributes = JSON.parse(
+      siteContext.site.displayedAttributes
+    )["archive"].filter(
+      attribute =>
+        attribute.field !== "custom_key" &&
+        editableFields.includes(attribute.field)
+    );
+    if (url) {
+      if (url.match(/\.(mp3|ogg|wav)$/) || url.match(/\.(mp4|mov)$/)) {
+        displayedAttributes.unshift(
+          {
+            field: "title",
+            label: "Title"
+          },
+          {
+            field: "description",
+            label: "Description"
+          },
+          {
+            field: "thumbnail_path",
+            label: "Thumbnail image"
+          },
+          {
+            field: "audioTranscript",
+            label: "HTML audio transcript"
+          }
+        );
+      } else {
+        displayedAttributes.unshift(
+          {
+            field: "title",
+            label: "Title"
+          },
+          {
+            field: "description",
+            label: "Description"
+          },
+          {
+            field: "thumbnail_path",
+            label: "Thumbnail image"
+          }
+        );
+      }
+    }
+    return displayedAttributes;
   };
 
   let archiveDisplay = null;

@@ -120,7 +120,7 @@ class FileUploadField extends Component {
             evt
           );
         }
-        this.props.setSrc(evt);
+        this.props.setSrc(evt, this.props.fileType, this.props.field);
       });
 
       const eventInfo = {
