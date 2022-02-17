@@ -73,7 +73,7 @@ const textAreaInput = options => {
 };
 
 const dateInput = options => {
-  const { outerClass, innerClass, label, id, name, onChange } = options;
+  const { outerClass, innerClass, label, id, name, value, onChange } = options;
   return (
     <div className={outerClass} key={id || name}>
       <label htmlFor={id || name}>{label}</label>
@@ -82,7 +82,8 @@ const dateInput = options => {
           type="date"
           id={id || name}
           name={name}
-          onChange={onChange}
+          value={value}
+          onChange={event => onChange(event, id)}
         ></input>
       </div>
     </div>

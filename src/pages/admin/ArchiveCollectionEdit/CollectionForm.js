@@ -5,11 +5,17 @@ import EditMetadata from "./EditMetadata";
 import { API, graphqlOperation, Storage } from "aws-amplify";
 import * as queries from "../../../graphql/queries";
 import { getCollectionByIdentifier, mintNOID } from "../../../lib/fetchTools";
+import {
+  validEmbargo,
+  loadEmbargo,
+  createEmbargoRecord
+} from "../../../lib/EmbargoTools";
 import { addedDiff, updatedDiff } from "deep-object-diff";
 import * as mutations from "../../../graphql/mutations";
 import { v4 as uuidv4 } from "uuid";
 import SiteContext from "../SiteContext";
 import FileUploadField from "../../../components/FileUploadField";
+import { input } from "../../../components/FormFields";
 
 const collectionOptions = ["podcast_links"];
 
@@ -40,8 +46,18 @@ const singleFields = [
 ];
 
 const booleanFields = ["explicit_content", "visibility"];
+const embargoFields = [
+  "embargo_start_date",
+  "embargo_end_date",
+  "embargo_note"
+];
 
-const editableFields = singleFields.concat(multiFields).concat(booleanFields);
+const editableFields = singleFields
+  .concat(multiFields)
+  .concat(booleanFields)
+  .concat(embargoFields);
+
+let resultMessage = "";
 
 const CollectionForm = React.memo(props => {
   const { identifier, newCollection } = props;
@@ -53,17 +69,20 @@ const CollectionForm = React.memo(props => {
   const [viewState, setViewState] = useState("view");
   const [validForm, setValidForm] = useState(true);
   const [topLevelCollection, setTopLevelCollection] = useState(false);
+  const [embargo, setEmbargo] = useState(null);
 
   const siteContext = useContext(SiteContext);
 
   useEffect(() => {
+    console.log("useEffect");
     if (siteContext.site.siteId === "podcasts") {
       multiFields.push("podcast_links");
       if (editableFields.indexOf("podcast_links") === -1) {
         editableFields.push("podcast_links");
       }
     }
-    async function loadItem() {
+
+    async function loadItem(collection) {
       let item;
       let editableCollection = {};
       let item_id = null;
@@ -74,7 +93,7 @@ const CollectionForm = React.memo(props => {
 
         const defaultValue = key => {
           let value = null;
-          if (singleFields.includes(key)) {
+          if (singleFields.includes(key) || embargoFields.includes(key)) {
             value = "";
           } else if (multiFields.includes(key)) {
             value = [];
@@ -109,6 +128,8 @@ const CollectionForm = React.memo(props => {
       setCollection(editableCollection);
       setCollectionId(item_id);
       setTopLevelCollection(!item.parent_collection);
+
+      return item;
     }
 
     function setNewCollection() {
@@ -130,14 +151,36 @@ const CollectionForm = React.memo(props => {
       setCollectionId(null);
     }
     async function init() {
-      if (identifier && !newCollection) {
+      if (identifier && !newCollection && !fullCollection) {
         await loadItem();
       } else if (newCollection) {
         setNewCollection();
       }
+      if (fullCollection) {
+        const embargoResponse = await loadEmbargo(fullCollection, setEmbargo);
+        setCollection(col => {
+          try {
+            col["embargo_start_date"] =
+              col["embargo_start_date"] || embargoResponse.start_date || "";
+            col["embargo_end_date"] =
+              col["embargo_end_date"] || embargoResponse.end_date || "";
+            col["embargo_note"] =
+              col["embargo_note"] || embargoResponse.note || "";
+          } catch (error) {
+            console.log("no embargoResponse");
+          }
+          return col;
+        });
+      }
     }
     init();
-  }, [identifier, newCollection, siteContext.site.siteId, viewState]);
+  }, [
+    identifier,
+    newCollection,
+    fullCollection,
+    siteContext.site.siteId,
+    viewState
+  ]);
 
   const isRequiredField = attribute => {
     const requiredFields = ["title"];
@@ -145,6 +188,9 @@ const CollectionForm = React.memo(props => {
   };
 
   const viewChangeHandler = (e, { value }) => {
+    if (value === "edit") {
+      resultMessage = "";
+    }
     setViewState(value);
   };
 
@@ -217,6 +263,22 @@ const CollectionForm = React.memo(props => {
       collection.custom_key = customKey;
       collection.collection_category = siteContext.site.groups[0];
     }
+
+    if (validEmbargo(collection)) {
+      await createEmbargoRecord(
+        collection,
+        fullCollection,
+        embargo,
+        "collection"
+      );
+    } else {
+      resultMessage =
+        "Embargo not applied to this object. If you wish to apply an embargo you must supply a start date OR end date. If you do not wish to apply an embargo you can safely ignore this message.";
+    }
+    delete collection.embargo_start_date;
+    delete collection.embargo_end_date;
+    delete collection.embargo_note;
+
     let webFeed = null;
     if (siteContext.site.siteId === "podcasts") {
       const custom_key = newCollection
@@ -396,6 +458,12 @@ const CollectionForm = React.memo(props => {
     changeValueHandler(event, "thumbnail_path");
   };
 
+  const toTitleCase = str => {
+    return str.replace(/\w\S*/g, function(txt) {
+      return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+    });
+  };
+
   const formElement = (attribute, index) => {
     let element = null;
     if (attribute === "ownerinfo_email" || attribute === "ownerinfo_name") {
@@ -433,17 +501,19 @@ const CollectionForm = React.memo(props => {
           fileType="image"
         />
       );
-    } else if (attribute !== "ownerinfo") {
+    } else if (
+      attribute !== "ownerinfo" &&
+      attribute !== "embargo_start_date" &&
+      attribute !== "embargo_end_date" &&
+      attribute !== "embargo_note"
+    ) {
       if (attribute !== "title" || topLevelCollection || newCollection) {
         element = (
           <EditMetadata
             key={`edit_${index}`}
             required={isRequiredField(attribute)}
             field={attribute}
-            label={
-              attribute[0].toUpperCase() +
-              attribute.substring(1).replace("_", " ")
-            }
+            label={toTitleCase(attribute.replace(/_/g, " "))}
             isMulti={multiFields.includes(attribute)}
             isBoolean={booleanFields.includes(attribute)}
             values={collection[attribute]}
@@ -453,12 +523,62 @@ const CollectionForm = React.memo(props => {
           />
         );
       }
+    } else if (
+      attribute === "embargo_start_date" ||
+      attribute === "embargo_end_date"
+    ) {
+      element = (
+        <section key={`${attribute}_${index}`}>
+          {input(
+            {
+              outerClass: "field",
+              innerClass: "ui input",
+              id: attribute,
+              name: attribute,
+              value: collection[attribute],
+              label: toTitleCase(attribute.replace(/_/g, " ")),
+              onChange: changeValueHandler
+            },
+            "date"
+          )}
+        </section>
+      );
+    } else if (attribute === "embargo_note") {
+      element = (
+        <EditMetadata
+          key={`edit_${index}`}
+          required={isRequiredField(attribute)}
+          field={attribute}
+          label={toTitleCase(attribute.replace(/_/g, " "))}
+          isMulti={multiFields.includes(attribute)}
+          isBoolean={booleanFields.includes(attribute)}
+          values={collection["embargo_note"]}
+          onChangeValue={changeValueHandler}
+          onRemoveValue={deleteMetadataHandler}
+          onAddValue={addMetadataHandler}
+        />
+      );
     }
+
     return element;
   };
 
   let collectionDisplay = null;
   if (collection) {
+    if (embargo) {
+      collection["embargo_start_date"] =
+        viewState === "view"
+          ? embargo.start_date
+          : collection.embargo_start_date || embargo.start_date;
+      collection["embargo_end_date"] =
+        viewState === "view"
+          ? embargo.end_date
+          : collection.embargo_end_date || embargo.end_date;
+      collection["embargo_note"] =
+        viewState === "view"
+          ? embargo.note
+          : collection.embargo_note || embargo.note;
+    }
     if (viewState === "view") {
       collectionDisplay = Object.keys(collection).map((entry, index) => {
         const label =
@@ -528,6 +648,7 @@ const CollectionForm = React.memo(props => {
           />
         </Form.Group>
       </Form>
+      <p className="errorMsg">{resultMessage}</p>
       {collectionDisplay}
     </div>
   );

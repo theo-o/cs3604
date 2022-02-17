@@ -123,3 +123,8 @@ div.checkbox-inline {
 select.form-control:not([size]):not([multiple]) {
   height: unset;
 }
+
+p.errorMsg {
+  color: var(--hokieOrange);
+  font-size: 1.1em;
+}
