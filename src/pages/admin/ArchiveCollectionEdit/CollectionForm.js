@@ -8,7 +8,8 @@ import { getCollectionByIdentifier, mintNOID } from "../../../lib/fetchTools";
 import {
   validEmbargo,
   loadEmbargo,
-  createEmbargoRecord
+  createEmbargoRecord,
+  toTitleCase
 } from "../../../lib/EmbargoTools";
 import { addedDiff, updatedDiff } from "deep-object-diff";
 import * as mutations from "../../../graphql/mutations";
@@ -74,7 +75,6 @@ const CollectionForm = React.memo(props => {
   const siteContext = useContext(SiteContext);
 
   useEffect(() => {
-    console.log("useEffect");
     if (siteContext.site.siteId === "podcasts") {
       multiFields.push("podcast_links");
       if (editableFields.indexOf("podcast_links") === -1) {
@@ -456,12 +456,6 @@ const CollectionForm = React.memo(props => {
     const fileUrl = getFileUrl(event.target.name, event.target.value);
     event.target.value = fileUrl;
     changeValueHandler(event, "thumbnail_path");
-  };
-
-  const toTitleCase = str => {
-    return str.replace(/\w\S*/g, function(txt) {
-      return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-    });
   };
 
   const formElement = (attribute, index) => {

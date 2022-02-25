@@ -57,7 +57,7 @@ describe("podcast_deposit: Creates Podcast Archive record", () => {
           .should("include", "uploaded successfully");
   
         cy.get("button.submit").contains("Submit Podcast Episode").click();
-        cy.get("#title_value", { timeout: 2 * 1000 })
+        cy.get("#title_value", { timeout: 5 * 1000 })
           .invoke("text")
           .should("include", title);
 

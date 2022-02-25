@@ -4,10 +4,17 @@ import ViewMetadata from "./ViewMetadata";
 import EditMetadata from "./EditMetadata";
 import { API, Storage } from "aws-amplify";
 import { getArchiveByIdentifier } from "../../../lib/fetchTools";
+import {
+  validEmbargo,
+  loadEmbargo,
+  createEmbargoRecord,
+  toTitleCase
+} from "../../../lib/EmbargoTools";
 import { addedDiff, updatedDiff } from "deep-object-diff";
 import * as mutations from "../../../graphql/mutations";
 import SiteContext from "../SiteContext";
 import FileUploadField from "../../../components/FileUploadField";
+import { input } from "../../../components/FormFields";
 
 const multiFields = [
   "belongs_to",
@@ -39,7 +46,18 @@ const singleFields = [
 
 const booleanFields = ["visibility"];
 
-const editableFields = singleFields.concat(multiFields).concat(booleanFields);
+const embargoFields = [
+  "embargo_start_date",
+  "embargo_end_date",
+  "embargo_note"
+];
+
+const editableFields = singleFields
+  .concat(multiFields)
+  .concat(booleanFields)
+  .concat(embargoFields);
+
+let resultMessage = "";
 
 const ArchiveForm = React.memo(props => {
   const { identifier } = props;
@@ -50,7 +68,7 @@ const ArchiveForm = React.memo(props => {
   const [archiveId, setArchiveId] = useState(null);
   const [viewState, setViewState] = useState("view");
   const [validForm, setValidForm] = useState(true);
-  const [url, setURL] = useState(null);
+  const [embargo, setEmbargo] = useState(null);
 
   const siteContext = useContext(SiteContext);
 
@@ -63,7 +81,6 @@ const ArchiveForm = React.memo(props => {
         item = await getArchiveByIdentifier(identifier);
         setFullArchive(item);
         setError(null);
-        setURL(item.manifest_url);
 
         if (item.manifest_url) {
           if (
@@ -110,8 +127,31 @@ const ArchiveForm = React.memo(props => {
       setArchive(editableArchive);
       setArchiveId(item_id);
     }
-    loadItem();
-  }, [identifier]);
+
+    async function init() {
+      if (identifier && !fullArchive) {
+        await loadItem();
+      }
+      if (fullArchive) {
+        const embargoResponse = await loadEmbargo(fullArchive, setEmbargo);
+        setArchive(arch => {
+          try {
+            arch["embargo_start_date"] =
+              arch["embargo_start_date"] || embargoResponse.start_date || "";
+            arch["embargo_end_date"] =
+              arch["embargo_end_date"] || embargoResponse.end_date || "";
+            arch["embargo_note"] =
+              arch["embargo_note"] || embargoResponse.note || "";
+          } catch (error) {
+            console.log("no embargoResponse");
+          }
+          return arch;
+        });
+      }
+    }
+
+    init();
+  }, [identifier, fullArchive, siteContext.site.siteId, viewState]);
 
   const isRequiredField = attribute => {
     const requiredFields = ["title"];
@@ -135,6 +175,16 @@ const ArchiveForm = React.memo(props => {
         }
       }
     }
+
+    if (validEmbargo(archive)) {
+      await createEmbargoRecord(archive, fullArchive, embargo, "archive");
+    } else {
+      resultMessage =
+        "Embargo not applied to this object. If you wish to apply an embargo you must supply a start date OR end date. If you do not wish to apply an embargo you can safely ignore this message.";
+    }
+    delete archive.embargo_start_date;
+    delete archive.embargo_end_date;
+    delete archive.embargo_note;
 
     let options = null;
     if (archive.archiveOptions) {
@@ -249,39 +299,71 @@ const ArchiveForm = React.memo(props => {
 
   const formElement = (attribute, index) => {
     let element = null;
-    if (
-      attribute.field === "thumbnail_path" ||
-      attribute.field === "audioTranscript"
-    ) {
+    if (attribute === "thumbnail_path" || attribute === "audioTranscript") {
       element = (
         <FileUploadField
-          key={`${attribute.field}_${index}`}
-          value={archive[`${attribute.field}`]}
+          key={`${attribute}_${index}`}
+          value={archive[`${attribute}`]}
           site={siteContext.site}
           label={
-            attribute.field === "thumbnail_path"
+            attribute === "thumbnail_path"
               ? "Thumbnail image"
               : "HTML Audio Transcript"
           }
-          input_id={`${attribute.field}_upload_${index}`}
-          name={`${attribute.field}_upload_${index}`}
+          input_id={`${attribute}_upload_${index}`}
+          name={`${attribute}_upload_${index}`}
           placeholder="Enter source url"
           setSrc={setSrc}
           siteID={siteContext.site.id}
-          fileType={attribute.field === "thumbnail_path" ? "image" : "text"}
-          field={attribute.field}
+          fileType={attribute === "thumbnail_path" ? "image" : "text"}
+          field={attribute}
+        />
+      );
+    } else if (
+      attribute === "embargo_start_date" ||
+      attribute === "embargo_end_date"
+    ) {
+      element = (
+        <section key={`${attribute}_${index}`}>
+          {input(
+            {
+              outerClass: "field",
+              innerClass: "ui input",
+              id: attribute,
+              name: attribute,
+              value: archive[attribute] || "",
+              label: toTitleCase(attribute.replace(/_/g, " ")),
+              onChange: changeValueHandler
+            },
+            "date"
+          )}
+        </section>
+      );
+    } else if (attribute === "embargo_note") {
+      element = (
+        <EditMetadata
+          key={`edit_${index}`}
+          required={isRequiredField(attribute)}
+          field={attribute}
+          label={toTitleCase(attribute.replace(/_/g, " "))}
+          isMulti={multiFields.includes(attribute)}
+          isBoolean={booleanFields.includes(attribute)}
+          values={archive["embargo_note"]}
+          onChangeValue={changeValueHandler}
+          onRemoveValue={deleteMetadataHandler}
+          onAddValue={addMetadataHandler}
         />
       );
     } else {
       element = (
         <EditMetadata
           key={`edit_${index}`}
-          required={isRequiredField(attribute.field)}
-          field={attribute.field}
-          label={attribute.label}
-          isMulti={multiFields.includes(attribute.field)}
-          isBoolean={booleanFields.includes(attribute.field)}
-          values={archive[attribute.field]}
+          required={isRequiredField(attribute)}
+          field={attribute}
+          label={toTitleCase(attribute.replace(/_/g, " "))}
+          isMulti={multiFields.includes(attribute)}
+          isBoolean={booleanFields.includes(attribute)}
+          values={archive[attribute]}
           onChangeValue={changeValueHandler}
           onRemoveValue={deleteMetadataHandler}
           onAddValue={addMetadataHandler}
@@ -291,56 +373,22 @@ const ArchiveForm = React.memo(props => {
     return element;
   };
 
-  const editableAttributes = () => {
-    const displayedAttributes = JSON.parse(
-      siteContext.site.displayedAttributes
-    )["archive"].filter(
-      attribute =>
-        attribute.field !== "custom_key" &&
-        editableFields.includes(attribute.field)
-    );
-    if (url) {
-      if (url.match(/\.(mp3|ogg|wav)$/) || url.match(/\.(mp4|mov)$/)) {
-        displayedAttributes.unshift(
-          {
-            field: "title",
-            label: "Title"
-          },
-          {
-            field: "description",
-            label: "Description"
-          },
-          {
-            field: "thumbnail_path",
-            label: "Thumbnail image"
-          },
-          {
-            field: "audioTranscript",
-            label: "HTML audio transcript"
-          }
-        );
-      } else {
-        displayedAttributes.unshift(
-          {
-            field: "title",
-            label: "Title"
-          },
-          {
-            field: "description",
-            label: "Description"
-          },
-          {
-            field: "thumbnail_path",
-            label: "Thumbnail image"
-          }
-        );
-      }
-    }
-    return displayedAttributes;
-  };
-
   let archiveDisplay = null;
   if (archive) {
+    if (embargo) {
+      archive["embargo_start_date"] =
+        viewState === "view"
+          ? embargo.start_date
+          : archive.embargo_start_date || embargo.start_date;
+      archive["embargo_end_date"] =
+        viewState === "view"
+          ? embargo.end_date
+          : archive.embargo_end_date || embargo.end_date;
+      archive["embargo_note"] =
+        viewState === "view"
+          ? embargo.note
+          : archive.embargo_note || embargo.note;
+    }
     if (viewState === "view") {
       archiveDisplay = [
         <a
@@ -351,11 +399,14 @@ const ArchiveForm = React.memo(props => {
         </a>
       ];
       archiveDisplay.push(
-        editableAttributes().map((attribute, index) => {
+        Object.keys(archive).map((entry, index) => {
+          const label =
+            entry[0].toUpperCase() + entry.substring(1).replace("_", " ");
+          const attribute = { label: label, field: entry };
           return archive[attribute.field] !== null &&
-            archive[attribute.field].length ? (
+            archive[attribute.field] !== "" ? (
             <ViewMetadata
-              key={`view_${attribute.field}`}
+              key={`view_${index}`}
               attribute={attribute}
               isMulti={multiFields.includes(attribute.field)}
               isBoolean={booleanFields.includes(attribute.field)}
@@ -374,7 +425,7 @@ const ArchiveForm = React.memo(props => {
       archiveDisplay = (
         <Form>
           {errorMsg}
-          {editableAttributes().map((attribute, index) => {
+          {Object.keys(archive).map((attribute, index) => {
             return formElement(attribute, index);
           })}
           <Form.Button onClick={submitArchiveHandler}>
@@ -412,6 +463,7 @@ const ArchiveForm = React.memo(props => {
           />
         </Form.Group>
       </Form>
+      <p className="errorMsg">{resultMessage}</p>
       {archiveDisplay}
     </div>
   );

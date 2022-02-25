@@ -55,7 +55,7 @@ describe("admin_archive_edit: Update item metadata and change it back", function
     cy.get("textarea[name='title']")
       .clear().type("New Title");
     cy.contains("Update Item Metadata").click();
-    cy.contains("Title: New Title").should('be.visible');
+    cy.contains("Title: New Title", { timeout: 5000 }).should('be.visible');
     cy.contains("View Item")
       .should('have.attr', 'href').and("include", "/archive/3h85z50c")
   })

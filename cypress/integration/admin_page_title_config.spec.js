@@ -29,7 +29,7 @@ describe("admin_page_title_config: Update Site title and change it back", functi
     cy.get("input[value='editSite']").parent().click();
     cy.get("input[name='siteTitle']", { timeout: 2000 }).clear().type("DEMO1");
     cy.contains("Update Site").click();
-    cy.contains("Site Title: DEMO1", { timeout: 2000 }).should('be.visible');
+    cy.contains("Site Title: DEMO1").should('be.visible');
   })
 
   it("Change title back", () => {
