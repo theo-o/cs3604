@@ -160,12 +160,11 @@ class ArchivePage extends Component {
 
   buildTrack(url, thumbnail_path) {
     const nameExt = this.fileNameFromUrl(url);
-    const name = nameExt.split(".")[0];
-
+    const ext = nameExt.split(".").pop();
     const track = {};
     track["kind"] = "subtitles";
     track["label"] = "English";
-    track["src"] = url.replace(nameExt, name + ".srt");
+    track["src"] = url.replace(`.${ext}`, ".srt");
     track["srclang"] = "en";
     track["poster"] = thumbnail_path;
     return track;
@@ -279,6 +278,7 @@ class ArchivePage extends Component {
         options={JSON.stringify(config)}
         tracks={JSON.stringify(tracks)}
         title={title}
+        transcript={JSON.parse(this.state.item.archiveOptions)}
       />
     ) : (
       <PodcastMediaElement

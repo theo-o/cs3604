@@ -15,6 +15,7 @@ export default class PodcastMediaElement extends Component {
       player: null,
       audioImg: null,
       audioSrc: null,
+      captionSrc: null,
       transcript: null,
       isTranscriptActive: false
     };
@@ -34,6 +35,11 @@ export default class PodcastMediaElement extends Component {
     if (sources[0].src) {
       const audioUrl = sources[0].src;
       audioResponse = await asyncGetFile(audioUrl, "audio", this, "audioSrc");
+    }
+    if (audioResponse.success) {
+      const tracks = JSON.parse(this.props.tracks);
+      const captionSrc = tracks[0].src;
+      await asyncGetFile(captionSrc, "audio", this, "captionSrc");
     }
     if (audioResponse.success && this.props.poster) {
       await asyncGetFile(this.props.poster, "image", this, "audioImg");
@@ -140,7 +146,7 @@ export default class PodcastMediaElement extends Component {
     for (let i = 0, total = tracks.length; i < total; i++) {
       const track = tracks[i];
       tracksTags.push(
-        `<track src="${track.src}" kind="${track.kind}" srclang="${
+        `<track src="${this.state.captionSrc}" kind="${track.kind}" srclang="${
           track.lang
         }"${track.label ? ` label=${track.label}` : ""}>`
       );
