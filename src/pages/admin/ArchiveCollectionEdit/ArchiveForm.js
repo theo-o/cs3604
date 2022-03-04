@@ -60,7 +60,7 @@ const editableFields = singleFields
 let resultMessage = "";
 
 const ArchiveForm = React.memo(props => {
-  const { identifier } = props;
+  const { identifier, resetForm } = props;
   const [error, setError] = useState(null);
   const [fullArchive, setFullArchive] = useState(null);
   const [oldArchive, setOldArchive] = useState(null);
@@ -160,6 +160,22 @@ const ArchiveForm = React.memo(props => {
 
   const viewChangeHandler = (e, { value }) => {
     setViewState(value);
+  };
+
+  const deleteArchiveHandler = async () => {
+    const deleteConfirm = window.confirm(
+      "Are you sure you want to delete this record? This action cannot be undone."
+    );
+    if (deleteConfirm) {
+      const archiveId = { id: fullArchive.id };
+
+      await API.graphql({
+        query: mutations.deleteArchive,
+        variables: { input: archiveId },
+        authMode: "AMAZON_COGNITO_USER_POOLS"
+      });
+      resetForm();
+    }
   };
 
   const submitArchiveHandler = async event => {
@@ -431,6 +447,7 @@ const ArchiveForm = React.memo(props => {
           <Form.Button onClick={submitArchiveHandler}>
             Update Item Metadata
           </Form.Button>
+          <Form.Button onClick={deleteArchiveHandler}>Delete Item</Form.Button>
         </Form>
       );
     }

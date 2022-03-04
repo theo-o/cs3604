@@ -23,6 +23,11 @@ const IdentifierForm = props => {
     setNewCollection(true);
   };
 
+  const resetForm = () => {
+    setEnteredIdentifier("");
+    setIdentifier(null);
+  };
+
   const newCollectionButton = () => {
     let collectionButtonSection = null;
     if (props.type === "collection") {
@@ -41,7 +46,7 @@ const IdentifierForm = props => {
   let form = null;
   if (identifier) {
     if (props.type === "archive") {
-      form = <ArchiveForm identifier={identifier} />;
+      form = <ArchiveForm identifier={identifier} resetForm={resetForm} />;
     } else if (props.type === "collection") {
       form = <CollectionForm identifier={identifier} />;
     }
