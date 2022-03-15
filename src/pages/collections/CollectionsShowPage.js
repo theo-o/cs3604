@@ -346,7 +346,7 @@ class CollectionsShowPage extends Component {
             )}
             siteId={this.props.site.siteId}
           />
-          {viewOption === "listView" ? (
+          {viewOption === "list" ? (
             <CollectionsListView
               site={this.props.site}
               languages={this.state.languages}

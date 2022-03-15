@@ -50,7 +50,16 @@ class SiteForm extends Component {
             })
           : [],
         redirectURL: options ? options.redirectURL : "",
-        socialMedia: options.socialMedia ? options.socialMedia : []
+        socialMedia: options.socialMedia ? options.socialMedia : [],
+        collectionPageSettings: options.collectionPageSettings
+          ? options.collectionPageSettings
+          : {},
+        collectionViewOption: options.collectionPageSettings.viewOption
+          ? options.collectionPageSettings.viewOption
+          : "",
+        collectionItemsPosition: options.collectionPageSettings.itemsPosition
+          ? options.collectionPageSettings.itemsPosition
+          : ""
       };
       this.setState({
         formState: siteInfo,
@@ -66,13 +75,7 @@ class SiteForm extends Component {
 
   updateInputValue = (event, data) => {
     const { name, value } = event.target;
-    if (data.name !== "socialMedia") {
-      this.setState(prevState => {
-        return {
-          formState: { ...prevState.formState, [name]: value }
-        };
-      });
-    } else {
+    if (data.name === "socialMedia") {
       let array = [...this.state.formState.socialMedia];
       let index = array.indexOf(data.value);
       if (index > -1) {
@@ -83,6 +86,21 @@ class SiteForm extends Component {
       this.setState(prevState => {
         return {
           formState: { ...prevState.formState, socialMedia: array }
+        };
+      });
+    } else if (
+      data.name === "collectionViewOption" ||
+      data.name === "collectionItemsPosition"
+    ) {
+      this.setState(prevState => {
+        return {
+          formState: { ...prevState.formState, [data.name]: data.value }
+        };
+      });
+    } else {
+      this.setState(prevState => {
+        return {
+          formState: { ...prevState.formState, [name]: value }
         };
       });
     }
@@ -103,10 +121,13 @@ class SiteForm extends Component {
 
     if (this.state.formState.siteOptions) {
       const options = this.state.formState.siteOptions;
+      options.collectionPageSettings = this.state.formState.collectionPageSettings;
       if (this.state.formState.redirectURL.length) {
         options.redirectURL = this.state.formState.redirectURL;
       }
       options.socialMedia = this.state.formState.socialMedia;
+      options.collectionPageSettings.itemsPosition = this.state.formState.collectionItemsPosition;
+      options.collectionPageSettings.viewOption = this.state.formState.collectionViewOption;
       this.setState(prevState => {
         return {
           formState: { ...prevState.formState, siteOptions: options }
@@ -120,6 +141,9 @@ class SiteForm extends Component {
     siteInfo = this.formatData(siteInfo);
     delete siteInfo.redirectURL;
     delete siteInfo.socialMedia;
+    delete siteInfo.collectionItemsPosition;
+    delete siteInfo.collectionViewOption;
+    delete siteInfo.collectionPageSettings;
 
     await API.graphql({
       query: mutations.updateSite,
@@ -299,6 +323,35 @@ class SiteForm extends Component {
               onChange={this.updateInputValue}
             />
           </Form.Group>
+          <h2>Collection Page Settings</h2>
+          <Form.Group>
+            <Form.Dropdown
+              label="Layout Style"
+              value={this.state.formState.collectionViewOption}
+              name="collectionViewOption"
+              placeholder="Choose layout"
+              options={[
+                { key: "g", text: "Grid", value: "grid" },
+                { key: "l", text: "List", value: "list" }
+              ]}
+              onChange={this.updateInputValue}
+            />
+            {this.state.formState.collectionViewOption === "grid" ? (
+              <Form.Dropdown
+                label="Position of the items section on the page"
+                value={this.state.formState.collectionItemsPosition}
+                name="collectionItemsPosition"
+                placeholder="Choose position"
+                options={[
+                  { key: "a", text: "Above the metadata section", value: "0" },
+                  { key: "b", text: "Below the metadata section", value: "1" }
+                ]}
+                onChange={this.updateInputValue}
+              />
+            ) : (
+              <></>
+            )}
+          </Form.Group>
           <ContactForm
             contactList={this.state.formState.contact}
             updateContactValue={this.updateContactValue}
@@ -332,6 +385,20 @@ class SiteForm extends Component {
                 <li key="none">No items selected</li>
               )}
             </ul>
+            <p>Collection Page Settings:</p>
+            <p>Layout style: {this.state.formState.collectionViewOption}</p>
+            <p
+              className={
+                this.state.formState.collectionViewOption === "list"
+                  ? "d-none"
+                  : "d-inline-block"
+              }
+            >
+              Position of the items section:{" "}
+              {this.state.formState.collectionItemsPosition === "0"
+                ? "Above the metadata section"
+                : "Below the metadata section"}
+            </p>
 
             <p>Contacts</p>
             <Contacts contactList={this.state.formState.contact} />
