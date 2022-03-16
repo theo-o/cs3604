@@ -119,7 +119,7 @@ class CollectionMetadataSection extends Component {
           >
             <h2
               className={
-                this.props.viewOption === "listView"
+                this.props.viewOption === "list"
                   ? "d-none"
                   : "details-section-header"
               }

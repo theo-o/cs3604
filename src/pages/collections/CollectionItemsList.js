@@ -12,7 +12,7 @@ class CollectionItemsList extends Component {
       retVal = (
         <div
           className={
-            this.props.view === "listView"
+            this.props.view === "list"
               ? "collection-items-list"
               : "collection-items-grid"
           }
@@ -20,7 +20,7 @@ class CollectionItemsList extends Component {
           aria-roledescription="Collection items"
         >
           {this.props.items.map(item => {
-            if (this.props.view === "listView") {
+            if (this.props.view === "list") {
               return (
                 <div key={item.identifier} className="collection-entry">
                   <NavLink to={`/archive/${arkLinkFormatted(item.custom_key)}`}>
