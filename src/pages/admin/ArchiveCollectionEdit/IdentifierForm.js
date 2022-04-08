@@ -9,6 +9,7 @@ const IdentifierForm = props => {
   const [enteredIdentifier, setEnteredIdentifier] = useState("");
   const [identifier, setIdentifier] = useState(null);
   const [newCollection, setNewCollection] = useState(false);
+  const [newArchive, setNewArchive] = useState(false);
 
   useEffect(() => {
     setEnteredIdentifier("");
@@ -21,6 +22,10 @@ const IdentifierForm = props => {
 
   const newCollectionHandler = () => {
     setNewCollection(true);
+  };
+
+  const newArchiveHandler = () => {
+    setNewArchive(true);
   };
 
   const resetForm = () => {
@@ -43,6 +48,19 @@ const IdentifierForm = props => {
     return collectionButtonSection;
   };
 
+  const newArchiveButton = () => {
+    let archiveButtonSection = null;
+    if (props.type === "archive") {
+      archiveButtonSection = (
+        <div>
+          <p>Or:</p>
+          <Form.Button onClick={newArchiveHandler}>Create Archive</Form.Button>
+        </div>
+      );
+    }
+    return archiveButtonSection;
+  };
+
   let form = null;
   if (identifier) {
     if (props.type === "archive") {
@@ -52,6 +70,8 @@ const IdentifierForm = props => {
     }
   } else if (!identifier && newCollection) {
     form = <CollectionForm identifier={null} newCollection={newCollection} />;
+  } else if (!identifier && newArchive) {
+    form = <ArchiveForm identifier={null} newArchive={newArchive} />;
   }
 
   return (
@@ -67,6 +87,7 @@ const IdentifierForm = props => {
         </Form.Field>
         <Form.Button onClick={submitIdentifierHandler}>Confirm</Form.Button>
         {newCollectionButton()}
+        {newArchiveButton()}
       </Form>
       {form}
     </div>

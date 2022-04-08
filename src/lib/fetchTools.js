@@ -280,15 +280,23 @@ export const fetchSearchResults = async (
   return searchResults;
 };
 
-export const getAllCollections = async () => {
+export const getAllCollections = async filter => {
   let collections = [];
   let nextToken = null;
   let items = null;
+
   do {
+    let myFilter = {};
+    myFilter["nextToken"] = nextToken;
+    if (filter) {
+      for (const entry in filter) {
+        if (!myFilter.hasOwnProperty(entry)) {
+          myFilter[entry] = filter[entry];
+        }
+      }
+    }
     try {
-      const results = await fetchObjects(queries.listCollections, {
-        nextToken: nextToken
-      });
+      const results = await fetchObjects(queries.listCollections, myFilter);
       items = results.data.listCollections.items;
       nextToken = results.data.listCollections.nextToken;
     } catch (error) {

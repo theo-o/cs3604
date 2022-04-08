@@ -1,9 +1,14 @@
 import React, { useEffect, useState, useContext } from "react";
-import { Form } from "semantic-ui-react";
+import { Form, Input } from "semantic-ui-react";
+import { Link } from "react-router-dom";
 import ViewMetadata from "./ViewMetadata";
 import EditMetadata from "./EditMetadata";
 import { API, Storage } from "aws-amplify";
-import { getArchiveByIdentifier } from "../../../lib/fetchTools";
+import {
+  getArchiveByIdentifier,
+  getAllCollections,
+  mintNOID
+} from "../../../lib/fetchTools";
 import {
   validEmbargo,
   loadEmbargo,
@@ -15,6 +20,7 @@ import * as mutations from "../../../graphql/mutations";
 import SiteContext from "../SiteContext";
 import FileUploadField from "../../../components/FileUploadField";
 import { input } from "../../../components/FormFields";
+import { v4 as uuidv4 } from "uuid";
 
 const multiFields = [
   "belongs_to",
@@ -36,8 +42,10 @@ const multiFields = [
 
 const singleFields = [
   "bibliographic_citation",
+  "collection",
   "description",
   "display_date",
+  "manifest_url",
   "rights_holder",
   "rights_statement",
   "title",
@@ -60,7 +68,7 @@ const editableFields = singleFields
 let resultMessage = "";
 
 const ArchiveForm = React.memo(props => {
-  const { identifier, resetForm } = props;
+  const { identifier, newArchive, resetForm } = props;
   const [error, setError] = useState(null);
   const [fullArchive, setFullArchive] = useState(null);
   const [oldArchive, setOldArchive] = useState(null);
@@ -69,6 +77,10 @@ const ArchiveForm = React.memo(props => {
   const [viewState, setViewState] = useState("view");
   const [validForm, setValidForm] = useState(true);
   const [embargo, setEmbargo] = useState(null);
+  const [allCollections, setAllCollections] = useState(null);
+  const [selectedCollection, setSelectedCollection] = useState(null);
+  const [matches, setMatches] = useState([]);
+  const [exactMatch, setExactMatch] = useState(false);
 
   const siteContext = useContext(SiteContext);
 
@@ -128,9 +140,30 @@ const ArchiveForm = React.memo(props => {
       setArchiveId(item_id);
     }
 
+    function setNewArchive() {
+      let newArchive = {};
+      for (const item in singleFields) {
+        const key = singleFields[item];
+        newArchive[key] = null;
+      }
+      for (const item in multiFields) {
+        const key = multiFields[item];
+        newArchive[key] = [];
+      }
+      for (const item in booleanFields) {
+        const key = booleanFields[item];
+        newArchive[key] = false;
+      }
+      setOldArchive(newArchive);
+      setArchive(newArchive);
+      setArchiveId(null);
+    }
+
     async function init() {
-      if (identifier && !fullArchive) {
+      if (identifier && !newArchive && !fullArchive) {
         await loadItem();
+      } else if (newArchive) {
+        setNewArchive();
       }
       if (fullArchive) {
         const embargoResponse = await loadEmbargo(fullArchive, setEmbargo);
@@ -148,13 +181,29 @@ const ArchiveForm = React.memo(props => {
           return arch;
         });
       }
+      if (!allCollections) {
+        const REP_TYPE = process.env.REACT_APP_REP_TYPE;
+        const allColl = await getAllCollections({
+          filter: {
+            collection_category: { eq: REP_TYPE }
+          }
+        });
+        setAllCollections(allColl);
+      }
     }
 
     init();
-  }, [identifier, fullArchive, siteContext.site.siteId, viewState]);
+  }, [
+    identifier,
+    newArchive,
+    fullArchive,
+    siteContext.site.siteId,
+    viewState,
+    allCollections
+  ]);
 
   const isRequiredField = attribute => {
-    const requiredFields = ["title"];
+    const requiredFields = ["title", "manifest_url"];
     return requiredFields.includes(attribute);
   };
 
@@ -214,12 +263,31 @@ const ArchiveForm = React.memo(props => {
     archive.archiveOptions = JSON.stringify(options);
     delete archive.audioTranscript;
 
+    if (newArchive) {
+      const id = uuidv4();
+      const noid = await mintNOID();
+      const customKeyPrefix = "ark:/53696";
+      const customKey = `${customKeyPrefix}/${noid}`;
+
+      archive.id = id;
+      setArchiveId(id);
+      archive.identifier = noid;
+      archive.heirarchy_path = selectedCollection.heirarchy_path;
+      archive.custom_key = customKey;
+      archive.item_category = siteContext.site.groups[0];
+      archive.parent_collection = selectedCollection.id;
+    }
+    delete archive.collection;
+
     const archiveInfo = {
       id: archiveId,
       ...archive
     };
+    const mutation = newArchive
+      ? mutations.createArchive
+      : mutations.updateArchive;
     await API.graphql({
-      query: mutations.updateArchive,
+      query: mutation,
       variables: { input: archiveInfo },
       authMode: "AMAZON_COGNITO_USER_POOLS"
     });
@@ -313,9 +381,85 @@ const ArchiveForm = React.memo(props => {
     changeValueHandler(event, field);
   };
 
+  const onChangeCollection = async e => {
+    let matchList = [];
+    setExactMatch(false);
+    for (const idx in allCollections) {
+      const col = allCollections[idx];
+      if (
+        e.target.value &&
+        e.target.value.length &&
+        col.identifier &&
+        col.identifier.indexOf(e.target.value) === 0
+      ) {
+        matchList.push(col.identifier);
+        if (e.target.value === col.identifier) {
+          setExactMatch(true);
+        }
+      }
+    }
+    setMatches(matchList);
+    changeValueHandler(e, "collection");
+    if (matchList.length === 1) {
+      let selected = null;
+      for (const col in allCollections) {
+        if (allCollections[col].identifier === matchList[0]) {
+          selected = allCollections[col];
+        }
+      }
+      setSelectedCollection(selected);
+    }
+  };
+
+  const matchDisplay = () => {
+    let displayEntries = [];
+    let display = null;
+
+    if (matches.length > 0 && !exactMatch) {
+      displayEntries = matches.map(match => {
+        const evt = { target: { value: match } };
+        return (
+          <li key={match}>
+            <Link to={"/siteAdmin"} onClick={() => onChangeCollection(evt)}>
+              {match}
+            </Link>
+          </li>
+        );
+      });
+      display = <ul key="collectionMatches">{displayEntries}</ul>;
+    } else if (matches.length === 1 && exactMatch) {
+      display = <div className="match-success">Identifier found</div>;
+    }
+    return display;
+  };
+
+  const collectionSelector = attribute => {
+    const value = archive.collection || "";
+    return (
+      <section key="collection-selector">
+        <Form.Field required={newArchive}>
+          <label>Collection (by identifier)</label>
+          <Input
+            name={attribute}
+            onChange={event => onChangeCollection(event, attribute)}
+            placeholder={`Type the Collection identifer that this record belongs to`}
+            value={value}
+            autoComplete="off"
+          />
+          {matchDisplay()}
+        </Form.Field>
+      </section>
+    );
+  };
+
   const formElement = (attribute, index) => {
     let element = null;
-    if (attribute === "thumbnail_path" || attribute === "audioTranscript") {
+    if (attribute === "collection") {
+      element = collectionSelector(attribute);
+    } else if (
+      attribute === "thumbnail_path" ||
+      attribute === "audioTranscript"
+    ) {
       element = (
         <FileUploadField
           key={`${attribute}_${index}`}
@@ -406,14 +550,17 @@ const ArchiveForm = React.memo(props => {
           : archive.embargo_note || embargo.note;
     }
     if (viewState === "view") {
-      archiveDisplay = [
-        <a
-          key="view_custom_key"
-          href={`/archive/${fullArchive.custom_key.split("/").pop()}`}
-        >
-          View Item
-        </a>
-      ];
+      archiveDisplay = [];
+      if (!newArchive && fullArchive) {
+        archiveDisplay.push(
+          <a
+            key="view_custom_key"
+            href={`/archive/${fullArchive.custom_key.split("/").pop()}`}
+          >
+            View Item
+          </a>
+        );
+      }
       archiveDisplay.push(
         Object.keys(archive).map((entry, index) => {
           const label =
