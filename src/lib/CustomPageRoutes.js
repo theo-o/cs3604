@@ -3,10 +3,11 @@ import { Route } from "react-router-dom";
 import AboutPage from "../pages/AboutPage";
 import PermissionsPage from "../pages/PermissionsPage";
 import AdditionalPages from "../pages/AdditionalPages";
-
+import CaseStudyUploadPage from "../pages/CaseStudyUploadPage";
 const pageComponents = {
   AboutPage: AboutPage,
   PermissionsPage: PermissionsPage,
+  CaseStudyUploadPage: CaseStudyUploadPage,
   AdditionalPages: AdditionalPages
 };
 
