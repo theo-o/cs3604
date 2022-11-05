@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import SiteTitle from "../components/SiteTitle";
 import ContactSection from "../components/ContactSection";
+import UploadSection from "../components/UploadSection";
 import { getFile } from "../lib/fetchTools";
 
 import "../css/TermsPage.scss";
@@ -36,6 +37,7 @@ class CaseStudyUploadPage extends Component {
             />
             <h1 id="permissions-heading">Case Study Student Upload</h1>
           </div>
+          <UploadPage />
           <div
             className="col-md-8"
             role="region"
