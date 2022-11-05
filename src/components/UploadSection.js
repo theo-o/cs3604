@@ -33,3 +33,5 @@ function UploadSection() {
         </div>
     )
 }
+
+export default UploadSection;
