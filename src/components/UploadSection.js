@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { API, Storage } from "aws-amplify";
 
-export function UploadSection() {
+function UploadSection() {
 
     const [currFile, setCurrFile] = useState();
     const [fileIsSelected, setFileIsSelected] = useState(false);
