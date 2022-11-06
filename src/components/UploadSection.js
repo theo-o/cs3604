@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { API, Storage, Auth } from "aws-amplify";
 import {withAuthenticator} from "@aws-amplify/ui-react";
+import { getAllCollections, mintNOID, getArchiveByIdentifier } from '../lib/fetchTools';
 
 function UploadSection() {
 
@@ -13,6 +14,8 @@ function UploadSection() {
     const [titleTextValue, setTitleTextValue] = useState("");
     const [descriptionTextValue, setDescriptionTextValue] = useState("");
     const [parentCollectionValue, setParentCollectionValue] = useState("");
+    const [selectedCollection, setSelectedCollection] = useState(null);
+    const [allCollections, setAllCollections] = useState(null);
     const [archive, setArchive] = useState();
 
     const COURSE_TOPICS = [
@@ -47,6 +50,7 @@ function UploadSection() {
     };
 
     const handleTitleChange = (e) => {
+        console.log(e.target.value);
         setTitleTextValue(e.target.value);
     };
 
@@ -59,6 +63,7 @@ function UploadSection() {
     };
 
     function resetFields() {
+        console.log('resetting...');
         setTitleTextValue("");
         setDescriptionTextValue("");
         setParentCollectionValue("");
@@ -139,8 +144,21 @@ function UploadSection() {
         }
     }
 
+    async function populateCollections() {
+        if (!allCollections) {
+            const TYPE = process.env.REACT_APP_REP_TYPE;
+            const collections = await getAllCollections({
+                filter: {
+                    collection_category: {eq: TYPE}
+                }
+            });
+            setAllCollections(collections);
+        }
+    }
+
     useEffect(() => {
         authUser();
+        //populateCollections();
     }, [])
 
     useEffect(() => {
@@ -148,11 +166,11 @@ function UploadSection() {
             setContent((
                 <div>
                     <label htmlFor='casestudy-title'>Title:</label> 
-                    <input id ='casestudy-title' type='text' onChange={(e) => handleTitleChange(e)}/>
+                    <input id ='casestudy-title' type='text' onChange={handleTitleChange}/>
                     <label htmlFor='casestudy-desc'>Description:</label>
-                    <input id='casestudy-desc' type='text' onChange={(e) => handleDescriptionChange(e)}/>
+                    <input id='casestudy-desc' type='text' onChange={handleDescriptionChange}/>
                     <label htmlFor='course-topic-select'>Course Topic:</label>
-                    <select id='course-topic-select' onChange={(e) => handleParentCollectionChange(e)}>
+                    <select id='course-topic-select' onChange={handleParentCollectionChange}>
                         {COURSE_TOPICS.map(
                             (topic) => <option value={topic}>{topic}</option>
                         )}
