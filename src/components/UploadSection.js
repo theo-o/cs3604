@@ -6,8 +6,8 @@ function UploadSection() {
 
     const [currFile, setCurrFile] = useState();
     const [fileIsSelected, setFileIsSelected] = useState(false);
-    const [isAuthorized, setIsAuthorized] = useState(false);
-    const [groups, setGroups] = useState();
+    const [isAuthorized, setIsAuthorized] = useState(true);
+    // const [groups, setGroups] = useState();
 
     const handleChange = (e) => {
         setCurrFile(e.target.files[0]);
@@ -35,27 +35,27 @@ function UploadSection() {
 
     }
 
-    async function authUser() {
-        try {
-            const data = await Auth.currentUserPoolUser();
-            const g = data.signInUserSession.accessToken.payload["cognito:groups"];
-            setGroups(g);
-            const type = process.env.STUDENT_AUTH;
-            if (g && g.indexOf(type) !== -1) {
-                setIsAuthorized(true);
-            } else {
-                setIsAuthorized(false);
-            }
+    // async function authUser() {
+    //     try {
+    //         const data = await Auth.currentUserPoolUser();
+    //         const g = data.signInUserSession.accessToken.payload["cognito:groups"];
+    //         setGroups(g);
+    //         const type = process.env.STUDENT_AUTH;
+    //         if (g && g.indexOf(type) !== -1) {
+    //             setIsAuthorized(true);
+    //         } else {
+    //             setIsAuthorized(false);
+    //         }
 
-        } catch (err) {
-            console.log("error: ", err);
-            setIsAuthorized(false);
-        }
-    }
+    //     } catch (err) {
+    //         console.log("error: ", err);
+    //         setIsAuthorized(false);
+    //     }
+    // }
 
-    useEffect(() => {
-        authUser();
-    }, [])
+    // useEffect(() => {
+    //     authUser();
+    // }, [])
 
     return (
         <div>
