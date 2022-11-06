@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { API, Storage, Auth } from "aws-amplify";
 import {withAuthenticator} from "@aws-amplify/ui-react";
+import SiteContext from "../pages/admin/SiteContext";
 
 function UploadSection() {
 
     const [currFile, setCurrFile] = useState();
     const [fileIsSelected, setFileIsSelected] = useState(false);
-    const [isAuthorized, setIsAuthorized] = useState(true);
+    const [isAuthorized, setIsAuthorized] = useState(false);
     // const [groups, setGroups] = useState();
 
     const handleChange = (e) => {
@@ -23,8 +24,7 @@ function UploadSection() {
                     }
                 });
                 await Storage.put(currFile.name, currFile, {
-                    contentType: currFile.type, 
-                    ACL: 'public-read'
+                    contentType: currFile.type
                 });
             } 
             catch (err) {
@@ -36,27 +36,28 @@ function UploadSection() {
 
     }
 
-    // async function authUser() {
-    //     try {
-    //         const data = await Auth.currentUserPoolUser();
-    //         const g = data.signInUserSession.accessToken.payload["cognito:groups"];
-    //         setGroups(g);
-    //         const type = process.env.STUDENT_AUTH;
-    //         if (g && g.indexOf(type) !== -1) {
-    //             setIsAuthorized(true);
-    //         } else {
-    //             setIsAuthorized(false);
-    //         }
+    async function authUser() {
+        try {
+            const data = await Auth.currentUserPoolUser();
+            const g = data.signInUserSession.accessToken.payload["cognito:groups"];
+            setGroups(g);
+            const type = 'students';
+            if (g && g.indexOf(type) !== -1) {
+                console.log("auth!");
+                setIsAuthorized(true);
+            } else {
+                setIsAuthorized(false);
+            }
 
-    //     } catch (err) {
-    //         console.log("error: ", err);
-    //         setIsAuthorized(false);
-    //     }
-    // }
+        } catch (err) {
+            console.log("error: ", err);
+            setIsAuthorized(false);
+        }
+    }
 
-    // useEffect(() => {
-    //     authUser();
-    // }, [])
+    useEffect(() => {
+        authUser();
+    }, [])
 
     return (
         <div>
