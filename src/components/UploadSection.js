@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { API, Storage, Auth } from "aws-amplify";
+import {withAuthenticator} from "@aws-amplify/ui-react";
 
 function UploadSection() {
 
@@ -74,4 +75,4 @@ function UploadSection() {
     )
 }
 
-export default UploadSection;
+export default withAuthenticator(UploadSection);
