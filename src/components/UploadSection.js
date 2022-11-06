@@ -5,6 +5,15 @@ import { getAllCollections, mintNOID, getArchiveByIdentifier } from '../lib/fetc
 
 function UploadSection() {
 
+    const COURSE_TOPICS = [
+        "-- Select --",
+        "Intellectual Property", 
+        "Privacy", 
+        "Commerce", 
+        "Internet (ICT)", 
+        "Artificial Intelligence"
+    ];
+
     const [currFile, setCurrFile] = useState();
     const [fileIsSelected, setFileIsSelected] = useState(false);
     const [isAuthorized, setIsAuthorized] = useState(false);
@@ -13,18 +22,11 @@ function UploadSection() {
     const [errorContent, setErrorContent] = useState([]);
     const [titleTextValue, setTitleTextValue] = useState("");
     const [descriptionTextValue, setDescriptionTextValue] = useState("");
-    const [parentCollectionValue, setParentCollectionValue] = useState("");
+    const [parentCollectionValue, setParentCollectionValue] = useState(COURSE_TOPICS[0]);
     const [selectedCollection, setSelectedCollection] = useState(null);
     const [allCollections, setAllCollections] = useState(null);
     const [archive, setArchive] = useState();
 
-    const COURSE_TOPICS = [
-        "Intellectual Property", 
-        "Privacy", 
-        "Commerce", 
-        "Internet (ICT)", 
-        "Artificial Intelligence"
-    ];
 
 
 
@@ -66,10 +68,19 @@ function UploadSection() {
         console.log('resetting...');
         setTitleTextValue("");
         setDescriptionTextValue("");
-        setParentCollectionValue("");
+        setParentCollectionValue(COURSE_TOPICS[0]);
         setCurrFile(null);
         setFileIsSelected(false);
         setErrorContent([]);
+    }
+
+    function findSelectedCollection() {
+        for (var c in allCollections) {
+            if (allCollections[c].identifier === parentCollectionValue) {
+                setSelectedCollection(allCollections[c]);
+                break;
+            }
+        }
     }
 
     function isInvalidFileType(fileName) {
@@ -77,7 +88,9 @@ function UploadSection() {
         return false;
     }
 
-    async function handleSubmit() {
+    async function handleSubmit(e) {
+        e.preventDefault();
+        console.log(titleTextValue);
         var containsError = false;
         setErrorContent([]);
         if (titleTextValue === "") {
@@ -85,7 +98,7 @@ function UploadSection() {
             containsError = true;
             errorContent.push(titleError);
         }
-        if (parentCollectionValue === "") {
+        if (parentCollectionValue === COURSE_TOPICS[0]) {
             containsError = true;
             errorContent.push(noParentCollectionError);
         }
@@ -97,7 +110,7 @@ function UploadSection() {
             containsError = true;
             errorContent.push(invalidFileError);
         }
-        if (!containsError) {
+        if (fileIsSelected) {
             try {
                 Storage.configure({
                     customPrefix: {
@@ -108,7 +121,7 @@ function UploadSection() {
                     contentType: currFile.type, 
                     completeCallback: (e) => {
                         console.log(e);
-
+                        findSelectedCollection();
                     }, 
                     errorCallback: (err) => {
                         // Alert user of error
@@ -121,7 +134,7 @@ function UploadSection() {
             const archive = {
 
             }
-            resetFields();
+            // resetFields();
         }
 
     }
@@ -158,7 +171,7 @@ function UploadSection() {
 
     useEffect(() => {
         authUser();
-        //populateCollections();
+        populateCollections();
     }, [])
 
     useEffect(() => {
