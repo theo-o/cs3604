@@ -8,6 +8,7 @@ function UploadSection() {
     const [currFile, setCurrFile] = useState();
     const [fileIsSelected, setFileIsSelected] = useState(false);
     const [isAuthorized, setIsAuthorized] = useState(false);
+    const [content, setContent] = useState();
     // const [groups, setGroups] = useState();
 
     const handleChange = (e) => {
@@ -40,7 +41,6 @@ function UploadSection() {
         try {
             const data = await Auth.currentUserPoolUser();
             const g = data.signInUserSession.accessToken.payload["cognito:groups"];
-            setGroups(g);
             const type = 'students';
             if (g && g.indexOf(type) !== -1) {
                 console.log("auth!");
@@ -59,20 +59,27 @@ function UploadSection() {
         authUser();
     }, [])
 
+    useEffect(() => {
+        if (isAuthorized) {
+            setContent((
+                <div>
+                    <input type='file' name='file' onChange={handleChange} />
+                    <div>
+                        <button onClick={handleSubmit}>Submit File</button>
+                    </div>
+                </div>
+                ))
+        } else {
+            setContent((
+            <div>
+                <h1>You are not authorized to access this page.</h1>
+            </div>))
+        }
+    }, [isAuthorized]);
+
     return (
         <div>
-        {isAuthorized ? (
-            <div>
-                <input type='file' name='file' onChange={handleChange} />
-                <div>
-                    <button onClick={handleSubmit}>Submit File</button>
-                </div>
-            </div>
-            ) : (
-                <div>
-                    <h1>You are not authorized to access this page.</h1>
-                </div>
-            )}
+            {content}
         </div>
     )
 }
