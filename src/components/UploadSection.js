@@ -23,7 +23,8 @@ function UploadSection() {
                     }
                 });
                 await Storage.put(currFile.name, currFile, {
-                    contentType: currFile.type
+                    contentType: currFile.type, 
+                    ACL: 'public-read'
                 });
             } 
             catch (err) {
