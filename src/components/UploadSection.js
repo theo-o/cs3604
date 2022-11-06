@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { API, Storage, Auth } from "aws-amplify";
 import {withAuthenticator} from "@aws-amplify/ui-react";
 import { getAllCollections, mintNOID, getArchiveByIdentifier } from '../lib/fetchTools';
@@ -26,8 +26,11 @@ function UploadSection() {
     const [selectedCollection, setSelectedCollection] = useState(null);
     const [allCollections, setAllCollections] = useState(null);
     const [archive, setArchive] = useState();
-
-
+    const pageRef = useRef();
+    pageRef.currTitle = titleTextValue;
+    pageRef.currDesc = descriptionTextValue;
+    pageRef.parentColl = parentCollectionValue;
+    pageRef.fileSelected = fileIsSelected;
 
 
     const titleError = (
@@ -64,15 +67,15 @@ function UploadSection() {
         setParentCollectionValue(e.target.value);
     };
 
-    function resetFields() {
-        console.log('resetting...');
-        setTitleTextValue("");
-        setDescriptionTextValue("");
-        setParentCollectionValue(COURSE_TOPICS[0]);
-        setCurrFile(null);
-        setFileIsSelected(false);
-        setErrorContent([]);
-    }
+    // function resetFields() {
+    //     console.log('resetting...');
+    //     setTitleTextValue("");
+    //     setDescriptionTextValue("");
+    //     setParentCollectionValue(COURSE_TOPICS[0]);
+    //     setCurrFile(null);
+    //     setFileIsSelected(false);
+    //     setErrorContent([]);
+    // }
 
     function findSelectedCollection() {
         for (var c in allCollections) {
@@ -90,19 +93,21 @@ function UploadSection() {
 
     async function handleSubmit(e) {
         e.preventDefault();
-        console.log(titleTextValue);
+        console.log(pageRef.currTitle);
+        console.log(pageRef.currDesc);
+        console.log(pageRef.parentColl);
+        console.log(pageRef.fileIsSelected);
         var containsError = false;
         setErrorContent([]);
-        if (titleTextValue === "") {
-            console.log("title is empty");
+        if (pageRef.currTitle === "") {
             containsError = true;
             errorContent.push(titleError);
         }
-        if (parentCollectionValue === COURSE_TOPICS[0]) {
+        if (pageRef.parentColl === COURSE_TOPICS[0]) {
             containsError = true;
             errorContent.push(noParentCollectionError);
         }
-        if (!fileIsSelected) {
+        if (!pageRef.fileIsSelected) {
             containsError = true;
             errorContent.push(noFileError);
         }
@@ -110,7 +115,7 @@ function UploadSection() {
             containsError = true;
             errorContent.push(invalidFileError);
         }
-        if (fileIsSelected) {
+        if (pageRef.fileIsSelected) {
             try {
                 Storage.configure({
                     customPrefix: {
