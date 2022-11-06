@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { API, Storage, Auth } from "aws-amplify";
 import {withAuthenticator} from "@aws-amplify/ui-react";
-import SiteContext from "../pages/admin/SiteContext";
 
 function UploadSection() {
 
@@ -72,7 +71,7 @@ function UploadSection() {
     }
 
     async function handleSubmit() {
-        containsError = false;
+        var containsError = false;
         setErrorContent();
         if (titleTextValue === "") {
             containsError = true;
