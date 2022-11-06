@@ -41,7 +41,7 @@ function UploadSection() {
             const g = data.signInUserSession.accessToken.payload["cognito:groups"];
             setGroups(g);
             const type = process.env.STUDENT_AUTH;
-            if (groups && groups.indexOf(type) !== -1) {
+            if (g && g.indexOf(type) !== -1) {
                 setIsAuthorized(true);
             } else {
                 setIsAuthorized(false);
