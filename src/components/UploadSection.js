@@ -126,11 +126,13 @@ function UploadSection() {
                 });
                 await Storage.put(pageRef.currFile.name, pageRef.currFile, {
                     contentType: pageRef.currFile.type, 
+                    resumable: true, 
                     completeCallback: (e) => {
                         console.log(e);
                         findSelectedCollection();
                     }, 
                     errorCallback: (err) => {
+                        console.log(err);
                         // Alert user of error
                     }
                 });
