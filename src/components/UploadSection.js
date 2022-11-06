@@ -10,14 +10,87 @@ function UploadSection() {
     const [isAuthorized, setIsAuthorized] = useState(false);
     const [content, setContent] = useState();
     // const [groups, setGroups] = useState();
+    const [errorContent, setErrorContent] = useState();
+    const [titleTextValue, setTitleTextValue] = useState("");
+    const [descriptionTextValue, setDescriptionTextValue] = useState("");
+    const [parentCollectionValue, setParentCollectionValue] = useState("");
 
-    const handleChange = (e) => {
+    const COURSE_TOPICS = [
+        "Intellectual Property", 
+        "Privacy", 
+        "Commerce", 
+        "Internet (ICT)", 
+        "Artificial Intelligence"
+    ];
+
+
+
+    const titleError = (
+        <h3>Error: No title specified</h3>
+    );
+
+    const noParentCollectionError = (
+        <h3>Error: No course topic selected</h3>
+    );
+
+    const noFileError = (
+        <h3>Error: No file selected</h3>
+    );
+
+    const invalidFileError = (
+        <h3>Error: Invalid file type</h3>
+    );
+
+    const handleFileChange = (e) => {
         setCurrFile(e.target.files[0]);
         setFileIsSelected(true);
     };
 
+    const handleTitleChange = (e) => {
+        setTitleTextValue(e.target.value);
+    };
+
+    const handleDescriptionChange = (e) => {
+        setDescriptionTextValue(e.target.value);
+    };
+
+    const handleParentCollectionChange = (e) => {
+        setParentCollectionValue(e.target.value);
+    };
+
+    function resetFields() {
+        setTitleTextValue("");
+        setDescriptionTextValue("");
+        setParentCollectionValue("");
+        setCurrFile(null);
+        setFileIsSelected(false);
+    }
+
+    function isInvalidFileType(fileName) {
+        // TODO: Implement based on file types that can be displayed
+        return false;
+    }
+
     async function handleSubmit() {
-        if (fileIsSelected) {
+        containsError = false;
+        setErrorContent();
+        if (titleTextValue === "") {
+            containsError = true;
+            errorContent.push(titleError);
+        }
+        if (parentCollectionValue === "") {
+            containsError = true;
+            errorContent.push(noParentCollectionError);
+        }
+        if (!fileIsSelected) {
+            containsError = true;
+            errorContent.push(noFileError);
+        }
+        else if (isInvalidFileType(currFile.name)) {
+            containsError = true;
+            errorContent.push(invalidFileError);
+        }
+        if (!containsError) {
             try {
                 Storage.configure({
                     customPrefix: {
@@ -25,14 +98,17 @@ function UploadSection() {
                     }
                 });
                 await Storage.put(currFile.name, currFile, {
-                    contentType: currFile.type
+                    contentType: currFile.type, 
+                    completeCallback: (e) => {
+                        console.log(e);
+                    }
                 });
             } 
             catch (err) {
                 console.log("Error uploading given file: ", err);
             }
-            // TODO: Update archives
-            setFileIsSelected(false);
+
+            resetFields();
         }
 
     }
@@ -63,9 +139,20 @@ function UploadSection() {
         if (isAuthorized) {
             setContent((
                 <div>
-                    <input type='file' name='file' onChange={handleChange} />
+                    <label htmlFor='casestudy-title'>Title:</label> 
+                    <input id ='casestudy-title' type='text' value={titleTextValue} onChange={handleTitleChange}/>
+                    <label htmlFor='casestudy-desc'>Description:</label>
+                    <input id='casestudy-desc' type='text' value={descriptionTextValue} onChange={handleDescriptionChange}/>
+                    <label htmlFor='course-topic-select'>Course Topic:</label>
+                    <select id='course-topic-select' onChange={handleParentCollectionChange}>
+                        {COURSE_TOPICS.map(
+                            (topic) => <option value={topic}>{topic}</option>
+                        )}
+                    </select>
+                    <label htmlFor='casestudy-file-select'>File:</label>
+                    <input id='casestudy-file-select' type='file' name='file' onChange={handleFileChange} />
                     <div>
-                        <button onClick={handleSubmit}>Submit File</button>
+                        <button onClick={handleSubmit}>Submit Case Study</button>
                     </div>
                 </div>
                 ))
@@ -79,7 +166,12 @@ function UploadSection() {
 
     return (
         <div>
-            {content}
+            <div>
+                {content}
+            </div>
+            <div>
+                {errorContent}
+            </div>
         </div>
     )
 }
