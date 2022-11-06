@@ -100,6 +100,10 @@ function UploadSection() {
                     contentType: currFile.type, 
                     completeCallback: (e) => {
                         console.log(e);
+
+                    }, 
+                    errorCallback: (err) => {
+                        // Alert user of error
                     }
                 });
             } 
@@ -139,9 +143,9 @@ function UploadSection() {
             setContent((
                 <div>
                     <label htmlFor='casestudy-title'>Title:</label> 
-                    <input id ='casestudy-title' type='text' value={titleTextValue} onChange={(e) => handleTitleChange(e)}/>
+                    <input id ='casestudy-title' type='text' onChange={(e) => handleTitleChange(e)}/>
                     <label htmlFor='casestudy-desc'>Description:</label>
-                    <input id='casestudy-desc' type='text' value={descriptionTextValue} onChange={(e) => handleDescriptionChange(e)}/>
+                    <input id='casestudy-desc' type='text' onChange={(e) => handleDescriptionChange(e)}/>
                     <label htmlFor='course-topic-select'>Course Topic:</label>
                     <select id='course-topic-select' onChange={(e) => handleParentCollectionChange(e)}>
                         {COURSE_TOPICS.map(
