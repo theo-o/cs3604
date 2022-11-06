@@ -9,10 +9,11 @@ function UploadSection() {
     const [isAuthorized, setIsAuthorized] = useState(false);
     const [content, setContent] = useState();
     // const [groups, setGroups] = useState();
-    const [errorContent, setErrorContent] = useState();
+    const [errorContent, setErrorContent] = useState([]);
     const [titleTextValue, setTitleTextValue] = useState("");
     const [descriptionTextValue, setDescriptionTextValue] = useState("");
     const [parentCollectionValue, setParentCollectionValue] = useState("");
+    const [archive, setArchive] = useState();
 
     const COURSE_TOPICS = [
         "Intellectual Property", 
@@ -63,6 +64,7 @@ function UploadSection() {
         setParentCollectionValue("");
         setCurrFile(null);
         setFileIsSelected(false);
+        setErrorContent([]);
     }
 
     function isInvalidFileType(fileName) {
@@ -72,8 +74,9 @@ function UploadSection() {
 
     async function handleSubmit() {
         var containsError = false;
-        setErrorContent();
+        setErrorContent([]);
         if (titleTextValue === "") {
+            console.log("title is empty");
             containsError = true;
             errorContent.push(titleError);
         }
@@ -110,7 +113,9 @@ function UploadSection() {
             catch (err) {
                 console.log("Error uploading given file: ", err);
             }
+            const archive = {
 
+            }
             resetFields();
         }
 
