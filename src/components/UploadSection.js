@@ -31,6 +31,7 @@ function UploadSection() {
     pageRef.currDesc = descriptionTextValue;
     pageRef.parentColl = parentCollectionValue;
     pageRef.fileSelected = fileIsSelected;
+    pageRef.currFile = currFile;
 
 
     const titleError = (
@@ -96,7 +97,8 @@ function UploadSection() {
         console.log(pageRef.currTitle);
         console.log(pageRef.currDesc);
         console.log(pageRef.parentColl);
-        console.log(pageRef.fileIsSelected);
+        console.log(pageRef.fileSelected);
+        console.log(pageRef.currFile);
         var containsError = false;
         setErrorContent([]);
         if (pageRef.currTitle === "") {
@@ -107,23 +109,23 @@ function UploadSection() {
             containsError = true;
             errorContent.push(noParentCollectionError);
         }
-        if (!pageRef.fileIsSelected) {
+        if (!pageRef.fileSelected) {
             containsError = true;
             errorContent.push(noFileError);
         }
-        else if (isInvalidFileType(currFile.name)) {
+        else if (isInvalidFileType(pageRef.currFile.name)) {
             containsError = true;
             errorContent.push(invalidFileError);
         }
-        if (pageRef.fileIsSelected) {
+        if (pageRef.fileSelected) {
             try {
                 Storage.configure({
                     customPrefix: {
                         public: 'public/casestudies/'
                     }
                 });
-                await Storage.put(currFile.name, currFile, {
-                    contentType: currFile.type, 
+                await Storage.put(pageRef.currFile.name, pageRef.currFile, {
+                    contentType: pageRef.currFile.type, 
                     completeCallback: (e) => {
                         console.log(e);
                         findSelectedCollection();
