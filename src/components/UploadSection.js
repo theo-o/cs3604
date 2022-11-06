@@ -139,11 +139,11 @@ function UploadSection() {
             setContent((
                 <div>
                     <label htmlFor='casestudy-title'>Title:</label> 
-                    <input id ='casestudy-title' type='text' value={titleTextValue} onChange={handleTitleChange}/>
+                    <input id ='casestudy-title' type='text' value={titleTextValue} onChange={(e) => handleTitleChange(e)}/>
                     <label htmlFor='casestudy-desc'>Description:</label>
-                    <input id='casestudy-desc' type='text' value={descriptionTextValue} onChange={handleDescriptionChange}/>
+                    <input id='casestudy-desc' type='text' value={descriptionTextValue} onChange={(e) => handleDescriptionChange(e)}/>
                     <label htmlFor='course-topic-select'>Course Topic:</label>
-                    <select id='course-topic-select' onChange={handleParentCollectionChange}>
+                    <select id='course-topic-select' onChange={(e) => handleParentCollectionChange(e)}>
                         {COURSE_TOPICS.map(
                             (topic) => <option value={topic}>{topic}</option>
                         )}
