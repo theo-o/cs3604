@@ -34,6 +34,7 @@ const singleFields = [
     "title",
     "thumbnail_path"
 ];
+
   
 const booleanFields = ["visibility"];
   
