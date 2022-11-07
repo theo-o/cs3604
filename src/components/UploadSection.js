@@ -71,6 +71,7 @@ function UploadSection() {
     pageRef.parentColl = parentCollectionValue;
     pageRef.fileSelected = fileIsSelected;
     pageRef.currFile = currFile;
+    pageRef.allCollections = allCollections;
 
 
     const titleError = (
@@ -118,10 +119,11 @@ function UploadSection() {
     // }
 
     function findSelectedCollection() {
-        for (var c in allCollections) {
-            if (allCollections[c].identifier === parentCollectionValue) {
-                setSelectedCollection(allCollections[c]);
-                return allCollections[c];
+        console.log("all coll:", allCollections);
+        for (var c in pageRef.allCollections) {
+            if (pageRef.allCollections[c].identifier === parentCollectionValue) {
+                setSelectedCollection(pageRef.allCollections[c]);
+                return pageRef.allCollections[c];
             }
         }
     }
@@ -136,6 +138,16 @@ function UploadSection() {
         const customKeyPrefix = "ark:/53696";
         const customKey = `${customKeyPrefix}/${parent_collection.custom_key}`;
 
+        for (const item in singleFields) {
+            const a = singleFields[item];
+            archive[a] = null;
+          }
+          for (const item in multiFields) {
+            const key = multiFields[item];
+            archive[key] = [];
+          }
+
+
         archive.id = id;
         archive.identifier = id;
         archive.heirarchy_path = parent_collection.heirarchy_path;
@@ -149,7 +161,9 @@ function UploadSection() {
         archive.title = title;
         archive.description = desc;
         archive.creator = [ "Demo" ];
-        
+        archive.thumbnail_path = "https://casestudy-presentations.s3.amazonaws.com/item.png";
+        archive.source = [ "" ];
+        archive.__typename = "Archive";
         return archive;
       }
 
