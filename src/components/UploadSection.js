@@ -119,7 +119,7 @@ function UploadSection() {
     // }
 
     function findSelectedCollection() {
-        console.log("all coll:", allCollections);
+        console.log("all coll:", pageRef.allCollections);
         for (var c in pageRef.allCollections) {
             if (pageRef.allCollections[c].identifier === parentCollectionValue) {
                 setSelectedCollection(pageRef.allCollections[c]);
@@ -256,16 +256,16 @@ function UploadSection() {
     }
 
     async function populateCollections() {
-        if (!allCollections) {
-            const TYPE = process.env.REACT_APP_REP_TYPE;
-            const collections = await getAllCollections({
-                filter: {
-                    collection_category: {eq: TYPE}
-                }
-            });
-            setAllCollections(collections);
-        }
+        const TYPE = process.env.REACT_APP_REP_TYPE;
+        console.log("type: ", TYPE);
+        const collections = await getAllCollections({
+            filter: {
+                collection_category: {eq: TYPE}
+            }
+        });
+        setAllCollections(collections);
     }
+    
 
     useEffect(() => {
         authUser();
