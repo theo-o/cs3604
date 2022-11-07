@@ -134,7 +134,7 @@ function UploadSection() {
         return false;
     }
 
-    async function getNewArchive(id, title, desc, key, parent_collection) {
+    function getNewArchive(id, title, desc, key, parent_collection) {
         const archive = new Object();
         const customKeyPrefix = "ark:/53696";
         const customKey = `${customKeyPrefix}/${parent_collection.custom_key}`;
@@ -243,7 +243,7 @@ function UploadSection() {
 
     }
 
-    
+
 
     async function authUser() {
         try {
