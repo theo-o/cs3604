@@ -2,17 +2,57 @@ import React, { useState, useEffect, useRef } from 'react';
 import { API, Storage, Auth } from "aws-amplify";
 import {withAuthenticator} from "@aws-amplify/ui-react";
 import { getAllCollections, mintNOID, getArchiveByIdentifier } from '../lib/fetchTools';
+import {v4 as uuidv4} from "uuid";
+import * as mutations from "../graphql/mutations";
+
+const multiFields = [
+    "belongs_to",
+    "contributor",
+    "creator",
+    "format",
+    "language",
+    "location",
+    "medium",
+    "provenance",
+    "reference",
+    "repository",
+    "resource_type",
+    "related_url",
+    "source",
+    "subject",
+    "tags"
+];
+  
+const singleFields = [
+    "bibliographic_citation",
+    "collection",
+    "description",
+    "display_date",
+    "manifest_url",
+    "rights_holder",
+    "rights_statement",
+    "title",
+    "thumbnail_path"
+];
+  
+const booleanFields = ["visibility"];
+  
+const embargoFields = [
+    "embargo_start_date",
+    "embargo_end_date",
+    "embargo_note"
+];
+
+const COURSE_TOPICS = [
+    "-- Select --",
+    "Intellectual Property", 
+    "Privacy", 
+    "Commerce", 
+    "Internet (ICT)", 
+    "Artificial Intelligence"
+];
 
 function UploadSection() {
-
-    const COURSE_TOPICS = [
-        "-- Select --",
-        "Intellectual Property", 
-        "Privacy", 
-        "Commerce", 
-        "Internet (ICT)", 
-        "Artificial Intelligence"
-    ];
 
     const [currFile, setCurrFile] = useState();
     const [fileIsSelected, setFileIsSelected] = useState(false);
@@ -25,7 +65,6 @@ function UploadSection() {
     const [parentCollectionValue, setParentCollectionValue] = useState(COURSE_TOPICS[0]);
     const [selectedCollection, setSelectedCollection] = useState(null);
     const [allCollections, setAllCollections] = useState(null);
-    const [archive, setArchive] = useState();
     const pageRef = useRef();
     pageRef.currTitle = titleTextValue;
     pageRef.currDesc = descriptionTextValue;
@@ -82,7 +121,7 @@ function UploadSection() {
         for (var c in allCollections) {
             if (allCollections[c].identifier === parentCollectionValue) {
                 setSelectedCollection(allCollections[c]);
-                break;
+                return allCollections[c];
             }
         }
     }
@@ -91,6 +130,28 @@ function UploadSection() {
         // TODO: Implement based on file types that can be displayed
         return false;
     }
+
+    async function getNewArchive(id, title, desc, key, parent_collection) {
+        const archive = new Object();
+        const customKeyPrefix = "ark:/53696";
+        const customKey = `${customKeyPrefix}/${parent_collection.custom_key}`;
+
+        archive.id = id;
+        archive.identifier = id;
+        archive.heirarchy_path = parent_collection.heirarchy_path;
+        archive.custom_key = customKey;
+        archive.item_category = "Default";
+        archive.language = [ "en" ];
+        archive.parent_collection = parent_collection.id;
+        archive.manifest_url = 
+            `https://collectionmap115006-dlpdev.s3.amazonaws.com/public/casestudies/${key}`;
+        archive.visibility = true;
+        archive.title = title;
+        archive.description = desc;
+        archive.creator = [ "Demo" ];
+        
+        return archive;
+      }
 
     async function handleSubmit(e) {
         e.preventDefault();
@@ -118,30 +179,44 @@ function UploadSection() {
             errorContent.push(invalidFileError);
         }
         if (pageRef.fileSelected) {
+            const id = uuidv4();
             try {
                 Storage.configure({
                     customPrefix: {
                         public: 'public/casestudies/'
                     }
                 });
-                await Storage.put(pageRef.currFile.name, pageRef.currFile, {
-                    contentType: pageRef.currFile.type, 
+                const findExtension = pageRef.currFile.name.split(".");
+                const extension = findExtension[findExtension.length-1];
+                const renameFile = new File([pageRef.currFile], `${id}.${extension}`);
+                const key = renameFile.name;
+                await Storage.put(renameFile.name, renameFile, {
+                    contentType: renameFile.type, 
                     resumable: true, 
                     completeCallback: (e) => {
                         console.log(e);
-                        findSelectedCollection();
+
                     }, 
                     errorCallback: (err) => {
                         console.log(err);
                         // Alert user of error
                     }
                 });
+                const selectedColl = findSelectedCollection();
+                console.log("collection: ", selectedColl);
+                var archive = getNewArchive(
+                    id, pageRef.currTitle, pageRef.currDesc, key, selectedColl
+                );
+                await API.graphql( {
+                    query: mutations.createArchive, 
+                    variables: {
+                        input: archive
+                    }, 
+                    authMode: "AMAZON_COGNITO_USER_POOLS"
+                });
             } 
             catch (err) {
                 console.log("Error uploading given file: ", err);
-            }
-            const archive = {
-
             }
             // resetFields();
         }
