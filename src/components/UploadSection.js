@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { API, Storage, Auth } from "aws-amplify";
 import {withAuthenticator} from "@aws-amplify/ui-react";
-import { getAllCollections, mintNOID, getArchiveByIdentifier } from '../lib/fetchTools';
+import { getAllCollections, getArchiveByIdentifier } from '../lib/fetchTools';
 import {v4 as uuidv4} from "uuid";
 import * as mutations from "../graphql/mutations";
 
@@ -134,9 +134,10 @@ function UploadSection() {
         return false;
     }
 
-    function getNewArchive(id, noid, title, desc, key, parent_collection) {
+    function getNewArchive(id, title, desc, key, parent_collection) {
         const archive = new Object();
         const customKeyPrefix = "ark:/53696";
+        const noid = uuidv4();
         const customKey = `${customKeyPrefix}/${noid}`;
 
         var date = new Date();
@@ -219,7 +220,6 @@ function UploadSection() {
                 });
                 const selectedColl = findSelectedCollection();
                 console.log("collection: ", selectedColl);
-                const noid = await mintNOID();
                 var archive = getNewArchive(
                     id, noid, pageRef.currTitle, pageRef.currDesc, key, selectedColl
                 );
