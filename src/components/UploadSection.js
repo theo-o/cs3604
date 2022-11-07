@@ -246,7 +246,8 @@ function UploadSection() {
             const data = await Auth.currentUserPoolUser();
             const g = data.signInUserSession.accessToken.payload["cognito:groups"];
             const type = 'students';
-            if (g && g.indexOf(type) !== -1) {
+            const type2 = 'Default';
+            if (g && (g.indexOf(type) !== -1 || g.indexOf(type2) !== -1)) {
                 console.log("auth!");
                 setIsAuthorized(true);
             } else {
