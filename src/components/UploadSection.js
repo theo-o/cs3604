@@ -128,7 +128,7 @@ function UploadSection() {
         }
     }
 
-    
+
     function isInvalidFileType(fileName) {
         // TODO: Implement based on file types that can be displayed
         return false;
@@ -139,23 +139,27 @@ function UploadSection() {
         const customKeyPrefix = "ark:/53696";
         const customKey = `${customKeyPrefix}/${parent_collection.custom_key}`;
 
-        for (const item in singleFields) {
-            const a = singleFields[item];
-            archive[a] = null;
-          }
-          for (const item in multiFields) {
-            const key = multiFields[item];
-            archive[key] = [];
-          }
+        var date = new Date();
+        let day = String(date.getDate()).padStart(2, '0');
+        let month = String(date.getMonth()+1).padStart(2, '0');
+        let year = date.getFullYear();
+        const currentTime =  `${month}-${day}-${year}`;
+        
 
 
         archive.id = id;
+        archive.createdAt = currentTime;
+        archive.create_date = currentTime;
+        archive.modified_date = currentTime;
+        archive.start_date = currentTime;
+        archive.updatedAt = currentTime;
+        archive.createdAt = 
         archive.identifier = id;
         archive.heirarchy_path = parent_collection.heirarchy_path;
         archive.custom_key = customKey;
         archive.item_category = "Default";
         archive.language = [ "en" ];
-        archive.parent_collection = parent_collection.id;
+        archive.parent_collection = [ `${parent_collection.id}` ];
         archive.manifest_url = 
             `https://collectionmap115006-dlpdev.s3.amazonaws.com/public/casestudies/${key}`;
         archive.visibility = true;
