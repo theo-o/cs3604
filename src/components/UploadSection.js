@@ -121,7 +121,7 @@ function UploadSection() {
     function findSelectedCollection() {
         console.log("all coll:", pageRef.allCollections);
         for (var c in pageRef.allCollections) {
-            if (pageRef.allCollections[c].identifier === parentCollectionValue) {
+            if (pageRef.allCollections[c].identifier === pageRef.parentColl) {
                 setSelectedCollection(pageRef.allCollections[c]);
                 return pageRef.allCollections[c];
             }
