@@ -148,12 +148,9 @@ function UploadSection() {
 
 
         archive.id = id;
-        archive.createdAt = currentTime;
         archive.create_date = currentTime;
         archive.modified_date = currentTime;
         archive.start_date = currentTime;
-        archive.updatedAt = currentTime;
-        archive.createdAt = 
         archive.identifier = id;
         archive.heirarchy_path = parent_collection.heirarchy_path;
         archive.custom_key = customKey;
@@ -168,7 +165,6 @@ function UploadSection() {
         archive.creator = [ "Demo" ];
         archive.thumbnail_path = "https://casestudy-presentations.s3.amazonaws.com/item.png";
         archive.source = [ "" ];
-        archive.__typename = "Archive";
         return archive;
       }
 
