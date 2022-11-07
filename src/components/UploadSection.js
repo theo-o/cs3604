@@ -222,7 +222,7 @@ function UploadSection() {
                 const selectedColl = findSelectedCollection();
                 console.log("collection: ", selectedColl);
                 var archive = getNewArchive(
-                    id, noid, pageRef.currTitle, pageRef.currDesc, key, selectedColl
+                    id, pageRef.currTitle, pageRef.currDesc, key, selectedColl
                 );
                 console.log("archive: ", archive);
                 await API.graphql( {
