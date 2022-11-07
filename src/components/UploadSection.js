@@ -226,6 +226,7 @@ function UploadSection() {
                 var archive = getNewArchive(
                     id, pageRef.currTitle, pageRef.currDesc, key, selectedColl
                 );
+                console.log("archive: ", archive);
                 await API.graphql( {
                     query: mutations.createArchive, 
                     variables: {
