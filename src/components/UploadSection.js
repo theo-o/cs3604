@@ -128,6 +128,7 @@ function UploadSection() {
         }
     }
 
+    
     function isInvalidFileType(fileName) {
         // TODO: Implement based on file types that can be displayed
         return false;
