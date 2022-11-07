@@ -134,10 +134,10 @@ function UploadSection() {
         return false;
     }
 
-    function getNewArchive(id, title, desc, key, parent_collection) {
+    function getNewArchive(id, noid, title, desc, key, parent_collection) {
         const archive = new Object();
         const customKeyPrefix = "ark:/53696";
-        const customKey = `${customKeyPrefix}/${parent_collection.custom_key}`;
+        const customKey = `${customKeyPrefix}/${noid}`;
 
         var date = new Date();
         let day = String(date.getDate()).padStart(2, '0');
@@ -219,8 +219,9 @@ function UploadSection() {
                 });
                 const selectedColl = findSelectedCollection();
                 console.log("collection: ", selectedColl);
+                const noid = await mintNOID();
                 var archive = getNewArchive(
-                    id, pageRef.currTitle, pageRef.currDesc, key, selectedColl
+                    id, noid, pageRef.currTitle, pageRef.currDesc, key, selectedColl
                 );
                 console.log("archive: ", archive);
                 await API.graphql( {
