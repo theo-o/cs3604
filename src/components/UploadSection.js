@@ -244,6 +244,7 @@ function UploadSection() {
     }
 
     
+
     async function authUser() {
         try {
             const data = await Auth.currentUserPoolUser();
