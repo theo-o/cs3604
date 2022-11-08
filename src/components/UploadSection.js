@@ -147,7 +147,9 @@ function UploadSection() {
         let year = date.getFullYear();
         const currentTime =  `${month}-${day}-${year}`;
         
-
+        if (!desc) {
+            console.log("no desc");
+        }
 
         archive.id = id;
         archive.create_date = currentTime;
@@ -163,7 +165,6 @@ function UploadSection() {
             `https://collectionmap115006-dlpdev.s3.amazonaws.com/public/casestudies/${key}`;
         archive.visibility = true;
         archive.title = title;
-        archive.description = desc;
         archive.creator = [ "Demo" ];
         archive.thumbnail_path = "https://casestudy-presentations.s3.amazonaws.com/item.png";
         archive.source = [ "" ];
@@ -171,7 +172,6 @@ function UploadSection() {
         archive.rights_statement = "";
         archive.bibliographic_citation = "";
         archive.display_date = "";
-        archive.archiveOptions = {};
 
         return archive;
       }
