@@ -167,6 +167,12 @@ function UploadSection() {
         archive.creator = [ "Demo" ];
         archive.thumbnail_path = "https://casestudy-presentations.s3.amazonaws.com/item.png";
         archive.source = [ "" ];
+        archive.rights_holder = "";
+        archive.rights_statement = "";
+        archive.bibliographic_citation = "";
+        archive.display_date = "";
+        archive.archiveOptions = {};
+
         return archive;
       }
 
