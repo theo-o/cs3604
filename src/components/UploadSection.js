@@ -215,7 +215,7 @@ function UploadSection() {
                 const renameFile = new File([pageRef.currFile], `${id}.${extension}`);
                 const key = renameFile.name;
                 await Storage.put(renameFile.name, renameFile, {
-                    contentType: renameFile.type, 
+                    contentType: pageRef.currFile.type, 
                     resumable: true, 
                     completeCallback: (e) => {
                         console.log(e);
