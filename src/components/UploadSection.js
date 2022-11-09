@@ -145,11 +145,8 @@ function UploadSection() {
         let day = String(date.getDate()).padStart(2, '0');
         let month = String(date.getMonth()+1).padStart(2, '0');
         let year = date.getFullYear();
-        const currentTime =  `${month}-${day}-${year}`;
+        const currentTime =  `${year}/${month}/${day}`;
         
-        if (!desc) {
-            console.log("no desc");
-        }
 
         archive.id = id;
         archive.create_date = currentTime;
@@ -172,6 +169,9 @@ function UploadSection() {
         archive.rights_statement = "";
         archive.bibliographic_citation = "";
         archive.display_date = "";
+        archive.description = desc;
+        archive.archiveOptions = new Object();
+
 
         return archive;
       }
