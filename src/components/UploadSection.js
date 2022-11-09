@@ -170,7 +170,8 @@ function UploadSection() {
         archive.bibliographic_citation = "";
         archive.display_date = "";
         archive.description = desc;
-        archive.archiveOptions = new Object();
+        var opts = new Object();
+        archive.archiveOptions = JSON.stringify(opts);
 
 
         return archive;
