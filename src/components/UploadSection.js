@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { API, Storage, Auth } from "aws-amplify";
-import { Form } from "semantic-ui-react";
+import { Form, Button } from "semantic-ui-react";
 import { withAuthenticator } from "@aws-amplify/ui-react";
 import { getAllCollections, getArchiveByIdentifier } from '../lib/fetchTools';
 import { v4 as uuidv4 } from "uuid";
@@ -290,22 +290,22 @@ function UploadSection() {
         if (isAuthorized) {
             setContent((
                 <div className='row admin-wrapper'>
-                    <Form>
+                    {/* <Form onSubmit={handleSubmit}>
                         <Form.input
                             label="Title"
                             placeholder="Enter Title"
                             onChange={handleTitleChange}
-                        />
-                        {/* <label htmlFor='casestudy-title'>Title:</label>
-                    <input id ='casestudy-title' type='text' onChange={handleTitleChange}/> */}
-                        <Form.input
+                        /> */}
+                        <label htmlFor='casestudy-title'>Title:</label>
+                    <input id ='casestudy-title' type='text' onChange={handleTitleChange}/>
+                        {/* <Form.input
                             label="Description"
                             placeholder="Enter Description"
                             onChange={handleDescriptionChange}
-                        />
-                        {/* <label htmlFor='casestudy-desc'>Description:</label>
-                        <input id='casestudy-desc' type='text' onChange={handleDescriptionChange} /> */}
-                        <Form.Dropdown
+                        /> */}
+                        <label htmlFor='casestudy-desc'>Description:</label>
+                        <input id='casestudy-desc' type='text' onChange={handleDescriptionChange} />
+                        {/* <Form.Dropdown
                             label="Course Topic"
                             placeholder="Choose Topic"
                             onChange={handleParentCollectionChange}
@@ -314,20 +314,23 @@ function UploadSection() {
                             {COURSE_TOPICS.map(
                                 (topic) => <option value={topic}>{topic}</option>
                             )}
-                        </Form.Dropdown>
-                        {/* <label htmlFor='course-topic-select'>Course Topic:</label>
+                        </Form.Dropdown> */}
+                        <label htmlFor='course-topic-select'>Course Topic:</label>
                         <select id='course-topic-select' onChange={handleParentCollectionChange}>
                             {COURSE_TOPICS.map(
                                 (topic) => <option value={topic}>{topic}</option>
                             )}
-                        </select> */}
-
+                        </select>
+                        {/* <Form.Field>
+                            <label htmlFor='casestudy-file-select'>File:</label>
+                            <input id='casestudy-file-select' type='file' name='file' onChange={handleFileChange} />
+                        </Form.Field> */}
                         <label htmlFor='casestudy-file-select'>File:</label>
                         <input id='casestudy-file-select' type='file' name='file' onChange={handleFileChange} />
-                        <div>
-                            <button onClick={handleSubmit}>Submit Case Study</button>
-                        </div>
-                    </Form>
+                        {/* <Form.Button type="submit">
+                            Submit Case Study
+                        </Form.Button> */}
+                    {/* </Form> */}
                 </div>
             ))
         } else {
