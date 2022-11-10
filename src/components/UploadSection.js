@@ -276,11 +276,11 @@ function UploadSection() {
 
             <Form.Item
               name="Description"
-              label="Title"
+              label="Description"
               rules={[
                 {
                   required: true,
-                  message: "Please input the Case Study Description"
+                  message: "Please enter a Description"
                 }
               ]}
             >
@@ -290,22 +290,7 @@ function UploadSection() {
                 onChange={e => setDescriptionTextValue(e.target.value)}
               />
             </Form.Item>
-            <Form.Item
-              name="Description"
-              label="Title"
-              rules={[
-                {
-                  required: true,
-                  message: "Please input the Case Study Description"
-                }
-              ]}
-            >
-              <Input
-                value={descriptionTextValue}
-                placeholder="Enter Description"
-                onChange={e => setDescriptionTextValue(e.target.value)}
-              />
-            </Form.Item>
+
             <Form.Item label="Course Topic">
               <Select>
                 {COURSE_TOPICS.map(topic => (
