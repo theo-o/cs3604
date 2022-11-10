@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import SiteTitle from "../components/SiteTitle";
-import ContactSection from "../components/ContactSection";
 import UploadSection from "../components/UploadSection";
 import { getFile } from "../lib/fetchTools";
 
@@ -20,13 +19,6 @@ class CaseStudyUploadPage extends Component {
   }
 
   render() {
-    let download = "";
-    try {
-      download = JSON.parse(this.props.site.sitePages)[this.props.parentKey]
-        .assets.download;
-    } catch (error) {
-      console.log("no download link specified");
-    }
     return (
       <>
         <div className="row terms-page-wrapper">
