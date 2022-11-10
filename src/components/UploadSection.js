@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { API, Storage, Auth } from "aws-amplify";
-import {withAuthenticator} from "@aws-amplify/ui-react";
+import { Form } from "semantic-ui-react";
+import { withAuthenticator } from "@aws-amplify/ui-react";
 import { getAllCollections, getArchiveByIdentifier } from '../lib/fetchTools';
-import {v4 as uuidv4} from "uuid";
+import { v4 as uuidv4 } from "uuid";
 import * as mutations from "../graphql/mutations";
 
 const multiFields = [
@@ -22,7 +23,7 @@ const multiFields = [
     "subject",
     "tags"
 ];
-  
+
 const singleFields = [
     "bibliographic_citation",
     "collection",
@@ -35,9 +36,9 @@ const singleFields = [
     "thumbnail_path"
 ];
 
-  
+
 const booleanFields = ["visibility"];
-  
+
 const embargoFields = [
     "embargo_start_date",
     "embargo_end_date",
@@ -46,10 +47,10 @@ const embargoFields = [
 
 const COURSE_TOPICS = [
     "-- Select --",
-    "Intellectual Property", 
-    "Privacy", 
-    "Commerce", 
-    "Internet (ICT)", 
+    "Intellectual Property",
+    "Privacy",
+    "Commerce",
+    "Internet (ICT)",
     "Artificial Intelligence"
 ];
 
@@ -143,10 +144,10 @@ function UploadSection() {
 
         var date = new Date();
         let day = String(date.getDate()).padStart(2, '0');
-        let month = String(date.getMonth()+1).padStart(2, '0');
+        let month = String(date.getMonth() + 1).padStart(2, '0');
         let year = date.getFullYear();
-        const currentTime =  `${month}-${day}-${year}`;
-        
+        const currentTime = `${month}-${day}-${year}`;
+
         if (!desc) {
             console.log("no desc");
         }
@@ -159,22 +160,22 @@ function UploadSection() {
         archive.heirarchy_path = parent_collection.heirarchy_path;
         archive.custom_key = customKey;
         archive.item_category = "Default";
-        archive.language = [ "en" ];
-        archive.parent_collection = [ `${parent_collection.id}` ];
-        archive.manifest_url = 
+        archive.language = ["en"];
+        archive.parent_collection = [`${parent_collection.id}`];
+        archive.manifest_url =
             `https://collectionmap115006-dlpdev.s3.amazonaws.com/public/casestudies/${key}`;
         archive.visibility = true;
         archive.title = title;
-        archive.creator = [ "Demo" ];
+        archive.creator = ["Demo"];
         archive.thumbnail_path = "https://casestudy-presentations.s3.amazonaws.com/item.png";
-        archive.source = [ "" ];
+        archive.source = [""];
         archive.rights_holder = "";
         archive.rights_statement = "";
         archive.bibliographic_citation = "";
         archive.display_date = "";
 
         return archive;
-      }
+    }
 
     async function handleSubmit(e) {
         e.preventDefault();
@@ -210,16 +211,16 @@ function UploadSection() {
                     }
                 });
                 const findExtension = pageRef.currFile.name.split(".");
-                const extension = findExtension[findExtension.length-1];
+                const extension = findExtension[findExtension.length - 1];
                 const renameFile = new File([pageRef.currFile], `${id}.${extension}`);
                 const key = renameFile.name;
                 await Storage.put(renameFile.name, renameFile, {
-                    contentType: renameFile.type, 
-                    resumable: true, 
+                    contentType: renameFile.type,
+                    resumable: true,
                     completeCallback: (e) => {
                         console.log(e);
 
-                    }, 
+                    },
                     errorCallback: (err) => {
                         console.log(err);
                         // Alert user of error
@@ -231,14 +232,14 @@ function UploadSection() {
                     id, pageRef.currTitle, pageRef.currDesc, key, selectedColl
                 );
                 console.log("archive: ", archive);
-                await API.graphql( {
-                    query: mutations.createArchive, 
+                await API.graphql({
+                    query: mutations.createArchive,
                     variables: {
                         input: archive
-                    }, 
+                    },
                     authMode: "AMAZON_COGNITO_USER_POOLS"
                 });
-            } 
+            }
             catch (err) {
                 console.log("Error uploading given file: ", err);
             }
@@ -273,12 +274,12 @@ function UploadSection() {
         console.log("type: ", TYPE);
         const collections = await getAllCollections({
             filter: {
-                collection_category: {eq: TYPE}
+                collection_category: { eq: TYPE }
             }
         });
         setAllCollections(collections);
     }
-    
+
 
     useEffect(() => {
         authUser();
@@ -288,29 +289,52 @@ function UploadSection() {
     useEffect(() => {
         if (isAuthorized) {
             setContent((
-                <div>
-                    <label htmlFor='casestudy-title'>Title:</label> 
-                    <input id ='casestudy-title' type='text' onChange={handleTitleChange}/>
-                    <label htmlFor='casestudy-desc'>Description:</label>
-                    <input id='casestudy-desc' type='text' onChange={handleDescriptionChange}/>
-                    <label htmlFor='course-topic-select'>Course Topic:</label>
-                    <select id='course-topic-select' onChange={handleParentCollectionChange}>
-                        {COURSE_TOPICS.map(
-                            (topic) => <option value={topic}>{topic}</option>
-                        )}
-                    </select>
-                    <label htmlFor='casestudy-file-select'>File:</label>
-                    <input id='casestudy-file-select' type='file' name='file' onChange={handleFileChange} />
-                    <div>
-                        <button onClick={handleSubmit}>Submit Case Study</button>
-                    </div>
+                <div className='row admin-wrapper'>
+                    <Form>
+                        <Form.input
+                            label="Title"
+                            placeholder="Enter Title"
+                            onChange={handleTitleChange}
+                        />
+                        {/* <label htmlFor='casestudy-title'>Title:</label>
+                    <input id ='casestudy-title' type='text' onChange={handleTitleChange}/> */}
+                        <Form.input
+                            label="Description"
+                            placeholder="Enter Description"
+                            onChange={handleDescriptionChange}
+                        />
+                        {/* <label htmlFor='casestudy-desc'>Description:</label>
+                        <input id='casestudy-desc' type='text' onChange={handleDescriptionChange} /> */}
+                        <Form.Dropdown
+                            label="Course Topic"
+                            placeholder="Choose Topic"
+                            onChange={handleParentCollectionChange}
+
+                        >
+                            {COURSE_TOPICS.map(
+                                (topic) => <option value={topic}>{topic}</option>
+                            )}
+                        </Form.Dropdown>
+                        {/* <label htmlFor='course-topic-select'>Course Topic:</label>
+                        <select id='course-topic-select' onChange={handleParentCollectionChange}>
+                            {COURSE_TOPICS.map(
+                                (topic) => <option value={topic}>{topic}</option>
+                            )}
+                        </select> */}
+
+                        <label htmlFor='casestudy-file-select'>File:</label>
+                        <input id='casestudy-file-select' type='file' name='file' onChange={handleFileChange} />
+                        <div>
+                            <button onClick={handleSubmit}>Submit Case Study</button>
+                        </div>
+                    </Form>
                 </div>
-                ))
+            ))
         } else {
             setContent((
-            <div>
-                <h1>You are not authorized to access this page.</h1>
-            </div>))
+                <div>
+                    <h1>You are not authorized to access this page.</h1>
+                </div>))
         }
     }, [isAuthorized]);
 
