@@ -71,16 +71,17 @@ function UploadSection() {
   const [currFile, setCurrFile] = useState();
   const [fileIsSelected, setFileIsSelected] = useState(false);
   const [isAuthorized, setIsAuthorized] = useState(false);
-  // const [groups, setGroups] = useState();
-  const [errorContent, setErrorContent] = useState([]);
+
   const [titleTextValue, setTitleTextValue] = useState("");
   const [descriptionTextValue, setDescriptionTextValue] = useState("");
+
   const [parentCollectionValue, setParentCollectionValue] = useState(
     COURSE_TOPICS[0]
   );
   const [selectedCollection, setSelectedCollection] = useState(null);
   const [allCollections, setAllCollections] = useState(null);
   const pageRef = useRef();
+
   pageRef.currTitle = titleTextValue;
   pageRef.currDesc = descriptionTextValue;
   pageRef.parentColl = parentCollectionValue;
@@ -159,28 +160,6 @@ function UploadSection() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    console.log(pageRef.currTitle);
-    console.log(pageRef.currDesc);
-    console.log(pageRef.parentColl);
-    console.log(pageRef.fileSelected);
-    console.log(pageRef.currFile);
-    var containsError = false;
-    setErrorContent([]);
-    if (pageRef.currTitle === "") {
-      containsError = true;
-      errorContent.push(titleError);
-    }
-    if (pageRef.parentColl === COURSE_TOPICS[0]) {
-      containsError = true;
-      errorContent.push(noParentCollectionError);
-    }
-    if (!pageRef.fileSelected) {
-      containsError = true;
-      errorContent.push(noFileError);
-    } else if (isInvalidFileType(pageRef.currFile.name)) {
-      containsError = true;
-      errorContent.push(invalidFileError);
-    }
     if (pageRef.fileSelected) {
       const id = uuidv4();
       try {
@@ -362,7 +341,6 @@ function UploadSection() {
   return (
     <div>
       <div>{genSubmissionForm()}</div>
-      <div>{errorContent}</div>
     </div>
   );
 }
