@@ -176,6 +176,12 @@ function UploadSection() {
 
   async function handleSubmit(e) {
     e.preventDefault();
+    console.log(pageRef.currTitle);
+    console.log(pageRef.currDesc);
+    console.log(pageRef.parentColl);
+    console.log(pageRef.fileSelected);
+    console.log(pageRef.currFile);
+    var containsError = false;
     if (pageRef.fileSelected) {
       const id = uuidv4();
       try {
@@ -189,7 +195,7 @@ function UploadSection() {
         const renameFile = new File([pageRef.currFile], `${id}.${extension}`);
         const key = renameFile.name;
         await Storage.put(renameFile.name, renameFile, {
-          contentType: renameFile.type,
+          contentType: pageRef.currFile.type,
           resumable: true,
           completeCallback: e => {
             console.log(e);
