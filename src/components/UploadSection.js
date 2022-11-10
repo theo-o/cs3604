@@ -1,11 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import { API, Storage, Auth } from "aws-amplify";
-import { Form, TextArea } from "semantic-ui-react";
+import { Form, Upload, Input, Select, Button } from "antd";
 import { withAuthenticator } from "@aws-amplify/ui-react";
 import { getAllCollections, getArchiveByIdentifier } from "../lib/fetchTools";
 import { v4 as uuidv4 } from "uuid";
 import * as mutations from "../graphql/mutations";
 import "../css/adminForms.scss";
+
+import { UploadOutlined } from "@ant-design/icons";
+
 const multiFields = [
   "belongs_to",
   "contributor",
@@ -57,6 +60,13 @@ function TopicsToJson() {
   let converted = {};
 }
 
+const { Option } = Select;
+
+const formItemLayout = {
+  labelCol: { span: 6 },
+  wrapperCol: { span: 14 }
+};
+
 function UploadSection() {
   const [currFile, setCurrFile] = useState();
   const [fileIsSelected, setFileIsSelected] = useState(false);
@@ -91,29 +101,6 @@ function UploadSection() {
     setFileIsSelected(true);
   };
 
-  const handleTitleChange = e => {
-    console.log(e.target.value);
-    setTitleTextValue(e.target.value);
-  };
-
-  const handleDescriptionChange = e => {
-    setDescriptionTextValue(e.target.value);
-  };
-
-  const handleParentCollectionChange = e => {
-    setParentCollectionValue(e.target.value);
-  };
-
-  // function resetFields() {
-  //     console.log('resetting...');
-  //     setTitleTextValue("");
-  //     setDescriptionTextValue("");
-  //     setParentCollectionValue(COURSE_TOPICS[0]);
-  //     setCurrFile(null);
-  //     setFileIsSelected(false);
-  //     setErrorContent([]);
-  // }
-
   function findSelectedCollection() {
     console.log("all coll:", pageRef.allCollections);
     for (var c in pageRef.allCollections) {
@@ -124,8 +111,8 @@ function UploadSection() {
     }
   }
 
+  // ! can be replaced with antd validation rules
   function isInvalidFileType(fileName) {
-    // TODO: Implement based on file types that can be displayed
     return false;
   }
 
@@ -289,68 +276,83 @@ function UploadSection() {
 
     return (
       <>
-        <div className="col-lg-9 col-sm-12 admin-content">
-          <Form>
-            <section>
-              <Form.Field>
-                <label>Title</label>
-                <TextArea
-                  name="Title"
-                  placeholder="Enter Title"
-                  onChange={handleTitleChange}
-                />
-              </Form.Field>
-            </section>
-            {/* <label htmlFor='casestudy-title'>Title:</label>
-          <input id ='casestudy-title' type='text' onChange={handleTitleChange}/> */}
-            <section>
-              <Form.Field>
-                <label>Description</label>
-                <TextArea
-                  name="Description"
-                  placeholder="Enter Description"
-                  onChange={handleDescriptionChange}
-                />
-              </Form.Field>
-            </section>
-            {/* <label htmlFor='casestudy-desc'>Description:</label>
-              <input id='casestudy-desc' type='text' onChange={handleDescriptionChange} /> */}
-            <section>
-              <Form.Field
-                label="Course Topic"
-                placeholder="Choose Topic"
-                control="select"
-                onChange={handleParentCollectionChange}
-              >
+        <div className="upload-section">
+          <Form name="validate_other" {...formItemLayout}>
+            <Form.Item
+              name="Title"
+              label="Title"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input the Case Study Title"
+                }
+              ]}
+            >
+              <Input
+                value={titleTextValue}
+                placeholder="Enter Title"
+                onChange={e => setTitleTextValue(e.target.value)}
+              />
+            </Form.Item>
+
+            <Form.Item
+              name="Description"
+              label="Title"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input the Case Study Description"
+                }
+              ]}
+            >
+              <Input
+                value={descriptionTextValue}
+                placeholder="Enter Description"
+                onChange={e => setDescriptionTextValue(e.target.value)}
+              />
+            </Form.Item>
+            <Form.Item
+              name="Description"
+              label="Title"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input the Case Study Description"
+                }
+              ]}
+            >
+              <Input
+                value={descriptionTextValue}
+                placeholder="Enter Description"
+                onChange={e => setDescriptionTextValue(e.target.value)}
+              />
+            </Form.Item>
+            <Form.Item label="Course Topic">
+              <Select>
                 {COURSE_TOPICS.map(topic => (
-                  <option value={topic}>{topic}</option>
+                  <Select.Option value={topic}>{topic}</Select.Option>
                 ))}
-              </Form.Field>
-            </section>
-            {/* <label htmlFor='course-topic-select'>Course Topic:</label>
-              <select id='course-topic-select' onChange={handleParentCollectionChange}>
-                  {COURSE_TOPICS.map(
-                      (topic) => <option value={topic}>{topic}</option>
-                  )}
-              </select> */}
-            <section>
-              <Form.Field>
-                <label htmlFor="casestudy-file-select">File:</label>
-                <input
-                  id="casestudy-file-select"
-                  type="file"
-                  name="file"
-                  onChange={handleFileChange}
-                />
-              </Form.Field>
-            </section>
-            {/* <label htmlFor='casestudy-file-select'>File:</label>
-              <input id='casestudy-file-select' type='file' name='file' onChange={handleFileChange} /> */}
-            <section>
-              <Form.Button onClick={handleSubmit}>
-                Submit Case Study
-              </Form.Button>
-            </section>
+              </Select>
+            </Form.Item>
+            <Form.Item
+              label="Case Study File Upload"
+              onChange={handleFileChange}
+              rules={[
+                {
+                  required: true,
+                  message: "Please add a Case Study File"
+                }
+              ]}
+            >
+              <Upload name="file">
+                <Button icon={<UploadOutlined />}>Click to Upload</Button>
+              </Upload>
+            </Form.Item>
+            <Form.Item>
+              <Button type="primary" htmlType="submit" onClick={handleSubmit}>
+                Submit
+              </Button>
+            </Form.Item>
           </Form>
         </div>
       </>
