@@ -30,7 +30,13 @@ class HomePage extends Component {
     try {
       const homePageInfo = JSON.parse(this.props.site.homePage);
       featuredItems = homePageInfo["featuredItems"];
-      homeStatement = homePageInfo["homeStatement"];
+      homeStatement = {
+        heading: "Welcome to the CS3604 Case Study Library",
+        statement:
+          "This website acts as a submission & browsing platform for CS3604:" +
+          "Professionalism in Computing Projects. Students are able to view and upload presentations for their specified sections. " +
+          "Uploaded Case Studies are categorized by the course topic they correspond to."
+      };
       staticImage = homePageInfo["staticImage"];
       mediaSection = homePageInfo["mediaSection"];
       sponsors = homePageInfo["sponsors"];
@@ -47,7 +53,7 @@ class HomePage extends Component {
             <FeaturedStaticImage staticImage={staticImage} />
             <div id="home-site-title-wrapper">
               <h1 style={this.getStyles(staticImage)}>
-                {this.props.site.siteName}
+                "CS3604:Professionalism In Computing Case Study Library"
               </h1>
             </div>
           </div>
