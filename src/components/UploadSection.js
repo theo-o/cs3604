@@ -277,76 +277,74 @@ function UploadSection() {
 
     return (
       <>
-        <div className="upload-section">
-          <Form name="validate_other" {...formItemLayout}>
-            <Form.Item
-              name="Title"
-              label="Title"
-              rules={[
-                {
-                  required: true,
-                  message: "Please input the Case Study Title"
-                }
-              ]}
-            >
-              <Input
-                value={titleTextValue}
-                placeholder="Enter Title"
-                onChange={e => setTitleTextValue(e.target.value)}
-              />
-            </Form.Item>
+        <Form name="validate_other" {...formItemLayout}>
+          <Form.Item
+            name="Title"
+            label="Title"
+            rules={[
+              {
+                required: true,
+                message: "Please input the Case Study Title"
+              }
+            ]}
+          >
+            <Input
+              value={titleTextValue}
+              placeholder="Enter Title"
+              onChange={e => setTitleTextValue(e.target.value)}
+            />
+          </Form.Item>
 
-            <Form.Item
-              name="Description"
-              label="Description"
-              rules={[
-                {
-                  required: true,
-                  message: "Please enter a Description"
-                }
-              ]}
-            >
-              <TextArea
-                value={descriptionTextValue}
-                placeholder="Enter Description"
-                onChange={e => setDescriptionTextValue(e.target.value)}
-                rows={4}
-              />
-            </Form.Item>
+          <Form.Item
+            name="Description"
+            label="Description"
+            rules={[
+              {
+                required: true,
+                message: "Please enter a Description"
+              }
+            ]}
+          >
+            <TextArea
+              value={descriptionTextValue}
+              placeholder="Enter Description"
+              onChange={e => setDescriptionTextValue(e.target.value)}
+              rows={4}
+            />
+          </Form.Item>
 
-            <Form.Item label="Course Topic">
-              <Select>
-                {COURSE_TOPICS.map(topic => (
-                  <Select.Option value={topic}>{topic}</Select.Option>
-                ))}
-              </Select>
-            </Form.Item>
-            <Form.Item
-              label="Case Study File"
-              onChange={handleFileChange}
-              rules={[
-                {
-                  required: true,
-                  message: "Please add a Case Study File"
-                }
-              ]}
+          <Form.Item label="Course Topic">
+            <Select>
+              {COURSE_TOPICS.map(topic => (
+                <Select.Option value={topic}>{topic}</Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
+          <Form.Item
+            label="Case Study File"
+            onChange={handleFileChange}
+            rules={[
+              {
+                required: true,
+                message: "Please add a Case Study File"
+              }
+            ]}
+          >
+            <Upload
+              onRemove={onRemoveFile}
+              beforeUpload={beforeUpload}
+              name="file"
+              fileList={fileList}
             >
-              <Upload
-                onRemove={onRemoveFile}
-                beforeUpload={beforeUpload}
-                name="file"
-                fileList={fileList}
-              >
-                <Button icon={<UploadOutlined />}>Select File</Button>
-              </Upload>
-            </Form.Item>
-            <Form.Item>
-              <Button type="primary" htmlType="submit" onClick={handleSubmit}>
-                Submit
-              </Button>
-            </Form.Item>
-          </Form>
-        </div>
+              <Button icon={<UploadOutlined />}>Select File</Button>
+            </Upload>
+          </Form.Item>
+          <Form.Item>
+            <Button type="primary" htmlType="submit" onClick={handleSubmit}>
+              Submit
+            </Button>
+          </Form.Item>
+        </Form>
       </>
     );
   };
