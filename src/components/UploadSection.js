@@ -291,51 +291,61 @@ function UploadSection() {
             setContent((
                 <div className="col-lg-9 col-sm-12 admin-content">
                     <Form>
-                        <Form.Field>
-                            <label>Title</label>
-                            <TextArea
-                                name="Title"
-                                placeholder="Enter Title"
-                                onChange={handleTitleChange}
-                            />
-                        </Form.Field>
+                        {/* <section>
+                            <Form.Field>
+                                <label>Title</label>
+                                <TextArea
+                                    name="Title"
+                                    placeholder="Enter Title"
+                                    onChange={handleTitleChange}
+                                />
+                            </Form.Field>
+                        </section> */}
                         {/* <label htmlFor='casestudy-title'>Title:</label>
                     <input id ='casestudy-title' type='text' onChange={handleTitleChange}/> */}
-                        <Form.Field>
-                            <label>Description</label>
-                            <TextArea
-                                name="Description"
-                                placeholder="Enter Description"
-                                onChange={handleDescriptionChange}
-                            />
-                        </Form.Field>
+                        {/* <section>
+                            <Form.Field>
+                                <label>Description</label>
+                                <TextArea
+                                    name="Description"
+                                    placeholder="Enter Description"
+                                    onChange={handleDescriptionChange}
+                                />
+                            </Form.Field>
+                        </section> */}
                         {/* <label htmlFor='casestudy-desc'>Description:</label>
                         <input id='casestudy-desc' type='text' onChange={handleDescriptionChange} /> */}
-                        <Form.Dropdown
-                            label="Course Topic"
-                            placeholder="Choose Topic"
-                            onChange={handleParentCollectionChange}
+                        <section>
+                            <Form.Dropdown
+                                label="Course Topic"
+                                placeholder="Choose Topic"
+                                onChange={handleParentCollectionChange}
 
-                        >
-                            {COURSE_TOPICS.map(
-                                (topic) => <option value={topic}>{topic}</option>
-                            )}
-                        </Form.Dropdown>
+                            >
+                                {COURSE_TOPICS.map(
+                                    (topic) => <option value={topic}>{topic}</option>
+                                )}
+                            </Form.Dropdown>
+                        </section>
                         {/* <label htmlFor='course-topic-select'>Course Topic:</label>
                         <select id='course-topic-select' onChange={handleParentCollectionChange}>
                             {COURSE_TOPICS.map(
                                 (topic) => <option value={topic}>{topic}</option>
                             )}
                         </select> */}
-                        <Form.Field>
-                            <label htmlFor='casestudy-file-select'>File:</label>
-                            <input id='casestudy-file-select' type='file' name='file' onChange={handleFileChange} />
-                        </Form.Field>
+                        <section>
+                            <Form.Field>
+                                <label htmlFor='casestudy-file-select'>File:</label>
+                                <input id='casestudy-file-select' type='file' name='file' onChange={handleFileChange} />
+                            </Form.Field>
+                        </section>
                         {/* <label htmlFor='casestudy-file-select'>File:</label>
                         <input id='casestudy-file-select' type='file' name='file' onChange={handleFileChange} /> */}
-                        <Form.Button onClick={handleSubmit}>
-                            Submit Case Study
-                        </Form.Button>
+                        <section>
+                            <Form.Button onClick={handleSubmit}>
+                                Submit Case Study
+                            </Form.Button>
+                        </section>
                     </Form>
                 </div>
             ))
