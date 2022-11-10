@@ -314,7 +314,7 @@ function UploadSection() {
           </Form.Item>
 
           <Form.Item label="Course Topic">
-            <Select>
+            <Select onChange={e => setParentCollectionValue(e.target.value)}>
               {COURSE_TOPICS.map(topic => (
                 <Select.Option value={topic}>{topic}</Select.Option>
               ))}
