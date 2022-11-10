@@ -301,14 +301,14 @@ function UploadSection() {
                         </Form.Field>
                         {/* <label htmlFor='casestudy-title'>Title:</label>
                     <input id ='casestudy-title' type='text' onChange={handleTitleChange}/> */}
-                        <Form.input>
+                        <Form.Field>
                             <label>Description</label>
                             <TextArea
                                 name="Description"
                                 placeholder="Enter Description"
                                 onChange={handleDescriptionChange}
                             />
-                        </Form.input>
+                        </Form.Field>
                         {/* <label htmlFor='casestudy-desc'>Description:</label>
                         <input id='casestudy-desc' type='text' onChange={handleDescriptionChange} /> */}
                         <Form.Dropdown
