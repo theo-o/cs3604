@@ -70,7 +70,7 @@ class HomePage extends Component {
             <a href="/search">View All Items</a>
             <a href="/collections">View All Collections</a>
           </div>
-          <FeaturedItems featuredItems={featuredItems} />
+          {/* <FeaturedItems featuredItems={featuredItems} /> */}
           <MultimediaSection mediaSection={mediaSection} />
           <SiteSponsors sponsors={sponsors} style={sponsorsStyle} />
           <CollectionHighlights collectionHighlights={collectionHighlights} />
