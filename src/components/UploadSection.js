@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { API, Storage, Auth } from "aws-amplify";
-import { Form, Upload, Input, Select, Button } from "antd";
+import { Form, Upload, Input, Select, Button, TextArea } from "antd";
 import { withAuthenticator } from "@aws-amplify/ui-react";
 import { getAllCollections, getArchiveByIdentifier } from "../lib/fetchTools";
 import { v4 as uuidv4 } from "uuid";
@@ -300,10 +300,11 @@ function UploadSection() {
                 }
               ]}
             >
-              <Input
+              <TextArea
                 value={descriptionTextValue}
                 placeholder="Enter Description"
                 onChange={e => setDescriptionTextValue(e.target.value)}
+                rows={4}
               />
             </Form.Item>
 

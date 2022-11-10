@@ -29,7 +29,7 @@ class CaseStudyUploadPage extends Component {
             />
             <h1 id="permissions-heading">Case Study Student Upload</h1>
           </div>
-          <UploadSection />
+          <UploadSection style={{ width: "100%" }} />
           <div
             className="col-md-8"
             role="region"
