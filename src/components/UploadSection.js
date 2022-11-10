@@ -291,7 +291,7 @@ function UploadSection() {
             setContent((
                 <div className="col-lg-9 col-sm-12 admin-content">
                     <Form>
-                        {/* <section>
+                        <section>
                             <Form.Field>
                                 <label>Title</label>
                                 <TextArea
@@ -300,10 +300,10 @@ function UploadSection() {
                                     onChange={handleTitleChange}
                                 />
                             </Form.Field>
-                        </section> */}
+                        </section>
                         {/* <label htmlFor='casestudy-title'>Title:</label>
                     <input id ='casestudy-title' type='text' onChange={handleTitleChange}/> */}
-                        {/* <section>
+                        <section>
                             <Form.Field>
                                 <label>Description</label>
                                 <TextArea
@@ -312,11 +312,11 @@ function UploadSection() {
                                     onChange={handleDescriptionChange}
                                 />
                             </Form.Field>
-                        </section> */}
+                        </section>
                         {/* <label htmlFor='casestudy-desc'>Description:</label>
                         <input id='casestudy-desc' type='text' onChange={handleDescriptionChange} /> */}
                         <section>
-                            <Form.Dropdown
+                            {/* <Form.Dropdown
                                 label="Course Topic"
                                 placeholder="Choose Topic"
                                 onChange={handleParentCollectionChange}
@@ -325,7 +325,7 @@ function UploadSection() {
                                 {COURSE_TOPICS.map(
                                     (topic) => <option value={topic}>{topic}</option>
                                 )}
-                            </Form.Dropdown>
+                            </Form.Dropdown> */}
                         </section>
                         {/* <label htmlFor='course-topic-select'>Course Topic:</label>
                         <select id='course-topic-select' onChange={handleParentCollectionChange}>
