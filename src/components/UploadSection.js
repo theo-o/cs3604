@@ -289,23 +289,23 @@ function UploadSection() {
     useEffect(() => {
         if (isAuthorized) {
             setContent((
-                <div className='row admin-wrapper'>
-                    {/* <Form onSubmit={handleSubmit}>
+                <div className="col-lg-9 col-sm-12 admin-content">
+                    <Form>
                         <Form.input
                             label="Title"
                             placeholder="Enter Title"
                             onChange={handleTitleChange}
-                        /> */}
-                        <label htmlFor='casestudy-title'>Title:</label>
-                    <input id ='casestudy-title' type='text' onChange={handleTitleChange}/>
-                        {/* <Form.input
+                        />
+                        {/* <label htmlFor='casestudy-title'>Title:</label>
+                    <input id ='casestudy-title' type='text' onChange={handleTitleChange}/> */}
+                        <Form.input
                             label="Description"
                             placeholder="Enter Description"
                             onChange={handleDescriptionChange}
-                        /> */}
-                        <label htmlFor='casestudy-desc'>Description:</label>
-                        <input id='casestudy-desc' type='text' onChange={handleDescriptionChange} />
-                        {/* <Form.Dropdown
+                        />
+                        {/* <label htmlFor='casestudy-desc'>Description:</label>
+                        <input id='casestudy-desc' type='text' onChange={handleDescriptionChange} /> */}
+                        <Form.Dropdown
                             label="Course Topic"
                             placeholder="Choose Topic"
                             onChange={handleParentCollectionChange}
@@ -314,23 +314,23 @@ function UploadSection() {
                             {COURSE_TOPICS.map(
                                 (topic) => <option value={topic}>{topic}</option>
                             )}
-                        </Form.Dropdown> */}
-                        <label htmlFor='course-topic-select'>Course Topic:</label>
+                        </Form.Dropdown>
+                        {/* <label htmlFor='course-topic-select'>Course Topic:</label>
                         <select id='course-topic-select' onChange={handleParentCollectionChange}>
                             {COURSE_TOPICS.map(
                                 (topic) => <option value={topic}>{topic}</option>
                             )}
-                        </select>
-                        {/* <Form.Field>
+                        </select> */}
+                        <Form.Field>
                             <label htmlFor='casestudy-file-select'>File:</label>
                             <input id='casestudy-file-select' type='file' name='file' onChange={handleFileChange} />
-                        </Form.Field> */}
-                        <label htmlFor='casestudy-file-select'>File:</label>
-                        <input id='casestudy-file-select' type='file' name='file' onChange={handleFileChange} />
-                        {/* <Form.Button type="submit">
+                        </Form.Field>
+                        {/* <label htmlFor='casestudy-file-select'>File:</label>
+                        <input id='casestudy-file-select' type='file' name='file' onChange={handleFileChange} /> */}
+                        <Form.Button onClick={handleSubmit}>
                             Submit Case Study
-                        </Form.Button> */}
-                    {/* </Form> */}
+                        </Form.Button>
+                    </Form>
                 </div>
             ))
         } else {
