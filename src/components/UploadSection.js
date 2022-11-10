@@ -54,6 +54,11 @@ const COURSE_TOPICS = [
     "Artificial Intelligence"
 ];
 
+function TopicsToJson(){
+    let converted = {};
+
+}
+
 function UploadSection() {
 
     const [currFile, setCurrFile] = useState();
@@ -281,6 +286,8 @@ function UploadSection() {
     }
 
 
+
+
     useEffect(() => {
         authUser();
         populateCollections();
@@ -316,16 +323,17 @@ function UploadSection() {
                         {/* <label htmlFor='casestudy-desc'>Description:</label>
                         <input id='casestudy-desc' type='text' onChange={handleDescriptionChange} /> */}
                         <section>
-                            {/* <Form.Dropdown
+                            <Form.Field
                                 label="Course Topic"
                                 placeholder="Choose Topic"
+                                control="select"
                                 onChange={handleParentCollectionChange}
 
                             >
                                 {COURSE_TOPICS.map(
                                     (topic) => <option value={topic}>{topic}</option>
                                 )}
-                            </Form.Dropdown> */}
+                            </Form.Field>
                         </section>
                         {/* <label htmlFor='course-topic-select'>Course Topic:</label>
                         <select id='course-topic-select' onChange={handleParentCollectionChange}>
