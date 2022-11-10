@@ -50,11 +50,6 @@ class CollectionHighlights extends Component {
                   <span>{item.itemCount}</span>
                   <h3>{item.title}</h3>
                 </div>
-                <div className="category-link">
-                  <p>
-                    Explore<i className="fal fa-arrow-right"></i>
-                  </p>
-                </div>
               </div>
             </a>
           </div>
@@ -69,7 +64,7 @@ class CollectionHighlights extends Component {
           aria-label="Collection Highlights"
         >
           <div className="collection-highlights-heading">
-            <h2>Collection Highlights</h2>
+            <h2>Case Study Library Statistics</h2>
           </div>
           <div className="row justify-content-center">{tiles}</div>
         </div>

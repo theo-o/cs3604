@@ -3,7 +3,6 @@ import FeaturedStaticImage from "./home/FeaturedStaticImage";
 import SearchBar from "../components/SearchBar";
 import HomeStatement from "./home/HomeStatement";
 import SiteTitle from "../components/SiteTitle";
-import FeaturedItems from "./home/FeaturedItems";
 import MultimediaSection from "./home/MultimediaSection";
 import SiteSponsors from "./home/SiteSponsors";
 import CollectionHighlights from "./home/CollectionHighlights";
@@ -20,7 +19,6 @@ class HomePage extends Component {
   };
 
   render() {
-    let featuredItems = null;
     let homeStatement = null;
     let staticImage = null;
     let mediaSection = null;
@@ -29,7 +27,6 @@ class HomePage extends Component {
     let collectionHighlights = null;
     try {
       const homePageInfo = JSON.parse(this.props.site.homePage);
-      featuredItems = homePageInfo["featuredItems"];
       homeStatement = {
         heading: "Welcome to the CS3604 Case Study Library",
         statement:
@@ -53,7 +50,7 @@ class HomePage extends Component {
             <FeaturedStaticImage staticImage={staticImage} />
             <div id="home-site-title-wrapper">
               <h1 style={this.getStyles(staticImage)}>
-                "CS3604:Professionalism In Computing Case Study Library"
+                CS3604:Professionalism In Computing Case Study Library
               </h1>
             </div>
           </div>
@@ -67,8 +64,8 @@ class HomePage extends Component {
           </div>
           <HomeStatement homeStatement={homeStatement} />
           <div className="home-nav-links">
-            <a href="/search">View All Items</a>
-            <a href="/collections">View All Collections</a>
+            <a href="/search">Browse All Case Studies</a>
+            <a href="/collections">Browse Case Studies by Topic</a>
           </div>
           {/* <FeaturedItems featuredItems={featuredItems} /> */}
           <MultimediaSection mediaSection={mediaSection} />
