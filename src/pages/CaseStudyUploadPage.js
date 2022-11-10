@@ -37,8 +37,10 @@ class CaseStudyUploadPage extends Component {
             />
             <h1 id="permissions-heading">Case Study Student Upload</h1>
           </div>
+          <div className="col-12">
           <UploadSection />
-          <div
+          </div>
+          {/* <div
             className="col-md-8"
             role="region"
             aria-labelledby="permissions-heading"
@@ -64,7 +66,7 @@ class CaseStudyUploadPage extends Component {
                 <a href={download}>Permission form for image reproductions</a>
               </div>
             ) : null}
-          </div>
+          </div> */}
         </div>
       </>
     );

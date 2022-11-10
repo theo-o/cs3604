@@ -296,17 +296,16 @@ function UploadSection() {
     useEffect(() => {
         if (isAuthorized) {
             setContent((
-                <div className="col-lg-9 col-sm-12 admin-content">
+                <div className="col-9 admin-content">
                     <Form>
                         <section>
-                            <Form.Field>
-                                <label>Title</label>
-                                <TextArea
-                                    name="Title"
-                                    placeholder="Enter Title"
-                                    onChange={handleTitleChange}
-                                />
-                            </Form.Field>
+                            <Form.Field
+                            label="Title"
+                            control="input"
+                            placeholder="Enter Title"
+                            onChange={handleTitleChange}
+                            />
+
                         </section>
                         {/* <label htmlFor='casestudy-title'>Title:</label>
                     <input id ='casestudy-title' type='text' onChange={handleTitleChange}/> */}
