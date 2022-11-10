@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { API, Storage, Auth } from "aws-amplify";
-import { Form, Upload, Input, Select, Button, TextArea } from "antd";
+import { Form, Upload, Input, Select, Button } from "antd";
 import { withAuthenticator } from "@aws-amplify/ui-react";
 import { getAllCollections, getArchiveByIdentifier } from "../lib/fetchTools";
 import { v4 as uuidv4 } from "uuid";
@@ -8,6 +8,8 @@ import * as mutations from "../graphql/mutations";
 import "../css/adminForms.scss";
 
 import { UploadOutlined } from "@ant-design/icons";
+const { TextArea } = Input;
+const { Option } = Select;
 
 const multiFields = [
   "belongs_to",
@@ -59,8 +61,6 @@ const COURSE_TOPICS = [
 function TopicsToJson() {
   let converted = {};
 }
-
-const { Option } = Select;
 
 const formItemLayout = {
   labelCol: { span: 6 },
