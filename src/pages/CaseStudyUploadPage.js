@@ -48,23 +48,6 @@ class CaseStudyUploadPage extends Component {
               dangerouslySetInnerHTML={{ __html: this.state.copy }}
             ></div>
           </div>
-          <div className="col-md-4 contact-section-wrapper">
-            <ContactSection
-              siteDetails={this.props.site}
-              site={this.props.site}
-            />
-            {download ? (
-              <div role="region" aria-labelledby="terms-downloads-section">
-                <h2
-                  className="terms-downloads-heading"
-                  id="terms-downloads-section"
-                >
-                  Downloadable forms
-                </h2>
-                <a href={download}>Permission form for image reproductions</a>
-              </div>
-            ) : null}
-          </div>
         </div>
       </>
     );
