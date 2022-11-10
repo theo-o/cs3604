@@ -263,20 +263,13 @@ function UploadSection() {
     populateCollections();
   }, []);
 
-  // isAuthorized is part of state, and thus should cause rerender on change
-  const genSubmissionForm = () => {
-    if (!isAuthorized) {
-      return (
-        <>
-          <div>
-            <h1>You are not authorized to access this page.</h1>
-          </div>
-        </>
-      );
-    }
-
-    return (
-      <>
+  return (
+    <>
+      {!isAuthorized ? (
+        <div>
+          <h1>You are not authorized to access this page.</h1>
+        </div>
+      ) : (
         <Form name="validate_other" {...formItemLayout}>
           <Form.Item
             name="Title"
@@ -345,14 +338,8 @@ function UploadSection() {
             </Button>
           </Form.Item>
         </Form>
-      </>
-    );
-  };
-
-  return (
-    <div>
-      <div>{genSubmissionForm()}</div>
-    </div>
+      )}
+    </>
   );
 }
 
