@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { API, Storage, Auth } from "aws-amplify";
-import { Form, Button } from "semantic-ui-react";
+import { Form, TextArea } from "semantic-ui-react";
 import { withAuthenticator } from "@aws-amplify/ui-react";
 import { getAllCollections, getArchiveByIdentifier } from '../lib/fetchTools';
 import { v4 as uuidv4 } from "uuid";
@@ -291,18 +291,24 @@ function UploadSection() {
             setContent((
                 <div className="col-lg-9 col-sm-12 admin-content">
                     <Form>
-                        <Form.input
-                            label="Title"
-                            placeholder="Enter Title"
-                            onChange={handleTitleChange}
-                        />
+                        <Form.Field>
+                            <label>Title</label>
+                            <TextArea
+                                name="Title"
+                                placeholder="Enter Title"
+                                onChange={handleTitleChange}
+                            />
+                        </Form.Field>
                         {/* <label htmlFor='casestudy-title'>Title:</label>
                     <input id ='casestudy-title' type='text' onChange={handleTitleChange}/> */}
-                        <Form.input
-                            label="Description"
-                            placeholder="Enter Description"
-                            onChange={handleDescriptionChange}
-                        />
+                        <Form.input>
+                            <label>Description</label>
+                            <TextArea
+                                name="Description"
+                                placeholder="Enter Description"
+                                onChange={handleDescriptionChange}
+                            />
+                        </Form.input>
                         {/* <label htmlFor='casestudy-desc'>Description:</label>
                         <input id='casestudy-desc' type='text' onChange={handleDescriptionChange} /> */}
                         <Form.Dropdown
