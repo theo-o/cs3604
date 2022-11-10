@@ -5,7 +5,7 @@ import { withAuthenticator } from "@aws-amplify/ui-react";
 import { getAllCollections, getArchiveByIdentifier } from '../lib/fetchTools';
 import { v4 as uuidv4 } from "uuid";
 import * as mutations from "../graphql/mutations";
-
+import "../css/adminForms.scss";
 const multiFields = [
     "belongs_to",
     "contributor",
