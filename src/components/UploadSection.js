@@ -80,6 +80,10 @@ function UploadSection() {
   );
   const [selectedCollection, setSelectedCollection] = useState(null);
   const [allCollections, setAllCollections] = useState(null);
+
+  const [fileList, setFileList] = useState([]);
+  const [uploading, setUploading] = useState(false);
+
   const pageRef = useRef();
 
   pageRef.currTitle = titleTextValue;
@@ -96,6 +100,18 @@ function UploadSection() {
   const noFileError = <h3>Error: No file selected</h3>;
 
   const invalidFileError = <h3>Error: Invalid file type</h3>;
+
+  const onRemoveFile = file => {
+    const index = fileList.indexOf(file);
+    const newFileList = fileList.slice();
+    newFileList.splice(index, 1);
+    setFileList(newFileList);
+  };
+
+  const beforeUpload = file => {
+    setFileList([...fileList, file]);
+    return false;
+  };
 
   const handleFileChange = e => {
     setCurrFile(e.target.files[0]);
@@ -299,7 +315,7 @@ function UploadSection() {
               </Select>
             </Form.Item>
             <Form.Item
-              label="Case Study File Upload"
+              label="Case Study File"
               onChange={handleFileChange}
               rules={[
                 {
@@ -308,8 +324,13 @@ function UploadSection() {
                 }
               ]}
             >
-              <Upload name="file">
-                <Button icon={<UploadOutlined />}>Click to Upload</Button>
+              <Upload
+                onRemove={onRemoveFile}
+                beforeUpload={beforeUpload}
+                name="file"
+                fileList={fileList}
+              >
+                <Button icon={<UploadOutlined />}>Select File</Button>
               </Upload>
             </Form.Item>
             <Form.Item>
