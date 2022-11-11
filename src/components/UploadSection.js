@@ -306,7 +306,7 @@ function UploadSection() {
           {/* Name Field */}
           <Form.Item label="Name" style={{ marginBottom: 0 }}>
             <Form.Item
-              style={{ display: "inline-block", width: "calc(50% - 12px)" }}
+              style={{ display: "inline-block", width: "calc(50% - 50px)" }}
             >
               <Input
                 showCount
@@ -320,17 +320,17 @@ function UploadSection() {
             <span
               style={{
                 display: "inline-block",
-                width: "24px",
+                width: "100px",
                 lineHeight: "32px",
                 textAlign: "center"
               }}
             >
-              -
+              - Anonymous
             </span>
             <Form.Item
               name="Anonymous Upload"
               valuePropName="unchecked"
-              style={{ display: "inline-block", width: "calc(50% - 12px)" }}
+              style={{ display: "inline-block", width: "calc(50% - 50px)" }}
             >
               <Tooltip title="Remember to censor your name from your file submission!">
                 <Switch
@@ -340,8 +340,6 @@ function UploadSection() {
                   checked={anonUpload}
                 />
               </Tooltip>
-
-              <span>Anonymous Upload</span>
             </Form.Item>
           </Form.Item>
 
