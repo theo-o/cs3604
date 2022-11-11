@@ -9,7 +9,8 @@ import {
   notification,
   message,
   Checkbox,
-  Switch
+  Switch,
+  Tooltip
 } from "antd";
 import { withAuthenticator } from "@aws-amplify/ui-react";
 import { getAllCollections, getArchiveByIdentifier } from "../lib/fetchTools";
@@ -331,12 +332,15 @@ function UploadSection() {
               valuePropName="unchecked"
               style={{ display: "inline-block", width: "calc(50% - 12px)" }}
             >
-              <Switch
-                checkedChildren={<CheckOutlined />}
-                unCheckedChildren={<CloseOutlined />}
-                onChange={e => setAnonUpload(e)}
-                checked={anonUpload}
-              />
+              <Tooltip title="Remember to censor your name from your file submission!">
+                <Switch
+                  checkedChildren={<CheckOutlined />}
+                  unCheckedChildren={<CloseOutlined />}
+                  onChange={e => setAnonUpload(e)}
+                  checked={anonUpload}
+                />
+              </Tooltip>
+
               <span>Anonymous Upload</span>
             </Form.Item>
           </Form.Item>
