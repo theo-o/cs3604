@@ -177,7 +177,6 @@ function UploadSection() {
   }
 
   async function handleSubmit(e) {
-    e.preventDefault();
     console.log(pageRef.currTitle);
     console.log(pageRef.currDesc);
     console.log(pageRef.parentColl);
