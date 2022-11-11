@@ -82,6 +82,7 @@ function UploadSection() {
   const [selectedCollection, setSelectedCollection] = useState(null);
   const [allCollections, setAllCollections] = useState(null);
 
+  const [anonUpload, setAnonUpload] = useState(false);
   const [honorCode, setHonorCode] = useState(false);
   const [fileList, setFileList] = useState([]);
   const [uploading, setUploading] = useState(false);
@@ -166,7 +167,7 @@ function UploadSection() {
     archive.manifest_url = `https://collectionmap115006-dlpdev.s3.amazonaws.com/public/casestudies/${key}`;
     archive.visibility = true;
     archive.title = title;
-    archive.creator = [creatorValue];
+    archive.creator = [anonUpload ? "Anonymous" : creatorValue];
     archive.thumbnail_path =
       "https://casestudy-presentations.s3.amazonaws.com/item.png";
     archive.source = [""];
@@ -298,21 +299,26 @@ function UploadSection() {
           onFieldsChange={handleFormChange}
           autoComplete="off"
         >
-          <Form.Item
-            name="Your Name"
-            label="Your Name"
-            rules={[
-              {
-                required: true,
-                message: "Please input your name"
-              }
-            ]}
-          >
+          <Form.Item name="Name" label="Name">
             <Input
               value={creatorValue}
               placeholder="Enter Name"
               onChange={e => setCreatorValue(e.target.value)}
+              disabled={anonUpload}
             />
+          </Form.Item>
+
+          <Form.Item
+            name="Anonymous Upload"
+            valuePropName="unchecked"
+            wrapperCol={{ offset: 6, span: 14 }}
+          >
+            <Checkbox
+              checked={anonUpload}
+              onChange={e => setAnonUpload(e.target.checked)}
+            >
+              Anonymous Upload
+            </Checkbox>
           </Form.Item>
 
           <Form.Item
@@ -322,6 +328,10 @@ function UploadSection() {
               {
                 required: true,
                 message: "Please input the Case Study Title"
+              },
+              {
+                min: 3,
+                message: "Title must be minimum 3 characters."
               }
             ]}
           >
@@ -341,8 +351,8 @@ function UploadSection() {
                 message: "Please enter a Description"
               },
               {
-                min: 10,
-                message: "Description must be minimum 10 characters."
+                min: 20,
+                message: "Description must be minimum 20 characters."
               }
             ]}
             hasFeedback
