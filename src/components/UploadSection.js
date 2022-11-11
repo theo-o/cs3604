@@ -300,6 +300,8 @@ function UploadSection() {
         >
           <Form.Item name="Name" label="Name">
             <Input
+              showCount
+              maxLength={256}
               value={anonUpload ? "Anonymous" : creatorValue}
               placeholder="Enter Name"
               onChange={e => setCreatorValue(e.target.value)}
@@ -333,8 +335,11 @@ function UploadSection() {
                 message: "Title must be minimum 3 characters."
               }
             ]}
+            hasFeedback
           >
             <Input
+              showCount
+              maxLength={256}
               value={titleTextValue}
               placeholder="Enter Title"
               onChange={e => setTitleTextValue(e.target.value)}
@@ -358,10 +363,10 @@ function UploadSection() {
           >
             <TextArea
               showCount
+              maxLength={512}
               value={descriptionTextValue}
               placeholder="Enter Description"
               onChange={e => setDescriptionTextValue(e.target.value)}
-              maxLength={500}
               style={{ height: 120 }}
               rows={4}
             />
@@ -411,9 +416,10 @@ function UploadSection() {
               beforeUpload={beforeUpload}
               name="file"
               fileList={fileList}
+              maxCount={1}
             >
               <Button disabled={fileList.length > 0} icon={<UploadOutlined />}>
-                Select File
+                Select File (Max: 1)
               </Button>
             </Upload>
           </Form.Item>
