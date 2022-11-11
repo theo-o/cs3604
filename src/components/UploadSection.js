@@ -161,7 +161,8 @@ function UploadSection() {
     archive.manifest_url = `https://collectionmap115006-dlpdev.s3.amazonaws.com/public/casestudies/${key}`;
     archive.visibility = true;
     archive.title = title;
-    archive.creator = [creatorValue];
+    // archive.creator = [creatorValue];
+    archive.creator = ["Demo"]; // ! temp while i test something more important
     archive.thumbnail_path =
       "https://casestudy-presentations.s3.amazonaws.com/item.png";
     archive.source = [""];
@@ -264,97 +265,99 @@ function UploadSection() {
 
   return (
     <>
-      {!isAuthorized ? (
-        <div>
-          <h1>You are not authorized to access this page.</h1>
-        </div>
-      ) : (
-        <Form name="validate_other" {...formItemLayout}>
-          <Form.Item
-            name="Your Name"
-            label="Your Name"
-            rules={[
-              {
-                required: true,
-                message: "Please input your name"
-              }
-            ]}
-          >
-            <Input
-              value={creatorValue}
-              placeholder="Enter Name"
-              onChange={e => setCreatorValue(e.target.value)}
-            />
-          </Form.Item>
-
-          <Form.Item
-            name="Title"
-            label="Title"
-            rules={[
-              {
-                required: true,
-                message: "Please input the Case Study Title"
-              }
-            ]}
-          >
-            <Input
-              value={titleTextValue}
-              placeholder="Enter Title"
-              onChange={e => setTitleTextValue(e.target.value)}
-            />
-          </Form.Item>
-
-          <Form.Item
-            name="Description"
-            label="Description"
-            rules={[
-              {
-                required: true,
-                message: "Please enter a Description"
-              }
-            ]}
-          >
-            <TextArea
-              value={descriptionTextValue}
-              placeholder="Enter Description"
-              onChange={e => setDescriptionTextValue(e.target.value)}
-              rows={4}
-            />
-          </Form.Item>
-
-          <Form.Item label="Course Topic">
-            <Select onChange={e => setParentCollectionValue(e.target.value)}>
-              {COURSE_TOPICS.map(topic => (
-                <Select.Option value={topic}>{topic}</Select.Option>
-              ))}
-            </Select>
-          </Form.Item>
-          <Form.Item
-            label="Case Study File"
-            onChange={handleFileChange}
-            rules={[
-              {
-                required: true,
-                message: "Please add a Case Study File"
-              }
-            ]}
-          >
-            <Upload
-              onRemove={onRemoveFile}
-              beforeUpload={beforeUpload}
-              name="file"
-              fileList={fileList}
+      <div className="col-12 upload-section">
+        {!isAuthorized ? (
+          <div>
+            <h1>You are not authorized to access this page.</h1>
+          </div>
+        ) : (
+          <Form name="validate_other" {...formItemLayout}>
+            <Form.Item
+              name="Your Name"
+              label="Your Name"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input your name"
+                }
+              ]}
             >
-              <Button icon={<UploadOutlined />}>Select File</Button>
-            </Upload>
-          </Form.Item>
-          <Form.Item>
-            <Button type="primary" htmlType="submit" onClick={handleSubmit}>
-              Submit
-            </Button>
-          </Form.Item>
-        </Form>
-      )}
+              <Input
+                value={creatorValue}
+                placeholder="Enter Name"
+                onChange={e => setCreatorValue(e.target.value)}
+              />
+            </Form.Item>
+
+            <Form.Item
+              name="Title"
+              label="Title"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input the Case Study Title"
+                }
+              ]}
+            >
+              <Input
+                value={titleTextValue}
+                placeholder="Enter Title"
+                onChange={e => setTitleTextValue(e.target.value)}
+              />
+            </Form.Item>
+
+            <Form.Item
+              name="Description"
+              label="Description"
+              rules={[
+                {
+                  required: true,
+                  message: "Please enter a Description"
+                }
+              ]}
+            >
+              <TextArea
+                value={descriptionTextValue}
+                placeholder="Enter Description"
+                onChange={e => setDescriptionTextValue(e.target.value)}
+                rows={4}
+              />
+            </Form.Item>
+
+            <Form.Item label="Course Topic">
+              <Select onChange={e => setParentCollectionValue(e.target.value)}>
+                {COURSE_TOPICS.map(topic => (
+                  <Select.Option value={topic}>{topic}</Select.Option>
+                ))}
+              </Select>
+            </Form.Item>
+            <Form.Item
+              label="Case Study File"
+              onChange={handleFileChange}
+              rules={[
+                {
+                  required: true,
+                  message: "Please add a Case Study File"
+                }
+              ]}
+            >
+              <Upload
+                onRemove={onRemoveFile}
+                beforeUpload={beforeUpload}
+                name="file"
+                fileList={fileList}
+              >
+                <Button icon={<UploadOutlined />}>Select File</Button>
+              </Upload>
+            </Form.Item>
+            <Form.Item>
+              <Button type="primary" htmlType="submit" onClick={handleSubmit}>
+                Submit
+              </Button>
+            </Form.Item>
+          </Form>
+        )}
+      </div>
     </>
   );
 }

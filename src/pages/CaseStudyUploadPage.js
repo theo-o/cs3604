@@ -29,7 +29,7 @@ class CaseStudyUploadPage extends Component {
             />
             <h1 id="permissions-heading">Case Study Student Upload</h1>
           </div>
-          <UploadSection className="col-12 upload-section" />
+          <UploadSection />
         </div>
       </>
     );
