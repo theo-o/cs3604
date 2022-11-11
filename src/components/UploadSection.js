@@ -82,6 +82,7 @@ function UploadSection() {
   const [selectedCollection, setSelectedCollection] = useState(null);
   const [allCollections, setAllCollections] = useState(null);
 
+  const [honorCode, setHonorCode] = useState(false);
   const [fileList, setFileList] = useState([]);
   const [uploading, setUploading] = useState(false);
   const [disabledSubmit, setDisabledSubmit] = useState(true);
@@ -116,9 +117,7 @@ function UploadSection() {
   };
 
   const handleFormChange = () => {
-    const hasErrors =
-      form.getFieldsError().some(({ errors }) => errors.length) ||
-      !form.isFieldsTouched(true);
+    const hasErrors = form.getFieldsError().some(({ errors }) => errors.length);
     setDisabledSubmit(hasErrors ?? false);
   };
 
@@ -342,13 +341,8 @@ function UploadSection() {
                 message: "Please enter a Description"
               },
               {
-                message: "Description must be longer than 10 characters",
-                validator: (_, e) => {
-                  if (e.target.value.length < 10) {
-                    return Promise.reject();
-                  }
-                  return Promise.resolve();
-                }
+                min: 10,
+                message: "Description must be minimum 10 characters."
               }
             ]}
             hasFeedback
@@ -420,12 +414,21 @@ function UploadSection() {
             wrapperCol={{ offset: 6, span: 14 }}
             rules={[
               {
-                required: true,
-                message: "You must abide by the honor code."
+                validator: (_, value) =>
+                  value
+                    ? Promise.resolve()
+                    : Promise.reject(
+                        new Error(
+                          "You must agree to the Honor Code to submit your Case Study."
+                        )
+                      )
               }
             ]}
           >
-            <Checkbox>
+            <Checkbox
+              checked={honorCode}
+              onChange={e => setHonorCode(e.target.checked)}
+            >
               I agree to abide by the{" "}
               <a href="https://honorsystem.vt.edu/honor_code_policy_test.html">
                 VT Honor Code
@@ -434,7 +437,11 @@ function UploadSection() {
           </Form.Item>
 
           <Form.Item wrapperCol={{ offset: 6, span: 14 }}>
-            <Button disabled={disabledSubmit} type="primary" htmlType="submit">
+            <Button
+              disabled={disabledSubmit || !honorCode}
+              type="primary"
+              htmlType="submit"
+            >
               Submit
             </Button>
           </Form.Item>
