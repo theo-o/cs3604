@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { API, Storage, Auth } from "aws-amplify";
-import { Form, Upload, Input, Select, Button } from "antd";
+import { Form, Upload, Input, Select, Button, notification } from "antd";
 import { withAuthenticator } from "@aws-amplify/ui-react";
 import { getAllCollections, getArchiveByIdentifier } from "../lib/fetchTools";
 import { v4 as uuidv4 } from "uuid";
@@ -217,6 +217,29 @@ function UploadSection() {
           authMode: "AMAZON_COGNITO_USER_POOLS"
         });
         form.resetFields();
+        const openNotification = () => {
+          const key = `open${Date.now()}`;
+          const btn = (
+            <Button
+              type="primary"
+              size="small"
+              onClick={() => notification.close(key)}
+            >
+              Confirm
+            </Button>
+          );
+          notification.open({
+            message: "Case Study successfully uploaded!",
+            description: (
+              <a
+                href={"/archive/" + archive.custom_key.substr(11)}
+              >{`Click here to visit ${archive.title}`}</a>
+            ),
+            btn,
+            key,
+            duration: 0
+          });
+        };
       } catch (err) {
         console.log("Error uploading given file: ", err);
       }
