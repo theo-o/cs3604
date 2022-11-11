@@ -7,7 +7,8 @@ import {
   Select,
   Button,
   notification,
-  message
+  message,
+  Checkbox
 } from "antd";
 import { withAuthenticator } from "@aws-amplify/ui-react";
 import { getAllCollections, getArchiveByIdentifier } from "../lib/fetchTools";
@@ -116,8 +117,8 @@ function UploadSection() {
 
   const handleFormChange = () => {
     const hasErrors =
-      form.current?.getFieldsError().some(({ errors }) => errors.length) ||
-      !form.current?.isFieldsTouched(true);
+      form.current.getFieldsError().some(({ errors }) => errors.length) ||
+      !form.current.isFieldsTouched(true);
     setDisabledSubmit(hasErrors ?? false);
   };
 
@@ -228,7 +229,7 @@ function UploadSection() {
           },
           authMode: "AMAZON_COGNITO_USER_POOLS"
         });
-        form.resetFields();
+        form.current.resetFields();
         notification.open({
           message: "Case Study successfully uploaded!",
           description: (
@@ -381,6 +382,7 @@ function UploadSection() {
                 }
               }
             ]}
+            hasFeedback
           >
             <Select
               defaultValue={COURSE_TOPICS[0]}
@@ -411,12 +413,28 @@ function UploadSection() {
               <Button icon={<UploadOutlined />}>Select File</Button>
             </Upload>
           </Form.Item>
+
           <Form.Item
-            labelCol={{ span: 6 }}
-            wrapperCol={{ span: 14 }}
-            disabled={disabledSubmit}
+            name="Honor Code"
+            valuePropName="unchecked"
+            wrapperCol={{ offset: 6, span: 14 }}
+            rules={[
+              {
+                required: true,
+                message: "You must abide by the honor code."
+              }
+            ]}
           >
-            <Button type="primary" htmlType="submit">
+            <Checkbox>
+              I agree to abide by the{" "}
+              <a href="https://honorsystem.vt.edu/honor_code_policy_test.html">
+                VT Honor Code
+              </a>
+            </Checkbox>
+          </Form.Item>
+
+          <Form.Item wrapperCol={{ offset: 6, span: 14 }}>
+            <Button disabled={disabledSubmit} type="primary" htmlType="submit">
               Submit
             </Button>
           </Form.Item>
