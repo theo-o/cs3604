@@ -81,7 +81,7 @@ function UploadSection() {
   const [isAuthorized, setIsAuthorized] = useState(false);
   const [titleTextValue, setTitleTextValue] = useState("");
   const [descriptionTextValue, setDescriptionTextValue] = useState("");
-  const [creatorValue, setCreatorValue] = useState("Demo");
+  const [creatorValue, setCreatorValue] = useState("");
   const [parentCollectionValue, setParentCollectionValue] = useState(
     COURSE_TOPICS[0]
   );
