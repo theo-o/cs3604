@@ -77,6 +77,7 @@ function UploadSection() {
 
   const [fileList, setFileList] = useState([]);
   const [uploading, setUploading] = useState(false);
+  const [disabledSubmit, setDisabledSubmit] = useState(true);
   const [form] = Form.useForm();
 
   const pageRef = useRef();
@@ -106,6 +107,13 @@ function UploadSection() {
   const beforeUpload = file => {
     setFileList([...fileList, file]);
     return false;
+  };
+
+  const handleFormChange = () => {
+    const hasErrors =
+      form.current?.getFieldsError().some(({ errors }) => errors.length) ||
+      !form.current?.isFieldsTouched(true);
+    setDisabledSubmit(hasErrors ?? false);
   };
 
   const handleFileChange = e => {
@@ -293,6 +301,7 @@ function UploadSection() {
           wrapperCol={{ span: 14 }}
           onFinish={handleSubmit}
           onFinishFailed={onFinishFailed}
+          onFieldsChange={handleFormChange}
           autoComplete="off"
         >
           <Form.Item
@@ -336,8 +345,21 @@ function UploadSection() {
               {
                 required: true,
                 message: "Please enter a Description"
+              },
+              {
+                message: "Description must be between 10 and 500 characters",
+                validator: (_, e) => {
+                  if (
+                    e.target.value.length < 10 ||
+                    e.target.value.length > 500
+                  ) {
+                    return Promise.reject();
+                  }
+                  return Promise.resolve();
+                }
               }
             ]}
+            hasFeedback
           >
             <TextArea
               value={descriptionTextValue}
@@ -390,11 +412,15 @@ function UploadSection() {
               beforeUpload={beforeUpload}
               name="file"
               fileList={fileList}
+              disabled={fileList.length > 0}
             >
               <Button icon={<UploadOutlined />}>Select File</Button>
             </Upload>
           </Form.Item>
-          <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+          <Form.Item
+            wrapperCol={{ offset: 8, span: 16 }}
+            disabled={disabledSubmit}
+          >
             <Button type="primary" htmlType="submit">
               Submit
             </Button>
