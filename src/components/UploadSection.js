@@ -71,10 +71,9 @@ function UploadSection() {
   const [currFile, setCurrFile] = useState();
   const [fileIsSelected, setFileIsSelected] = useState(false);
   const [isAuthorized, setIsAuthorized] = useState(false);
-
   const [titleTextValue, setTitleTextValue] = useState("");
   const [descriptionTextValue, setDescriptionTextValue] = useState("");
-
+  const [creatorValue, setCreatorValue] = useState("Anonymous");
   const [parentCollectionValue, setParentCollectionValue] = useState(
     COURSE_TOPICS[0]
   );
@@ -162,7 +161,7 @@ function UploadSection() {
     archive.manifest_url = `https://collectionmap115006-dlpdev.s3.amazonaws.com/public/casestudies/${key}`;
     archive.visibility = true;
     archive.title = title;
-    archive.creator = ["Demo"];
+    archive.creator = [creatorValue];
     archive.thumbnail_path =
       "https://casestudy-presentations.s3.amazonaws.com/item.png";
     archive.source = [""];
@@ -271,6 +270,23 @@ function UploadSection() {
         </div>
       ) : (
         <Form name="validate_other" {...formItemLayout}>
+          <Form.Item
+            name="Your Name"
+            label="Your Name"
+            rules={[
+              {
+                required: true,
+                message: "Please input your name"
+              }
+            ]}
+          >
+            <Input
+              value={creatorValue}
+              placeholder="Enter Name"
+              onChange={e => setCreatorValue(e.target.value)}
+            />
+          </Form.Item>
+
           <Form.Item
             name="Title"
             label="Title"
