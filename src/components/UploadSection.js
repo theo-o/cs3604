@@ -62,11 +62,6 @@ function TopicsToJson() {
   let converted = {};
 }
 
-const formItemLayout = {
-  labelCol: { span: 6 },
-  wrapperCol: { span: 14 }
-};
-
 function UploadSection() {
   const [currFile, setCurrFile] = useState();
   const [fileIsSelected, setFileIsSelected] = useState(false);
@@ -82,6 +77,7 @@ function UploadSection() {
 
   const [fileList, setFileList] = useState([]);
   const [uploading, setUploading] = useState(false);
+  const [form] = Form.useForm();
 
   const pageRef = useRef();
 
@@ -220,10 +216,10 @@ function UploadSection() {
           },
           authMode: "AMAZON_COGNITO_USER_POOLS"
         });
+        form.resetFields();
       } catch (err) {
         console.log("Error uploading given file: ", err);
       }
-      // resetFields();
     }
   }
 
@@ -244,6 +240,10 @@ function UploadSection() {
       setIsAuthorized(false);
     }
   }
+
+  const onFinishFailed = errorInfo => {
+    console.log("Failed:", errorInfo);
+  };
 
   async function populateCollections() {
     const TYPE = process.env.REACT_APP_REP_TYPE;
@@ -268,7 +268,14 @@ function UploadSection() {
           <h1>You are not authorized to access this page.</h1>
         </div>
       ) : (
-        <Form name="validate_other" {...formItemLayout}>
+        <Form
+          name="validate_other"
+          labelCol={{ span: 6 }}
+          wrapperCol={{ span: 14 }}
+          onFinish={handleSubmit}
+          onFinishFailed={onFinishFailed}
+          autoComplete="off"
+        >
           <Form.Item
             name="Your Name"
             label="Your Name"
@@ -368,8 +375,8 @@ function UploadSection() {
               <Button icon={<UploadOutlined />}>Select File</Button>
             </Upload>
           </Form.Item>
-          <Form.Item>
-            <Button type="primary" htmlType="submit" onClick={handleSubmit}>
+          <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+            <Button type="primary" htmlType="submit">
               Submit
             </Button>
           </Form.Item>
