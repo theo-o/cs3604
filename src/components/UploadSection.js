@@ -234,7 +234,6 @@ function UploadSection() {
           },
           authMode: "AMAZON_COGNITO_USER_POOLS"
         });
-        form.resetFields();
         notification.open({
           message: "Case Study successfully uploaded!",
           description: (
@@ -304,6 +303,7 @@ function UploadSection() {
           onFieldsChange={handleFormChange}
           autoComplete="off"
         >
+          {/* Name Field */}
           <Form.Item label="Name" style={{ marginBottom: 0 }}>
             <Form.Item
               style={{ display: "inline-block", width: "calc(50% - 12px)" }}
@@ -345,6 +345,7 @@ function UploadSection() {
             </Form.Item>
           </Form.Item>
 
+          {/* Title Field */}
           <Form.Item
             name="Title"
             label="Title"
@@ -369,6 +370,7 @@ function UploadSection() {
             />
           </Form.Item>
 
+          {/* Description Field */}
           <Form.Item
             name="Description"
             label="Description"
@@ -395,6 +397,7 @@ function UploadSection() {
             />
           </Form.Item>
 
+          {/* Course Topic Select */}
           <Form.Item
             label="Course Topic"
             name="Course Topic"
@@ -424,6 +427,8 @@ function UploadSection() {
               ))}
             </Select>
           </Form.Item>
+
+          {/* File Upload */}
           <Form.Item
             label="Case Study File"
             onChange={handleFileChange}
@@ -447,6 +452,7 @@ function UploadSection() {
             </Upload>
           </Form.Item>
 
+          {/* Honor Code */}
           <Form.Item
             name="Honor Code"
             valuePropName="unchecked"
@@ -464,6 +470,7 @@ function UploadSection() {
             </Checkbox>
           </Form.Item>
 
+          {/* Submit */}
           <Form.Item wrapperCol={{ offset: 6, span: 14 }}>
             <Button
               disabled={
@@ -479,6 +486,11 @@ function UploadSection() {
             >
               Submit
             </Button>
+          </Form.Item>
+
+          {/* Reset */}
+          <Form.Item wrapperCol={{ offset: 6, span: 14 }}>
+            <Button onClick={() => form.resetFields()}>Reset Fields</Button>
           </Form.Item>
         </Form>
       )}
