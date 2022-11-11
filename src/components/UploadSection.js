@@ -475,9 +475,7 @@ function UploadSection() {
                 disabledSubmit ||
                 !honorCode ||
                 !fileList.length ||
-                form.getFieldError("Title").length > 0 ||
-                form.getFieldError("Description").length > 0 ||
-                form.getFieldError("Course Topic").length > 0
+                form.getFieldsError().some(({ errors }) => errors.length)
               }
               type="primary"
               htmlType="submit"
