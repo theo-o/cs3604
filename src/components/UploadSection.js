@@ -157,7 +157,7 @@ function UploadSection() {
     archive.manifest_url = `https://collectionmap115006-dlpdev.s3.amazonaws.com/public/casestudies/${key}`;
     archive.visibility = true;
     archive.title = title;
-    archive.creator = ["Demo"];
+    archive.creator = [creatorValue];
     archive.thumbnail_path =
       "https://casestudy-presentations.s3.amazonaws.com/item.png";
     archive.source = [""];
