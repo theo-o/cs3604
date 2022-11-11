@@ -8,7 +8,8 @@ import {
   Button,
   notification,
   message,
-  Checkbox
+  Checkbox,
+  Switch
 } from "antd";
 import { withAuthenticator } from "@aws-amplify/ui-react";
 import { getAllCollections, getArchiveByIdentifier } from "../lib/fetchTools";
@@ -16,7 +17,11 @@ import { v4 as uuidv4 } from "uuid";
 import * as mutations from "../graphql/mutations";
 import "../css/adminForms.scss";
 
-import { UploadOutlined } from "@ant-design/icons";
+import {
+  UploadOutlined,
+  CheckOutlined,
+  CloseOutlined
+} from "@ant-design/icons";
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -298,28 +303,42 @@ function UploadSection() {
           onFieldsChange={handleFormChange}
           autoComplete="off"
         >
-          <Form.Item name="Name" label="Name">
-            <Input
-              showCount
-              maxLength={256}
-              value={anonUpload ? "Anonymous" : creatorValue}
-              placeholder="Enter Name"
-              onChange={e => setCreatorValue(e.target.value)}
-              disabled={anonUpload}
-            />
-          </Form.Item>
-
-          <Form.Item
-            name="Anonymous Upload"
-            valuePropName="unchecked"
-            wrapperCol={{ offset: 6, span: 14 }}
-          >
-            <Checkbox
-              checked={anonUpload}
-              onChange={e => setAnonUpload(e.target.checked)}
+          <Form.Item label="Name" style={{ marginBottom: 0 }}>
+            <Form.Item
+              style={{ display: "inline-block", width: "calc(50% - 12px)" }}
             >
-              Anonymous Upload
-            </Checkbox>
+              <Input
+                showCount
+                maxLength={256}
+                value={anonUpload ? "Anonymous" : creatorValue}
+                placeholder="Enter Name"
+                onChange={e => setCreatorValue(e.target.value)}
+                disabled={anonUpload}
+              />
+            </Form.Item>
+            <span
+              style={{
+                display: "inline-block",
+                width: "24px",
+                lineHeight: "32px",
+                textAlign: "center"
+              }}
+            >
+              -
+            </span>
+            <Form.Item
+              name="Anonymous Upload"
+              valuePropName="unchecked"
+              style={{ display: "inline-block", width: "calc(50% - 12px)" }}
+            >
+              <Switch
+                checkedChildren={<CheckOutlined />}
+                unCheckedChildren={<CloseOutlined />}
+                onChange={e => setAnonUpload(e)}
+                checked={anonUpload}
+              />
+              <span>Anonymous Upload</span>
+            </Form.Item>
           </Form.Item>
 
           <Form.Item
