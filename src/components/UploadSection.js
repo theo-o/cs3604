@@ -16,6 +16,7 @@ import * as mutations from "../graphql/mutations";
 import "../css/adminForms.scss";
 
 import { UploadOutlined } from "@ant-design/icons";
+
 const { TextArea } = Input;
 const { Option } = Select;
 
@@ -57,6 +58,7 @@ const embargoFields = [
   "embargo_note"
 ];
 
+// TODO: Dynamic?
 const COURSE_TOPICS = [
   "-- Select --",
   "Intellectual Property",
@@ -65,10 +67,6 @@ const COURSE_TOPICS = [
   "Internet (ICT)",
   "Artificial Intelligence"
 ];
-
-function TopicsToJson() {
-  let converted = {};
-}
 
 function UploadSection() {
   const [currFile, setCurrFile] = useState();
@@ -96,14 +94,6 @@ function UploadSection() {
   pageRef.fileSelected = fileIsSelected;
   pageRef.currFile = currFile;
   pageRef.allCollections = allCollections;
-
-  const titleError = <h3>Error: No title specified</h3>;
-
-  const noParentCollectionError = <h3>Error: No course topic selected</h3>;
-
-  const noFileError = <h3>Error: No file selected</h3>;
-
-  const invalidFileError = <h3>Error: Invalid file type</h3>;
 
   const onRemoveFile = file => {
     const index = fileList.indexOf(file);
@@ -246,16 +236,6 @@ function UploadSection() {
               href={"/archive/" + archive.custom_key.substr(11)}
             >{`Click here to visit ${archive.title}`}</a>
           ),
-          btn: (
-            <Button
-              type="primary"
-              size="small"
-              onClick={() => notification.close(key)}
-            >
-              Confirm
-            </Button>
-          ),
-          key: `open${Date.now()}`,
           duration: 0
         });
       } catch (err) {
@@ -407,7 +387,7 @@ function UploadSection() {
               onChange={str => setParentCollectionValue(str)}
             >
               {COURSE_TOPICS.map(topic => (
-                <Select.Option value={topic}>{topic}</Select.Option>
+                <Option value={topic}>{topic}</Option>
               ))}
             </Select>
           </Form.Item>
