@@ -491,15 +491,21 @@ function UploadSection() {
               </Checkbox>
             </Form.Item>
 
-            <Form.Item wrapperCol={{ offset: 6, span: 14 }}>
+            <Form.Item
+              wrapperCol={{ offset: 6, span: 14 }}
+              style={{ marginBottom: 0 }}
+            >
               {/* Submit */}
-              <Form.Item>
+              <Form.Item
+                style={{ display: "inline-block", width: "calc(10%)" }}
+              >
                 <Button
                   disabled={
                     !honorCode ||
                     fileList.length === 0 ||
                     descriptionTextValue.length < DESCRIPTION_MIN_LENGTH ||
-                    titleTextValue.length < TITLE_MIN_LENGTH
+                    titleTextValue.length < TITLE_MIN_LENGTH ||
+                    parentCollectionValue === COURSE_TOPICS[0]
                   }
                   type="primary"
                   htmlType="submit"
@@ -507,8 +513,11 @@ function UploadSection() {
                   Submit
                 </Button>
               </Form.Item>
+              <span style={{ display: "inline-block", width: "calc(5%)" }} />
               {/* Reset */}
-              <Form.Item>
+              <Form.Item
+                style={{ display: "inline-block", width: "calc(10%)" }}
+              >
                 <Button htmlType="button" onClick={resetFields}>
                   Reset
                 </Button>
