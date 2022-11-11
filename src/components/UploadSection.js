@@ -361,12 +361,9 @@ function UploadSection() {
                 message: "Please enter a Description"
               },
               {
-                message: "Description must be between 10 and 500 characters",
+                message: "Description must be longer than 10 characters",
                 validator: (_, e) => {
-                  if (
-                    e.target.value.length < 10 ||
-                    e.target.value.length > 500
-                  ) {
+                  if (descriptionTextValue.length < 10) {
                     return Promise.reject();
                   }
                   return Promise.resolve();
@@ -376,9 +373,12 @@ function UploadSection() {
             hasFeedback
           >
             <TextArea
+              showCount
               value={descriptionTextValue}
               placeholder="Enter Description"
               onChange={e => setDescriptionTextValue(e.target.value)}
+              maxLength={500}
+              style={{ height: 120 }}
               rows={4}
             />
           </Form.Item>
