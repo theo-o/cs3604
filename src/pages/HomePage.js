@@ -27,15 +27,7 @@ class HomePage extends Component {
     let collectionHighlights = null;
     try {
       const homePageInfo = JSON.parse(this.props.site.homePage);
-      homeStatement = {
-        heading:
-          "Welcome to the CS3604: Professionalism in Computing Case Study Library",
-        statement:
-          "This website acts as a submission & browsing platform for CS3604:" +
-          "Professionalism in Computing Projects. This site lets you browse historical case studies, " +
-          "as well as enabling current CS3604 students to submit their own case studies for public viewing. " +
-          "Uploaded Case Studies are categorized their corresponding course topic to allow for easy browsing."
-      };
+      homeStatement = homePageInfo["homeStatement"];
       staticImage = homePageInfo["staticImage"];
       mediaSection = homePageInfo["mediaSection"];
       sponsors = homePageInfo["sponsors"];
@@ -52,7 +44,7 @@ class HomePage extends Component {
             <FeaturedStaticImage staticImage={staticImage} />
             <div id="home-site-title-wrapper">
               <h1 style={this.getStyles(staticImage)}>
-                CS3604 Case Study Library
+                {this.props.site.siteName}
               </h1>
             </div>
           </div>
@@ -69,7 +61,6 @@ class HomePage extends Component {
             <a href="/search">Browse All Case Studies</a>
             <a href="/collections">Browse Case Studies by Topic</a>
           </div>
-          {/* <FeaturedItems featuredItems={featuredItems} /> */}
           <MultimediaSection mediaSection={mediaSection} />
           <SiteSponsors sponsors={sponsors} style={sponsorsStyle} />
           <CollectionHighlights collectionHighlights={collectionHighlights} />
