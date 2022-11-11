@@ -462,7 +462,6 @@ function UploadSection() {
                   Submit
                 </Button>
               </Form.Item>
-              <span style={{ display: "inline-block", width: "calc(10%)" }} />
               {/* Honor Code */}
               <Form.Item
                 name="Honor Code"
