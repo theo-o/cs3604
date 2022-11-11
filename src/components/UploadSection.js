@@ -257,30 +257,6 @@ function UploadSection() {
     }
   }
 
-  const resetFields = () => {
-    // * remove uploaded file
-    const index = 0; // ! hardcoded to 1 file !
-    const newFileList = fileList.slice();
-    newFileList.splice(index, 1);
-    setFileList(newFileList);
-
-    // * clear string Fields
-    setTitleTextValue("");
-    setDescriptionTextValue("");
-    setCreatorValue("");
-
-    // * reset topic
-    setParentCollectionValue(COURSE_TOPICS[0]);
-
-    // * reset Anonymous Upload
-    setAnonUpload(false);
-
-    // * reset Honor Code
-    setHonorCode(false);
-
-    form.resetFields();
-  };
-
   async function populateCollections() {
     const TYPE = process.env.REACT_APP_REP_TYPE;
     console.log("type: ", TYPE);
@@ -312,11 +288,6 @@ function UploadSection() {
             onFinish={handleSubmit}
             onFinishFailed={errorInfo => console.log("Failed:", errorInfo)}
             autoComplete="off"
-            initialValues={{
-              Name: "",
-              Title: "",
-              Topic: `${COURSE_TOPICS[0]}`
-            }}
           >
             <Form.Item label="Name" style={{ marginBottom: 0 }}>
               {/* Name Field */}
@@ -469,35 +440,13 @@ function UploadSection() {
               </Upload>
             </Form.Item>
 
-            {/* Honor Code */}
-            <Form.Item
-              name="Honor Code"
-              valuePropName="unchecked"
-              wrapperCol={{ offset: 6, span: 14 }}
-              help={
-                honorCode
-                  ? undefined
-                  : "You must agree to the Honor Code to submit a Case Study."
-              }
-            >
-              <Checkbox
-                checked={honorCode}
-                onChange={e => setHonorCode(e.target.checked)}
-              >
-                I agree to abide by the{" "}
-                <a href="https://honorsystem.vt.edu/honor_code_policy_test.html">
-                  VT Honor Code
-                </a>
-              </Checkbox>
-            </Form.Item>
-
             <Form.Item
               wrapperCol={{ offset: 6, span: 14 }}
               style={{ marginBottom: 0 }}
             >
               {/* Submit */}
               <Form.Item
-                style={{ display: "inline-block", width: "calc(10%)" }}
+                style={{ display: "inline-block", width: "calc(15%)" }}
               >
                 <Button
                   disabled={
@@ -513,14 +462,27 @@ function UploadSection() {
                   Submit
                 </Button>
               </Form.Item>
-              <span style={{ display: "inline-block", width: "calc(5%)" }} />
-              {/* Reset */}
+              <span style={{ display: "inline-block", width: "calc(10%)" }} />
+              {/* Honor Code */}
               <Form.Item
-                style={{ display: "inline-block", width: "calc(10%)" }}
+                name="Honor Code"
+                valuePropName="unchecked"
+                help={
+                  honorCode
+                    ? undefined
+                    : "You must agree to the Honor Code to submit a Case Study."
+                }
+                style={{ display: "inline-block", width: "calc(75%)" }}
               >
-                <Button htmlType="button" onClick={resetFields}>
-                  Reset
-                </Button>
+                <Checkbox
+                  checked={honorCode}
+                  onChange={e => setHonorCode(e.target.checked)}
+                >
+                  I agree to abide by the{" "}
+                  <a href="https://honorsystem.vt.edu/honor_code_policy_test.html">
+                    VT Honor Code
+                  </a>
+                </Checkbox>
               </Form.Item>
             </Form.Item>
           </Form>
