@@ -412,9 +412,10 @@ function UploadSection() {
               beforeUpload={beforeUpload}
               name="file"
               fileList={fileList}
-              disabled={fileList.length > 0}
             >
-              <Button icon={<UploadOutlined />}>Select File</Button>
+              <Button disabled={fileList.length > 0} icon={<UploadOutlined />}>
+                Select File
+              </Button>
             </Upload>
           </Form.Item>
 
