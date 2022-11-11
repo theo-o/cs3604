@@ -462,7 +462,14 @@ function UploadSection() {
 
           <Form.Item wrapperCol={{ offset: 6, span: 14 }}>
             <Button
-              disabled={disabledSubmit || !honorCode || !fileList.length}
+              disabled={
+                disabledSubmit ||
+                !honorCode ||
+                !fileList.length ||
+                form.getFieldError("Title").length > 0 ||
+                form.getFieldError("Description").length > 0 ||
+                form.getFieldError("Course Topic").length > 0
+              }
               type="primary"
               htmlType="submit"
             >
