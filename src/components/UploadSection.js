@@ -486,9 +486,9 @@ function UploadSection() {
                 <Button
                   disabled={
                     !honorCode ||
-                    !fileList.length ||
-                    descriptionTextValue.length >= DESCRIPTION_MIN_LENGTH ||
-                    titleTextValue.length >= TITLE_MIN_LENGTH
+                    fileList.length === 0 ||
+                    descriptionTextValue.length < DESCRIPTION_MIN_LENGTH ||
+                    titleTextValue.length < TITLE_MIN_LENGTH
                   }
                   type="primary"
                   htmlType="submit"
