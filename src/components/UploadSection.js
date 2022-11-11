@@ -73,7 +73,7 @@ function UploadSection() {
   const [isAuthorized, setIsAuthorized] = useState(false);
   const [titleTextValue, setTitleTextValue] = useState("");
   const [descriptionTextValue, setDescriptionTextValue] = useState("");
-  const [creatorValue, setCreatorValue] = useState("Anonymous");
+  const [creatorValue, setCreatorValue] = useState("Demo");
   const [parentCollectionValue, setParentCollectionValue] = useState(
     COURSE_TOPICS[0]
   );
@@ -142,11 +142,7 @@ function UploadSection() {
     let day = String(date.getDate()).padStart(2, "0");
     let month = String(date.getMonth() + 1).padStart(2, "0");
     let year = date.getFullYear();
-    const currentTime = `${month}-${day}-${year}`;
-
-    if (!desc) {
-      console.log("no desc");
-    }
+    const currentTime = `${year}/${month}/${day}`;
 
     archive.id = id;
     archive.create_date = currentTime;
@@ -161,8 +157,7 @@ function UploadSection() {
     archive.manifest_url = `https://collectionmap115006-dlpdev.s3.amazonaws.com/public/casestudies/${key}`;
     archive.visibility = true;
     archive.title = title;
-    // archive.creator = [creatorValue];
-    archive.creator = ["Demo"]; // ! temp while i test something more important
+    archive.creator = ["Demo"];
     archive.thumbnail_path =
       "https://casestudy-presentations.s3.amazonaws.com/item.png";
     archive.source = [""];
@@ -170,6 +165,9 @@ function UploadSection() {
     archive.rights_statement = "";
     archive.bibliographic_citation = "";
     archive.display_date = "";
+    archive.description = desc;
+    var opts = new Object();
+    archive.archiveOptions = JSON.stringify(opts);
 
     return archive;
   }
@@ -323,7 +321,25 @@ function UploadSection() {
             />
           </Form.Item>
 
-          <Form.Item label="Course Topic">
+          <Form.Item
+            label="Course Topic"
+            name="Course Topic"
+            rules={[
+              {
+                required: true,
+                message: "Please select a Course Topic"
+              },
+              {
+                message: "Please select a valid Course Topic",
+                validator: (_, value) => {
+                  if (value === COURSE_TOPICS[0]) {
+                    return Promise.reject();
+                  }
+                  return Promise.resolve();
+                }
+              }
+            ]}
+          >
             <Select
               defaultValue={COURSE_TOPICS[0]}
               onChange={str => setParentCollectionValue(str)}
