@@ -117,8 +117,8 @@ function UploadSection() {
 
   const handleFormChange = () => {
     const hasErrors =
-      form.current.getFieldsError().some(({ errors }) => errors.length) ||
-      !form.current.isFieldsTouched(true);
+      form.getFieldsError().some(({ errors }) => errors.length) ||
+      !form.isFieldsTouched(true);
     setDisabledSubmit(hasErrors ?? false);
   };
 
@@ -229,7 +229,7 @@ function UploadSection() {
           },
           authMode: "AMAZON_COGNITO_USER_POOLS"
         });
-        form.current.resetFields();
+        form.resetFields();
         notification.open({
           message: "Case Study successfully uploaded!",
           description: (
@@ -344,7 +344,7 @@ function UploadSection() {
               {
                 message: "Description must be longer than 10 characters",
                 validator: (_, e) => {
-                  if (descriptionTextValue.length < 10) {
+                  if (e.target.value.length < 10) {
                     return Promise.reject();
                   }
                   return Promise.resolve();
