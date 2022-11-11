@@ -258,8 +258,6 @@ function UploadSection() {
   }
 
   const resetFields = () => {
-    form.resetFields();
-
     // * remove uploaded file
     const index = 0; // ! hardcoded to 1 file !
     const newFileList = fileList.slice();
@@ -279,6 +277,8 @@ function UploadSection() {
 
     // * reset Honor Code
     setHonorCode(false);
+
+    form.resetFields();
   };
 
   async function populateCollections() {
@@ -312,10 +312,16 @@ function UploadSection() {
             onFinish={handleSubmit}
             onFinishFailed={errorInfo => console.log("Failed:", errorInfo)}
             autoComplete="off"
+            initialValues={{
+              Name: "",
+              Title: "",
+              Topic: `${COURSE_TOPICS[0]}`
+            }}
           >
             <Form.Item label="Name" style={{ marginBottom: 0 }}>
               {/* Name Field */}
               <Form.Item
+                name="Name"
                 style={{ display: "inline-block", width: "calc(50% - 50px)" }}
               >
                 <Input
@@ -337,7 +343,7 @@ function UploadSection() {
               </span>
               {/* Anonymous Upload Switch */}
               <Form.Item
-                name="Anonymous Upload"
+                name="Anonymous"
                 valuePropName="unchecked"
                 style={{ display: "inline-block", width: "calc(50% - 50px)" }}
               >
@@ -407,7 +413,7 @@ function UploadSection() {
             {/* Course Topic Select */}
             <Form.Item
               label="Course Topic"
-              name="Course Topic"
+              name="Topic"
               rules={[
                 {
                   required: true,
@@ -428,6 +434,7 @@ function UploadSection() {
               <Select
                 defaultValue={COURSE_TOPICS[0]}
                 onChange={str => setParentCollectionValue(str)}
+                value={parentCollectionValue}
               >
                 {COURSE_TOPICS.map(topic => (
                   <Option value={topic}>{topic}</Option>
