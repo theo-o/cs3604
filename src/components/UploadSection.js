@@ -417,10 +417,7 @@ function UploadSection() {
               <Button icon={<UploadOutlined />}>Select File</Button>
             </Upload>
           </Form.Item>
-          <Form.Item
-            wrapperCol={{ offset: 8, span: 16 }}
-            disabled={disabledSubmit}
-          >
+          <Form.Item wrapperCol={{ span: 14 }} disabled={disabledSubmit}>
             <Button type="primary" htmlType="submit">
               Submit
             </Button>
