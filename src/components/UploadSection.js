@@ -27,6 +27,12 @@ import {
 const { TextArea } = Input;
 const { Option } = Select;
 
+const TITLE_MIN_LENGTH = 3;
+const TITLE_MAX_LENGTH = 100;
+
+const DESCRIPTION_MIN_LENGTH = 20;
+const DESCRIPTION_MAX_LENGTH = 500;
+
 const multiFields = [
   "belongs_to",
   "contributor",
@@ -271,6 +277,30 @@ function UploadSection() {
     console.log("Failed:", errorInfo);
   };
 
+  const resetFields = () => {
+    form.resetFields();
+
+    // * remove uploaded file
+    const index = 0; // ! hardcoded to 1 file !
+    const newFileList = fileList.slice();
+    newFileList.splice(index, 1);
+    setFileList(newFileList);
+
+    // * clear string Fields
+    setTitleTextValue("");
+    setDescriptionTextValue("");
+    setCreatorValue("");
+
+    // * reset topic
+    setParentCollectionValue(COURSE_TOPICS[0]);
+
+    // * reset Anonymous Upload
+    setAnonUpload(false);
+
+    // * reset Honor Code
+    setHonorCode(false);
+  };
+
   async function populateCollections() {
     const TYPE = process.env.REACT_APP_REP_TYPE;
     console.log("type: ", TYPE);
@@ -309,8 +339,6 @@ function UploadSection() {
               style={{ display: "inline-block", width: "calc(50% - 50px)" }}
             >
               <Input
-                showCount
-                maxLength={256}
                 value={anonUpload ? "Anonymous" : creatorValue}
                 placeholder="Enter Name"
                 onChange={e => setCreatorValue(e.target.value)}
@@ -353,15 +381,15 @@ function UploadSection() {
                 message: "Please input the Case Study Title"
               },
               {
-                min: 3,
-                message: "Title must be minimum 3 characters."
+                min: TITLE_MIN_LENGTH,
+                message: `Title must be at least ${TITLE_MIN_LENGTH} characters.`
               }
             ]}
             hasFeedback
           >
             <Input
               showCount
-              maxLength={256}
+              maxLength={TITLE_MAX_LENGTH}
               value={titleTextValue}
               placeholder="Enter Title"
               onChange={e => setTitleTextValue(e.target.value)}
@@ -378,15 +406,15 @@ function UploadSection() {
                 message: "Please enter a Description"
               },
               {
-                min: 20,
-                message: "Description must be minimum 20 characters."
+                min: DESCRIPTION_MIN_LENGTH,
+                message: `Description must be minimum ${DESCRIPTION_MIN_LENGTH} characters.`
               }
             ]}
             hasFeedback
           >
             <TextArea
               showCount
-              maxLength={512}
+              maxLength={DESCRIPTION_MAX_LENGTH}
               value={descriptionTextValue}
               placeholder="Enter Description"
               onChange={e => setDescriptionTextValue(e.target.value)}
@@ -475,7 +503,8 @@ function UploadSection() {
                 disabledSubmit ||
                 !honorCode ||
                 !fileList.length ||
-                form.getFieldsError().some(({ errors }) => errors.length)
+                descriptionTextValue.length >= DESCRIPTION_MIN_LENGTH ||
+                titleTextValue.length >= TITLE_MIN_LENGTH
               }
               type="primary"
               htmlType="submit"
@@ -486,7 +515,7 @@ function UploadSection() {
 
           {/* Reset */}
           <Form.Item wrapperCol={{ offset: 6, span: 14 }}>
-            <Button onClick={() => form.resetFields()}>Reset Fields</Button>
+            <Button onClick={resetFields}>Reset Fields</Button>
           </Form.Item>
         </Form>
       )}
