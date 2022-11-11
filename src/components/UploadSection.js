@@ -84,6 +84,7 @@ function UploadSection() {
 
   const [anonUpload, setAnonUpload] = useState(false);
   const [honorCode, setHonorCode] = useState(false);
+
   const [fileList, setFileList] = useState([]);
   const [uploading, setUploading] = useState(false);
   const [disabledSubmit, setDisabledSubmit] = useState(true);
@@ -109,9 +110,7 @@ function UploadSection() {
     const isPDF = file.type === "application/pdf";
     if (!isPDF) {
       message.error(`${file.name} is not a PDF file`);
-    }
-    // return isPDF || Upload.LIST_IGNORE;
-    else {
+    } else {
       setFileList([...fileList, file]);
     }
     return false;
@@ -301,7 +300,7 @@ function UploadSection() {
         >
           <Form.Item name="Name" label="Name">
             <Input
-              value={creatorValue}
+              value={anonUpload ? "Anonymous" : creatorValue}
               placeholder="Enter Name"
               onChange={e => setCreatorValue(e.target.value)}
               disabled={anonUpload}
@@ -423,18 +422,7 @@ function UploadSection() {
             name="Honor Code"
             valuePropName="unchecked"
             wrapperCol={{ offset: 6, span: 14 }}
-            rules={[
-              {
-                validator: (_, value) =>
-                  value
-                    ? Promise.resolve()
-                    : Promise.reject(
-                        new Error(
-                          "You must agree to the Honor Code to submit your Case Study."
-                        )
-                      )
-              }
-            ]}
+            help="You must agree to the Honor Code to submit a Case Study."
           >
             <Checkbox
               checked={honorCode}
@@ -449,7 +437,7 @@ function UploadSection() {
 
           <Form.Item wrapperCol={{ offset: 6, span: 14 }}>
             <Button
-              disabled={disabledSubmit || !honorCode}
+              disabled={disabledSubmit || !honorCode || !fileList.length}
               type="primary"
               htmlType="submit"
             >
