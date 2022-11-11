@@ -217,9 +217,14 @@ function UploadSection() {
           authMode: "AMAZON_COGNITO_USER_POOLS"
         });
         form.resetFields();
-        const openNotification = () => {
-          const key = `open${Date.now()}`;
-          const btn = (
+        notification.open({
+          message: "Case Study successfully uploaded!",
+          description: (
+            <a
+              href={"/archive/" + archive.custom_key.substr(11)}
+            >{`Click here to visit ${archive.title}`}</a>
+          ),
+          btn: (
             <Button
               type="primary"
               size="small"
@@ -227,19 +232,10 @@ function UploadSection() {
             >
               Confirm
             </Button>
-          );
-          notification.open({
-            message: "Case Study successfully uploaded!",
-            description: (
-              <a
-                href={"/archive/" + archive.custom_key.substr(11)}
-              >{`Click here to visit ${archive.title}`}</a>
-            ),
-            btn,
-            key,
-            duration: 0
-          });
-        };
+          ),
+          key: `open${Date.now()}`,
+          duration: 0
+        });
       } catch (err) {
         console.log("Error uploading given file: ", err);
       }
