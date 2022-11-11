@@ -474,7 +474,11 @@ function UploadSection() {
               name="Honor Code"
               valuePropName="unchecked"
               wrapperCol={{ offset: 6, span: 14 }}
-              help="You must agree to the Honor Code to submit a Case Study."
+              help={
+                honorCode
+                  ? undefined
+                  : "You must agree to the Honor Code to submit a Case Study."
+              }
             >
               <Checkbox
                 checked={honorCode}
@@ -506,7 +510,7 @@ function UploadSection() {
               {/* Reset */}
               <Form.Item>
                 <Button htmlType="button" onClick={resetFields}>
-                  Reset Fields
+                  Reset
                 </Button>
               </Form.Item>
             </Form.Item>
