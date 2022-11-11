@@ -1,6 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import { API, Storage, Auth } from "aws-amplify";
-import { Form, Upload, Input, Select, Button, notification } from "antd";
+import {
+  Form,
+  Upload,
+  Input,
+  Select,
+  Button,
+  notification,
+  message
+} from "antd";
 import { withAuthenticator } from "@aws-amplify/ui-react";
 import { getAllCollections, getArchiveByIdentifier } from "../lib/fetchTools";
 import { v4 as uuidv4 } from "uuid";
@@ -105,7 +113,14 @@ function UploadSection() {
   };
 
   const beforeUpload = file => {
-    setFileList([...fileList, file]);
+    const isPDF = file.type === "application/pdf";
+    if (!isPDF) {
+      message.error(`${file.name} is not a PDF file`);
+    }
+    // return isPDF || Upload.LIST_IGNORE;
+    else {
+      setFileList([...fileList, file]);
+    }
     return false;
   };
 
