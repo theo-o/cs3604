@@ -38,7 +38,8 @@ class SiteAdmin extends Component {
       this.setState({ groups: groups });
       this.setState({ userEmail: data.attributes.email });
       const repo_type = process.env.REACT_APP_REP_TYPE;
-      if (groups && groups.indexOf(repo_type) !== -1) {
+      if (groups && groups.indexOf(repo_type) !== -1 && 
+        groups.indexOf("SiteAdmin") !== -1) {
         this.setAuthorized(true);
       } else {
         this.setAuthorized(false);

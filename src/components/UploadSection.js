@@ -318,7 +318,7 @@ function UploadSection() {
                 valuePropName="unchecked"
                 style={{ display: "inline-block", width: "calc(50% - 50px)" }}
               >
-                <Tooltip title="Remember to censor your name from your file submission!">
+                <Tooltip title="Enable if you would like your submission to be Anonymous">
                   <Switch
                     checkedChildren={<CheckOutlined />}
                     unCheckedChildren={<CloseOutlined />}
@@ -469,7 +469,7 @@ function UploadSection() {
                 help={
                   honorCode
                     ? undefined
-                    : "You must agree to the Honor Code to submit a Case Study."
+                    : "You must agree to submit a case study."
                 }
                 style={{ display: "inline-block", width: "calc(75%)" }}
               >
@@ -477,10 +477,11 @@ function UploadSection() {
                   checked={honorCode}
                   onChange={e => setHonorCode(e.target.checked)}
                 >
-                  I agree to abide by the{" "}
+                  I acknowledge that the information I provided is correct, accurate, and adheres to the {" "}
                   <a href="https://honorsystem.vt.edu/honor_code_policy_test.html">
                     VT Honor Code
-                  </a>
+                  </a>, and that I cannot alter this submission without contacting Professor Dunlap 
+                  or the system administrator.
                 </Checkbox>
               </Form.Item>
             </Form.Item>
