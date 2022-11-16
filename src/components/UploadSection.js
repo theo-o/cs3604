@@ -28,11 +28,11 @@ import {
 const { TextArea } = Input;
 const { Option } = Select;
 
-const TITLE_MIN_LENGTH = 3;
-const TITLE_MAX_LENGTH = 100;
+const TITLE_MIN_LENGTH = 6;
+const TITLE_MAX_LENGTH = 50;
 
-const DESCRIPTION_MIN_LENGTH = 20;
-const DESCRIPTION_MAX_LENGTH = 500;
+const DESCRIPTION_MIN_LENGTH = 10;
+const DESCRIPTION_MAX_LENGTH = 250;
 
 const multiFields = [
   "belongs_to",
@@ -469,7 +469,7 @@ function UploadSection() {
                 help={
                   honorCode
                     ? undefined
-                    : "You must agree to submit a case study."
+                    : ""
                 }
                 style={{ display: "inline-block", width: "calc(75%)" }}
               >
