@@ -189,7 +189,7 @@ class SubCollectionsLoader extends Component {
         </div>
       );
     } else {
-      return_value = <div>Loading...</div>;
+      return_value = <div></div>;
     }
     return return_value;
   }
