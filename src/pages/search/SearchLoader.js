@@ -24,7 +24,7 @@ class SearchLoader extends Component {
       languages: null,
       sort: {
         field: "start_date",
-        direction: "desc"
+        direction: "asc"
       }
     };
   }
