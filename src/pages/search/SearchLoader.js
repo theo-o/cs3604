@@ -23,8 +23,8 @@ class SearchLoader extends Component {
       q: "",
       languages: null,
       sort: {
-        field: "title",
-        direction: "asc"
+        field: "start_date",
+        direction: "desc"
       }
     };
   }
