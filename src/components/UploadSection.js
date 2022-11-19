@@ -31,7 +31,6 @@ const { Option } = Select;
 const TITLE_MIN_LENGTH = 6;
 const TITLE_MAX_LENGTH = 50;
 
-const DESCRIPTION_MIN_LENGTH = 10;
 const DESCRIPTION_MAX_LENGTH = 250;
 
 const multiFields = [
@@ -181,7 +180,6 @@ function UploadSection() {
     console.log(pageRef.currDesc);
     console.log(pageRef.parentColl);
     console.log(pageRef.currFile);
-    var containsError = false;
     if (fileList.length > 0) {
       setUploading(true);
       const id = uuidv4();
@@ -203,7 +201,7 @@ function UploadSection() {
           },
           errorCallback: err => {
             console.log(err);
-            // Alert user of error
+            
           }
         });
         const selectedColl = findSelectedCollection();
@@ -358,17 +356,8 @@ function UploadSection() {
             <Form.Item
               name="Description"
               label="Description"
-              rules={[
-                {
-                  required: true,
-                  message: "Please enter a Description"
-                },
-                {
-                  min: DESCRIPTION_MIN_LENGTH,
-                  message: `Description must be minimum ${DESCRIPTION_MIN_LENGTH} characters.`
-                }
-              ]}
               hasFeedback
+              requiredMark="optional"
             >
               <TextArea
                 showCount
@@ -452,7 +441,6 @@ function UploadSection() {
                   disabled={
                     !honorCode ||
                     fileList.length === 0 ||
-                    descriptionTextValue.length < DESCRIPTION_MIN_LENGTH ||
                     titleTextValue.length < TITLE_MIN_LENGTH ||
                     parentCollectionValue === COURSE_TOPICS[0]
                   }
@@ -477,11 +465,11 @@ function UploadSection() {
                   checked={honorCode}
                   onChange={e => setHonorCode(e.target.checked)}
                 >
-                  I acknowledge that the information I provided is correct, accurate, and adheres to the {" "}
+                  I acknowledge that the information I provided is correct, accurate, adheres to the {" "}
                   <a href="https://honorsystem.vt.edu/honor_code_policy_test.html">
                     VT Honor Code
                   </a>, and that I cannot alter this submission without contacting Professor Dunlap 
-                  or the system administrator.
+                  or the system administrator once it is submitted.
                 </Checkbox>
               </Form.Item>
             </Form.Item>
