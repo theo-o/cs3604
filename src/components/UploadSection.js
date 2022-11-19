@@ -78,7 +78,8 @@ const COURSE_TOPICS = [
   "Privacy",
   "Commerce",
   "Internet (ICT)",
-  "Artificial Intelligence"
+  "Artificial Intelligence", 
+  "Miscellaneous"
 ];
 
 function UploadSection() {
