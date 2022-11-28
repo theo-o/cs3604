@@ -29,7 +29,7 @@ const { TextArea } = Input;
 const { Option } = Select;
 
 const TITLE_MIN_LENGTH = 6;
-const TITLE_MAX_LENGTH = 50;
+const TITLE_MAX_LENGTH = 75;
 
 const DESCRIPTION_MAX_LENGTH = 250;
 
