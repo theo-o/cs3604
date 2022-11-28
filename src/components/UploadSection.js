@@ -537,7 +537,7 @@ function UploadSection() {
                 maxCount={2}
               >
                 <Button
-                  disabled={fileList.length > 0}
+                  disabled={fileList.length > 1}
                   icon={<UploadOutlined />}
                 >
                   Select File (Max: 2)
