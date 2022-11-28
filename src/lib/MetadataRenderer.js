@@ -199,7 +199,10 @@ const RenderAttribute = ({ item, attribute, languages, site }) => {
                 {attribute.label}:
               </th>
               <td className={`collection-detail-value ${value_style}`}>
-                {item_value}
+                {attribute.label === "Associated File" ? 
+                <a href={attribute.value}>{attribute.value}</a> 
+                : 
+                <>attribute</>}
               </td>
             </tr>
           </tbody>
