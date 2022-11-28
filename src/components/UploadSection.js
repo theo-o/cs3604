@@ -250,7 +250,7 @@ function UploadSection() {
           a1_link
         );
         var archive2 = getNewArchive(
-          id,
+          id2,
           pageRef.currTitle,
           pageRef.currDesc,
           key2,
