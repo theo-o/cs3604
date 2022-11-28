@@ -78,7 +78,7 @@ const COURSE_TOPICS = [
   "Privacy",
   "Commerce",
   "Internet (ICT)",
-  "Artificial Intelligence", 
+  "Artificial Intelligence",
   "Miscellaneous"
 ];
 
@@ -163,7 +163,7 @@ function UploadSection() {
     archive.title = title;
     archive.creator = [anonUpload ? "Anonymous" : creatorValue];
     archive.thumbnail_path =
-      "https://casestudy-presentations.s3.amazonaws.com/item.png";
+      `https://collectionmap115006-dlpdev.s3.amazonaws.com/public/sitecontent/image/${process.env.REACT_APP_REP_TYPE.toLowerCase()}/${key.split(".")[0]}.jpg`;;
     archive.source = [""];
     archive.rights_holder = "";
     archive.rights_statement = "";
@@ -202,7 +202,7 @@ function UploadSection() {
           },
           errorCallback: err => {
             console.log(err);
-            
+
           }
         });
         const selectedColl = findSelectedCollection();
@@ -469,7 +469,7 @@ function UploadSection() {
                   I acknowledge that the information I provided is correct, accurate, adheres to the {" "}
                   <a href="https://honorsystem.vt.edu/honor_code_policy_test.html">
                     VT Honor Code
-                  </a>, and that I cannot alter this submission without contacting Professor Dunlap 
+                  </a>, and that I cannot alter this submission without contacting Professor Dunlap
                   or the system administrator once it is submitted.
                 </Checkbox>
               </Form.Item>
