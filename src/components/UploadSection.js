@@ -108,6 +108,7 @@ function UploadSection() {
   pageRef.parentColl = parentCollectionValue;
   pageRef.currFile = currFile;
   pageRef.allCollections = allCollections;
+  pageRef.fileList = fileList;
 
   const onRemoveFile = file => {
     const index = fileList.indexOf(file);
@@ -116,13 +117,17 @@ function UploadSection() {
     setFileList(newFileList);
   };
 
-  const beforeUpload = file => {
-    const isPDF = file.type === "application/pdf";
-    if (!isPDF) {
-      message.error(`${file.name} is not a PDF file`);
-    } else {
-      setFileList([...fileList, file]);
+  const beforeUpload = (file, fList) => {
+    for (let i = 0; i < fList.length; i++) {
+      if (!(fList[i].type === "application/pdf" || 
+            fList[i].type === "video/mp4")) {
+
+          message.error(`${fList[i].name} must be a pdf or mp4 file.`);
+          return false;
+      }
+      setFileList(fileList.concat(fList));
     }
+
     return false;
   };
 
@@ -136,11 +141,10 @@ function UploadSection() {
     }
   }
 
-  function getNewArchive(id, title, desc, key, parent_collection) {
+  function getNewArchive(id, title, desc, key, parent_collection, custom_key, associated_file) {
     const archive = new Object();
     const customKeyPrefix = "ark:/53696";
-    const noid = uuidv4();
-    const customKey = `${customKeyPrefix}/${noid}`;
+    const customKey = `${customKeyPrefix}/${custom_key}`;
 
     var date = new Date();
     let day = String(date.getDate()).padStart(2, "0");
@@ -167,7 +171,7 @@ function UploadSection() {
     archive.source = [""];
     archive.rights_holder = "";
     archive.rights_statement = "";
-    archive.bibliographic_citation = "";
+    archive.bibliographic_citation = associated_file;
     archive.display_date = "";
     archive.description = desc;
     var opts = new Object();
@@ -181,7 +185,117 @@ function UploadSection() {
     console.log(pageRef.currDesc);
     console.log(pageRef.parentColl);
     console.log(pageRef.currFile);
-    if (fileList.length > 0) {
+    console.log(pageRef.fileList);
+    if (pageRef.fileList.length == 2) {
+      try {
+        setUploading(true);
+        Storage.configure({
+          customPrefix: {
+            public: "public/casestudies/"
+          }
+        });
+
+        const id = uuidv4();
+        const id2 = uuidv4();
+        const files = pageRef.fileList;
+
+        const findExtension = files[0].split(".");
+        const findExtension2 = files[1].split(".");
+
+        const extension = findExtension[findExtension.length - 1];
+        const extension2 = findExtension2[findExtension2.length - 1];
+        const renameFile = new File([files[0]], `${id}.${extension}`);
+        const renameFile2 = new File([files[1]], `${id2}.${extension2}`);
+
+        const key = renameFile.name;
+        const key2 = renameFile2.name;
+
+        await Storage.put(renameFile.name, renameFile, {
+          contentType: files[0].type,
+          resumable: true,
+          completeCallback: e => {
+            console.log(e);
+          },
+          errorCallback: err => {
+            console.log(err);
+          }
+        });
+
+        await Storage.put(renameFile2.name, renameFile2, {
+          contentType: files[1].type,
+          resumable: true,
+          completeCallback: e => {
+            console.log(e);
+          },
+          errorCallback: err => {
+            console.log(err);
+          }
+        });
+
+        const selectedColl = findSelectedCollection();
+        console.log("collection: ", selectedColl);
+
+        var cus_key = uuidv4();
+        var cus_key2 = uuidv4();
+
+        var a1_link = `https://casestudies.cs.vt.edu/archive/${cus_key}`;
+        var a2_link = `https://casestudies.cs.vt.edu/archive/${cus_key2}`;
+        var archive = getNewArchive(
+          id,
+          pageRef.currTitle,
+          pageRef.currDesc,
+          key,
+          selectedColl, 
+          cus_key, 
+          a1_link
+        );
+        var archive2 = getNewArchive(
+          id,
+          pageRef.currTitle,
+          pageRef.currDesc,
+          key2,
+          selectedColl, 
+          cus_key2,
+          a2_link
+        );
+        console.log("archive: ", archive);
+        console.log("archive: ", archive2);
+        await API.graphql({
+          query: mutations.createArchive,
+          variables: {
+            input: archive
+          },
+          authMode: "AMAZON_COGNITO_USER_POOLS"
+        });
+
+        await API.graphql({
+          query: mutations.createArchive,
+          variables: {
+            input: archive2
+          },
+          authMode: "AMAZON_COGNITO_USER_POOLS"
+        });
+
+        setUploading(false);
+        notification.open({
+          message: "Case Study successfully uploaded!",
+          description: (
+            <div>
+              <a
+                href={"/archive/" + archive.custom_key.substr(11)}
+              >{`Click here to visit ${archive.title}`}</a>
+              <a
+                href={"/archive/" + archive2.custom_key.substr(11)}
+              >{`Click here to visit ${archive2.title}`}</a>
+            </div>
+          ),
+          duration: 0
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    if (pageRef.fileList.length == 1) {
       setUploading(true);
       const id = uuidv4();
       try {
@@ -212,7 +326,8 @@ function UploadSection() {
           pageRef.currTitle,
           pageRef.currDesc,
           key,
-          selectedColl
+          selectedColl, 
+          ""
         );
         console.log("archive: ", archive);
         await API.graphql({
@@ -419,13 +534,13 @@ function UploadSection() {
                 beforeUpload={beforeUpload}
                 name="file"
                 fileList={fileList}
-                maxCount={1}
+                maxCount={2}
               >
                 <Button
                   disabled={fileList.length > 0}
                   icon={<UploadOutlined />}
                 >
-                  Select File (Max: 1)
+                  Select File (Max: 2)
                 </Button>
               </Upload>
             </Form.Item>
