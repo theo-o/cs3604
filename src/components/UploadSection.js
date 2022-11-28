@@ -163,7 +163,7 @@ function UploadSection() {
     archive.title = title;
     archive.creator = [anonUpload ? "Anonymous" : creatorValue];
     archive.thumbnail_path =
-    `https://collectionmap115006-dlpdev.s3.amazonaws.com/public/sitecontent/images/${process.env.REACT_APP_REP_TYPE.toLowerCase()}/${key.split(".")[0]}.jpg`;
+    `https://collectionmap115006-dlpdev.s3.amazonaws.com/public/sitecontent/image/${process.env.REACT_APP_REP_TYPE.toLowerCase()}/${key.split(".")[0]}.jpg`;
     archive.source = [""];
     archive.rights_holder = "";
     archive.rights_statement = "";
