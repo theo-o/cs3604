@@ -199,8 +199,8 @@ function UploadSection() {
         const id2 = uuidv4();
         const files = pageRef.fileList;
 
-        const findExtension = files[0].split(".");
-        const findExtension2 = files[1].split(".");
+        const findExtension = files[0].name.split(".");
+        const findExtension2 = files[1].name.split(".");
 
         const extension = findExtension[findExtension.length - 1];
         const extension2 = findExtension2[findExtension2.length - 1];
