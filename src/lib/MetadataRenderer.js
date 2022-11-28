@@ -158,6 +158,10 @@ function textFormat(item, attr, languages, collectionCustomKey, site) {
     } else {
       return <MoreLink category={category} item={item} />;
     }
+  } else if (attr === "bibliographic_citation") {
+    return htmlParsedValue(
+      `<a href=${item[attr]}>${item[attr]}</a>`
+    );
   } else if (attr === "display_date" || attr === "start_date") {
     return dateFormatted(item);
   } else if (attr === "size") {
