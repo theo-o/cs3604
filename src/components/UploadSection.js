@@ -321,12 +321,14 @@ function UploadSection() {
         });
         const selectedColl = findSelectedCollection();
         console.log("collection: ", selectedColl);
+        var cus_key = uuidv4();
         var archive = getNewArchive(
           id,
           pageRef.currTitle,
           pageRef.currDesc,
           key,
           selectedColl, 
+          cus_key,
           ""
         );
         console.log("archive: ", archive);
