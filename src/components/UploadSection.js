@@ -523,12 +523,12 @@ function UploadSection() {
 
             {/* File Upload */}
             <Form.Item
-              label="Case Study File"
+              label="Case Study File(s)"
               onChange={e => setCurrFile(e.target.files[0])}
               rules={[
                 {
                   required: true,
-                  message: "Please add a Case Study File"
+                  message: "Please add file(s) for your case study"
                 }
               ]}
             >
@@ -543,7 +543,7 @@ function UploadSection() {
                   disabled={fileList.length > 1}
                   icon={<UploadOutlined />}
                 >
-                  Select File (Max: 2)
+                  Select File(s) (Max: 2)
                 </Button>
               </Upload>
             </Form.Item>
