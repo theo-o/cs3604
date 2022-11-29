@@ -247,7 +247,7 @@ function UploadSection() {
           key,
           selectedColl, 
           cus_key, 
-          a1_link
+          a2_link
         );
         var archive2 = getNewArchive(
           id2,
@@ -256,7 +256,7 @@ function UploadSection() {
           key2,
           selectedColl, 
           cus_key2,
-          a2_link
+          a1_link
         );
         console.log("archive: ", archive);
         console.log("archive: ", archive2);
@@ -283,10 +283,11 @@ function UploadSection() {
             <div>
               <a
                 href={"/archive/" + archive.custom_key.substr(11)}
-              >{`Click here to visit ${archive.title}`}</a>
+              >{`Click here to see first file`}</a>
+              <br/>
               <a
                 href={"/archive/" + archive2.custom_key.substr(11)}
-              >{`Click here to visit ${archive2.title}`}</a>
+              >{`Click here to see second file`}</a>
             </div>
           ),
           duration: 0
