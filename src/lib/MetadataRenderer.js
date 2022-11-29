@@ -202,7 +202,7 @@ const RenderAttribute = ({ item, attribute, languages, site }) => {
                 {attribute.label === "Associated File" ?
                 <a href={attribute.value}>{attribute.value}</a>
                 :
-                {item_value}}
+                <>{item_value}</>}
               </td>
             </tr>
           </tbody>
