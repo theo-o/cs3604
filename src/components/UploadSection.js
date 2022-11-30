@@ -402,7 +402,7 @@ function UploadSection() {
           description: (
             <a
               href={"/archive/" + archiveRef.current.custom_key.substr(11)}
-            >{`Click here to visit ${archive.title}`}</a>
+            >{`Click here to visit ${archiveRef.current.title}`}</a>
           ),
           duration: 0
         });
