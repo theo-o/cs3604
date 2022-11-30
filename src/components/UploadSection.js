@@ -105,6 +105,8 @@ function UploadSection() {
 
   const pageRef = useRef();
 
+  const archiveRef = useRef();
+  const archive2Ref = useRef();
   pageRef.currTitle = titleTextValue;
   pageRef.currDesc = descriptionTextValue;
   pageRef.parentColl = parentCollectionValue;
@@ -213,31 +215,7 @@ function UploadSection() {
         const key = renameFile.name;
         const key2 = renameFile2.name;
 
-        await Storage.put(renameFile.name, renameFile, {
-          contentType: files[0].type,
-          resumable: true,
-          completeCallback: e => {
-            console.log(e);
-            setUploading(uploading - 1);
-          },
-          errorCallback: err => {
-            console.log(err);
-            setUploading(uploading - 1);
-          }
-        });
 
-        await Storage.put(renameFile2.name, renameFile2, {
-          contentType: files[1].type,
-          resumable: true,
-          completeCallback: e => {
-            console.log(e);
-            setUploading(uploading - 1);
-          },
-          errorCallback: err => {
-            console.log(err);
-            setUploading(uploading - 1);
-          }
-        });
 
         const selectedColl = findSelectedCollection();
         console.log("collection: ", selectedColl);
@@ -265,8 +243,35 @@ function UploadSection() {
           cus_key2,
           a1_link
         );
+        archiveRef.current = archive;
+        archive2Ref.current = archive2;
         console.log("archive: ", archive);
         console.log("archive: ", archive2);
+        await Storage.put(renameFile.name, renameFile, {
+          contentType: files[0].type,
+          resumable: true,
+          completeCallback: e => {
+            console.log(e);
+            setUploading(uploading - 1);
+          },
+          errorCallback: err => {
+            console.log(err);
+            setUploading(uploading - 1);
+          }
+        });
+
+        await Storage.put(renameFile2.name, renameFile2, {
+          contentType: files[1].type,
+          resumable: true,
+          completeCallback: e => {
+            console.log(e);
+            setUploading(uploading - 1);
+          },
+          errorCallback: err => {
+            console.log(err);
+            setUploading(uploading - 1);
+          }
+        });
         await API.graphql({
           query: mutations.createArchive,
           variables: {
@@ -316,19 +321,7 @@ function UploadSection() {
         const extension = findExtension[findExtension.length - 1];
         const renameFile = new File([pageRef.currFile], `${id}.${extension}`);
         const key = renameFile.name;
-        await Storage.put(renameFile.name, renameFile, {
-          contentType: pageRef.currFile.type,
-          resumable: true,
-          completeCallback: e => {
-            console.log(e);
-            setUploading(uploading - 1);
-          },
-          errorCallback: err => {
-            console.log(err);
-            setUploading(uploading - 1);
 
-          }
-        });
         const selectedColl = findSelectedCollection();
         console.log("collection: ", selectedColl);
         var cus_key = uuidv4();
@@ -341,6 +334,7 @@ function UploadSection() {
           cus_key,
           ""
         );
+        archiveRef.current = archive;
         console.log("archive: ", archive);
         await API.graphql({
           query: mutations.createArchive,
@@ -348,6 +342,19 @@ function UploadSection() {
             input: archive
           },
           authMode: "AMAZON_COGNITO_USER_POOLS"
+        });
+        await Storage.put(renameFile.name, renameFile, {
+          contentType: pageRef.currFile.type,
+          resumable: true,
+          completeCallback: e => {
+            console.log(e);
+            setUploading(uploading - 1);
+          },
+          errorCallback: err => {
+            console.log(err);
+            setUploading(uploading - 1);
+
+          }
         });
         //setUploading(false);
         // notification.open({
@@ -394,7 +401,7 @@ function UploadSection() {
           message: "Case Study successfully uploaded!",
           description: (
             <a
-              href={"/archive/" + archive.custom_key.substr(11)}
+              href={"/archive/" + archiveRef.current.custom_key.substr(11)}
             >{`Click here to visit ${archive.title}`}</a>
           ),
           duration: 0
@@ -406,11 +413,11 @@ function UploadSection() {
           description: (
             <div>
               <a
-                href={"/archive/" + archive.custom_key.substr(11)}
+                href={"/archive/" + archiveRef.current.custom_key.substr(11)}
               >{`Click here to see first file`}</a>
               <br />
               <a
-                href={"/archive/" + archive2.custom_key.substr(11)}
+                href={"/archive/" + archive2Ref.current.custom_key.substr(11)}
               >{`Click here to see second file`}</a>
             </div>
           ),
