@@ -119,7 +119,7 @@ function UploadSection() {
 
   const beforeUpload = (file, fList) => {
     for (let i = 0; i < fList.length; i++) {
-      if (!(fList[i].type === "application/pdf" || 
+      if (!(fList[i].type === "application/pdf" ||
             fList[i].type === "video/mp4")) {
 
           message.error(`${fList[i].name} must be a pdf or mp4 file.`);
@@ -245,8 +245,8 @@ function UploadSection() {
           pageRef.currTitle,
           pageRef.currDesc,
           key,
-          selectedColl, 
-          cus_key, 
+          selectedColl,
+          cus_key,
           a2_link
         );
         var archive2 = getNewArchive(
@@ -254,7 +254,7 @@ function UploadSection() {
           pageRef.currTitle,
           pageRef.currDesc,
           key2,
-          selectedColl, 
+          selectedColl,
           cus_key2,
           a1_link
         );
@@ -328,7 +328,7 @@ function UploadSection() {
           pageRef.currTitle,
           pageRef.currDesc,
           key,
-          selectedColl, 
+          selectedColl,
           cus_key,
           ""
         );
