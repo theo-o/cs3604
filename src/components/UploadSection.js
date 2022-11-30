@@ -98,7 +98,9 @@ function UploadSection() {
   const [honorCode, setHonorCode] = useState(false);
 
   const [fileList, setFileList] = useState([]);
-  const [uploading, setUploading] = useState(false);
+  const [uploading, setUploading] = useState(0);
+  const didMountRef = useRef(false);
+  const alreadySubmitted = useRef(false);
   const [form] = Form.useForm();
 
   const pageRef = useRef();
@@ -120,10 +122,10 @@ function UploadSection() {
   const beforeUpload = (file, fList) => {
     for (let i = 0; i < fList.length; i++) {
       if (!(fList[i].type === "application/pdf" ||
-            fList[i].type === "video/mp4")) {
+        fList[i].type === "video/mp4")) {
 
-          message.error(`${fList[i].name} must be a pdf or mp4 file.`);
-          return false;
+        message.error(`${fList[i].name} must be a pdf or mp4 file.`);
+        return false;
       }
       setFileList(fileList.concat(fList));
     }
@@ -186,9 +188,10 @@ function UploadSection() {
     console.log(pageRef.parentColl);
     console.log(pageRef.currFile);
     console.log(pageRef.fileList);
+    alreadySubmitted.current = true;
     if (pageRef.fileList.length == 2) {
       try {
-        setUploading(true);
+        setUploading(2);
         Storage.configure({
           customPrefix: {
             public: "public/casestudies/"
@@ -215,9 +218,11 @@ function UploadSection() {
           resumable: true,
           completeCallback: e => {
             console.log(e);
+            setUploading(uploading - 1);
           },
           errorCallback: err => {
             console.log(err);
+            setUploading(uploading - 1);
           }
         });
 
@@ -226,9 +231,11 @@ function UploadSection() {
           resumable: true,
           completeCallback: e => {
             console.log(e);
+            setUploading(uploading - 1);
           },
           errorCallback: err => {
             console.log(err);
+            setUploading(uploading - 1);
           }
         });
 
@@ -276,28 +283,28 @@ function UploadSection() {
           authMode: "AMAZON_COGNITO_USER_POOLS"
         });
 
-        setUploading(false);
-        notification.open({
-          message: "Case Study successfully uploaded!",
-          description: (
-            <div>
-              <a
-                href={"/archive/" + archive.custom_key.substr(11)}
-              >{`Click here to see first file`}</a>
-              <br/>
-              <a
-                href={"/archive/" + archive2.custom_key.substr(11)}
-              >{`Click here to see second file`}</a>
-            </div>
-          ),
-          duration: 0
-        });
+        //setUploading(false);
+        // notification.open({
+        //   message: "Case Study successfully uploaded!",
+        //   description: (
+        //     <div>
+        //       <a
+        //         href={"/archive/" + archive.custom_key.substr(11)}
+        //       >{`Click here to see first file`}</a>
+        //       <br />
+        //       <a
+        //         href={"/archive/" + archive2.custom_key.substr(11)}
+        //       >{`Click here to see second file`}</a>
+        //     </div>
+        //   ),
+        //   duration: 0
+        // });
       } catch (err) {
         console.log(err);
       }
     }
     if (pageRef.fileList.length == 1) {
-      setUploading(true);
+      setUploading(1);
       const id = uuidv4();
       try {
         Storage.configure({
@@ -314,9 +321,11 @@ function UploadSection() {
           resumable: true,
           completeCallback: e => {
             console.log(e);
+            setUploading(uploading - 1);
           },
           errorCallback: err => {
             console.log(err);
+            setUploading(uploading - 1);
 
           }
         });
@@ -340,16 +349,17 @@ function UploadSection() {
           },
           authMode: "AMAZON_COGNITO_USER_POOLS"
         });
-        setUploading(false);
-        notification.open({
-          message: "Case Study successfully uploaded!",
-          description: (
-            <a
-              href={"/archive/" + archive.custom_key.substr(11)}
-            >{`Click here to visit ${archive.title}`}</a>
-          ),
-          duration: 0
-        });
+        //setUploading(false);
+        // notification.open({
+        //   message: "Case Study successfully uploaded!",
+        //   description: (
+        //     <a
+        //       href={"/archive/" + archive.custom_key.substr(11)}
+        //     >{`Click here to visit ${archive.title}`}</a>
+        //   ),
+        //   duration: 0
+        // });
+
       } catch (err) {
         console.log("Error uploading given file: ", err);
       }
@@ -374,6 +384,43 @@ function UploadSection() {
     }
   }
 
+  useEffect(() => {
+    if (didMountRef.current === false) {
+      didMountRef.current = true;
+    }
+    else {
+      if (uploading == 0 && pageRef.fileList.length == 1) {
+        notification.open({
+          message: "Case Study successfully uploaded!",
+          description: (
+            <a
+              href={"/archive/" + archive.custom_key.substr(11)}
+            >{`Click here to visit ${archive.title}`}</a>
+          ),
+          duration: 0
+        });
+      }
+      else if (uploading == 0 && pageRef.fileList.length == 2) {
+        notification.open({
+          message: "Case Study successfully uploaded!",
+          description: (
+            <div>
+              <a
+                href={"/archive/" + archive.custom_key.substr(11)}
+              >{`Click here to see first file`}</a>
+              <br />
+              <a
+                href={"/archive/" + archive2.custom_key.substr(11)}
+              >{`Click here to see second file`}</a>
+            </div>
+          ),
+          duration: 0
+        });
+      }
+    }
+  }, [uploading])
+
+
   async function populateCollections() {
     const TYPE = process.env.REACT_APP_REP_TYPE;
     console.log("type: ", TYPE);
@@ -397,7 +444,7 @@ function UploadSection() {
           <h1>You are not authorized to access this page.</h1>
         </div>
       ) : (
-        <Spin spinning={uploading} tip="Submitting...">
+        <Spin spinning={uploading !== 0} tip="Submitting...">
           <Form
             name="validate_other"
             labelCol={{ span: 6 }}
@@ -562,7 +609,8 @@ function UploadSection() {
                     !honorCode ||
                     fileList.length === 0 ||
                     titleTextValue.length < TITLE_MIN_LENGTH ||
-                    parentCollectionValue === COURSE_TOPICS[0]
+                    parentCollectionValue === COURSE_TOPICS[0] ||
+                    alreadySubmitted.current
                   }
                   type="primary"
                   htmlType="submit"
