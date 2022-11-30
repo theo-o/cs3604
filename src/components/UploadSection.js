@@ -389,7 +389,7 @@ function UploadSection() {
       didMountRef.current = true;
     }
     else {
-      if (uploading == 0 && pageRef.fileList.length == 1) {
+      if (uploading === 0 && pageRef.fileList.length === 1) {
         notification.open({
           message: "Case Study successfully uploaded!",
           description: (
@@ -400,7 +400,7 @@ function UploadSection() {
           duration: 0
         });
       }
-      else if (uploading == 0 && pageRef.fileList.length == 2) {
+      else if (uploading === 0 && pageRef.fileList.length === 2) {
         notification.open({
           message: "Case Study successfully uploaded!",
           description: (
