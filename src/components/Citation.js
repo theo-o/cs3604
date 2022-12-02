@@ -58,7 +58,7 @@ class Citation extends Component {
           </div>
           <div className="link-text">
             {htmlParsedValue(
-              `<a href="${redirect}/${this.props.item.custom_key}">${redirect}/${this.props.item.custom_key}</a>`
+              `<a href="${this.props.item.manifest_url}">${this.props.item.manifest_url}</a>`
             )}
           </div>
         </div>
