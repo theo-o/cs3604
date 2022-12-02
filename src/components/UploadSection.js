@@ -397,6 +397,7 @@ function UploadSection() {
     }
     else {
       if (uploading === 0 && pageRef.fileList.length === 1) {
+        setUploading(false);
         notification.open({
           message: "Case Study successfully uploaded!",
           description: (
@@ -408,6 +409,7 @@ function UploadSection() {
         });
       }
       else if (uploading === 0 && pageRef.fileList.length === 2) {
+        setUploading(false);
         notification.open({
           message: "Case Study successfully uploaded!",
           description: (
