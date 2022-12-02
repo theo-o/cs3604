@@ -120,10 +120,10 @@ function UploadSection() {
   const beforeUpload = (file, fList) => {
     for (let i = 0; i < fList.length; i++) {
       if (!(fList[i].type === "application/pdf" ||
-        fList[i].type === "video/mp4")) {
+            fList[i].type === "video/mp4")) {
 
-        message.error(`${fList[i].name} must be a pdf or mp4 file.`);
-        return false;
+          message.error(`${fList[i].name} must be a pdf or mp4 file.`);
+          return false;
       }
       setFileList(fileList.concat(fList));
     }
@@ -284,7 +284,7 @@ function UploadSection() {
               <a
                 href={"/archive/" + archive.custom_key.substr(11)}
               >{`Click here to see first file`}</a>
-              <br />
+              <br/>
               <a
                 href={"/archive/" + archive2.custom_key.substr(11)}
               >{`Click here to see second file`}</a>
@@ -309,14 +309,17 @@ function UploadSection() {
         const extension = findExtension[findExtension.length - 1];
         const renameFile = new File([pageRef.currFile], `${id}.${extension}`);
         const key = renameFile.name;
-        try {
-          await Storage.put(renameFile.name, renameFile, {
-            contentType: pageRef.currFile.type,
-          });
-        }
-        catch (e) {
-          console.log(e);
-        }
+        await Storage.put(renameFile.name, renameFile, {
+          contentType: pageRef.currFile.type,
+          resumable: true,
+          completeCallback: e => {
+            console.log(e);
+          },
+          errorCallback: err => {
+            console.log(err);
+
+          }
+        });
         const selectedColl = findSelectedCollection();
         console.log("collection: ", selectedColl);
         var cus_key = uuidv4();
@@ -552,7 +555,7 @@ function UploadSection() {
             >
               {/* Submit */}
               <Form.Item
-                style={{ display: "inline-block", width: "calc(15%)" }}
+                style={{ display: "inline-block", width: "calc(25%)" }}
               >
                 <Button
                   disabled={
