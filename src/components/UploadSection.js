@@ -120,10 +120,10 @@ function UploadSection() {
   const beforeUpload = (file, fList) => {
     for (let i = 0; i < fList.length; i++) {
       if (!(fList[i].type === "application/pdf" ||
-            fList[i].type === "video/mp4")) {
+        fList[i].type === "video/mp4")) {
 
-          message.error(`${fList[i].name} must be a pdf or mp4 file.`);
-          return false;
+        message.error(`${fList[i].name} must be a pdf or mp4 file.`);
+        return false;
       }
       setFileList(fileList.concat(fList));
     }
@@ -284,7 +284,7 @@ function UploadSection() {
               <a
                 href={"/archive/" + archive.custom_key.substr(11)}
               >{`Click here to see first file`}</a>
-              <br/>
+              <br />
               <a
                 href={"/archive/" + archive2.custom_key.substr(11)}
               >{`Click here to see second file`}</a>
@@ -314,10 +314,29 @@ function UploadSection() {
           resumable: true,
           completeCallback: e => {
             console.log(e);
+            setUploading(false);
+            notification.open({
+              message: "Case Study successfully uploaded!",
+              description: (
+                <a
+                  href={"/archive/" + archive.custom_key.substr(11)}
+                >{`Click here to visit ${archive.title}`}</a>
+              ),
+              duration: 0
+            });
           },
           errorCallback: err => {
             console.log(err);
-
+            setUploading(false);
+            notification.open({
+              message: "Case Study successfully uploaded!",
+              description: (
+                <a
+                  href={"/archive/" + archive.custom_key.substr(11)}
+                >{`Click here to visit ${archive.title}`}</a>
+              ),
+              duration: 0
+            });
           }
         });
         const selectedColl = findSelectedCollection();
@@ -340,16 +359,16 @@ function UploadSection() {
           },
           authMode: "AMAZON_COGNITO_USER_POOLS"
         });
-        setUploading(false);
-        notification.open({
-          message: "Case Study successfully uploaded!",
-          description: (
-            <a
-              href={"/archive/" + archive.custom_key.substr(11)}
-            >{`Click here to visit ${archive.title}`}</a>
-          ),
-          duration: 0
-        });
+        // setUploading(false);
+        // notification.open({
+        //   message: "Case Study successfully uploaded!",
+        //   description: (
+        //     <a
+        //       href={"/archive/" + archive.custom_key.substr(11)}
+        //     >{`Click here to visit ${archive.title}`}</a>
+        //   ),
+        //   duration: 0
+        // });
       } catch (err) {
         console.log("Error uploading given file: ", err);
       }
@@ -550,7 +569,7 @@ function UploadSection() {
 
 
             <Form.Item
-              wrapperCol={{ offset: 6, span: 14 }}
+              label="&nbsp;"
               style={{ marginBottom: 0 }}
             >
               {/* Submit */}
