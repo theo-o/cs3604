@@ -132,3 +132,12 @@ p.errorMsg {
 .match-success {
   color: green;
 }
+
+.nolabelitem {
+  margin-bottom: 0px;
+}
+
+.nolabelitem label:after {
+  content: none;
+}
+

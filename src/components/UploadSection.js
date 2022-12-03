@@ -100,7 +100,7 @@ function UploadSection() {
   const [fileList, setFileList] = useState([]);
   const [uploading, setUploading] = useState(false);
   const [form] = Form.useForm();
-
+  const [uploading2, setUploading2] = useState(false);
   const pageRef = useRef();
 
   pageRef.currTitle = titleTextValue;
@@ -189,6 +189,7 @@ function UploadSection() {
     if (pageRef.fileList.length == 2) {
       try {
         setUploading(true);
+        setUploading2(true);
         Storage.configure({
           customPrefix: {
             public: "public/casestudies/"
@@ -215,9 +216,29 @@ function UploadSection() {
           resumable: true,
           completeCallback: e => {
             console.log(e);
+            setUploading(false);
+            notification.open({
+              message: "Case Study successfully uploaded!",
+              description: (
+                <a
+                  href={"/archive/" + archive.custom_key.substr(11)}
+                >{`Click here to visit ${archive.title}`}</a>
+              ),
+              duration: 0
+            });
           },
           errorCallback: err => {
-            console.log(err);
+            console.log(e);
+            setUploading(false);
+            notification.open({
+              message: "Case Study successfully uploaded!",
+              description: (
+                <a
+                  href={"/archive/" + archive.custom_key.substr(11)}
+                >{`Click here to visit ${archive.title}`}</a>
+              ),
+              duration: 0
+            });
           }
         });
 
@@ -225,10 +246,31 @@ function UploadSection() {
           contentType: files[1].type,
           resumable: true,
           completeCallback: e => {
+
             console.log(e);
+            setUploading2(false);
+            notification.open({
+              message: "Case Study successfully uploaded!",
+              description: (
+                <a
+                  href={"/archive/" + archive2.custom_key.substr(11)}
+                >{`Click here to visit ${archive.title}`}</a>
+              ),
+              duration: 0
+            });
           },
           errorCallback: err => {
-            console.log(err);
+            console.log(e);
+            setUploading2(false);
+            notification.open({
+              message: "Case Study successfully uploaded!",
+              description: (
+                <a
+                  href={"/archive/" + archive2.custom_key.substr(11)}
+                >{`Click here to visit ${archive.title}`}</a>
+              ),
+              duration: 0
+            });
           }
         });
 
@@ -276,28 +318,29 @@ function UploadSection() {
           authMode: "AMAZON_COGNITO_USER_POOLS"
         });
 
-        setUploading(false);
-        notification.open({
-          message: "Case Study successfully uploaded!",
-          description: (
-            <div>
-              <a
-                href={"/archive/" + archive.custom_key.substr(11)}
-              >{`Click here to see first file`}</a>
-              <br />
-              <a
-                href={"/archive/" + archive2.custom_key.substr(11)}
-              >{`Click here to see second file`}</a>
-            </div>
-          ),
-          duration: 0
-        });
+        // setUploading(false);
+        // notification.open({
+        //   message: "Case Study successfully uploaded!",
+        //   description: (
+        //     <div>
+        //       <a
+        //         href={"/archive/" + archive.custom_key.substr(11)}
+        //       >{`Click here to see first file`}</a>
+        //       <br />
+        //       <a
+        //         href={"/archive/" + archive2.custom_key.substr(11)}
+        //       >{`Click here to see second file`}</a>
+        //     </div>
+        //   ),
+        //   duration: 0
+        // });
       } catch (err) {
         console.log(err);
       }
     }
     if (pageRef.fileList.length == 1) {
       setUploading(true);
+      setUploading2(true);
       const id = uuidv4();
       try {
         Storage.configure({
@@ -315,6 +358,7 @@ function UploadSection() {
           completeCallback: e => {
             console.log(e);
             setUploading(false);
+            setUploading2(false);
             notification.open({
               message: "Case Study successfully uploaded!",
               description: (
@@ -328,6 +372,7 @@ function UploadSection() {
           errorCallback: err => {
             console.log(err);
             setUploading(false);
+            setUploading2(false);
             notification.open({
               message: "Case Study successfully uploaded!",
               description: (
@@ -416,7 +461,7 @@ function UploadSection() {
           <h1>You are not authorized to access this page.</h1>
         </div>
       ) : (
-        <Spin spinning={uploading} tip="Submitting...">
+        <Spin spinning={uploading && uploading2} tip="Submitting...">
           <Form
             name="validate_other"
             labelCol={{ span: 6 }}
@@ -570,7 +615,7 @@ function UploadSection() {
 
             <Form.Item
               label="&nbsp;"
-              style={{ marginBottom: 0 }}
+              className="nolabelitem"
             >
               {/* Submit */}
               <Form.Item
