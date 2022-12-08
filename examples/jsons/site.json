@@ -1133,33 +1133,8 @@
             "S": "Permissions"
           }
         }
-      },
-      "upload": {
-        "M": {
-          "assets": {
-            "M": {
-              "download": {
-                "S": "UploadPage.doc"
-              }
-            }
-          },
-          "component": {
-            "S": "CaseStudyUploadPage"
-          },
-          "data_url": {
-            "S": "upload.html"
-          },
-          "local_url": {
-            "S": "/case-study-upload"
-          },
-          "pageName": {
-            "S": "upload"
-          },
-          "text": {
-            "S": "Upload"
-          }
-        }
       }
+
     }
   },
   "siteTitle": {
