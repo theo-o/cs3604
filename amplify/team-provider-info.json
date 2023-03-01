@@ -24,6 +24,9 @@
           "deploymentBucketName": "amplify-iawav2-dlpdev-115006-deployment",
           "s3Key": "amplify-builds/iawav2658176f3PostConfirmation-52496544577068413152-build.zip"
         }
+      },
+      "api": {
+        "collectionarchives": {}
       }
     }
   },
