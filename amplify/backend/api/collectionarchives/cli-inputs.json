@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "serviceConfiguration": {
+    "serviceName": "AppSync",
+    "defaultAuthType": {
+      "mode": "API_KEY",
+      "expirationTime": 360,
+      "apiKeyExpirationDate": "2024-03-06T16:11:23.617Z",
+      "keyDescription": "dlp-access key"
+    },
+    "additionalAuthTypes": [
+      {
+        "mode": "AMAZON_COGNITO_USER_POOLS",
+        "cognitoUserPoolId": "authiawav2658176f3"
+      }
+    ],
+    "conflictResolution": {},
+    "apiName": "collectionarchives"
+  }
+}

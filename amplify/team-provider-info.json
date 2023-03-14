@@ -41,6 +41,43 @@
       "StackName": "amplify-casestudies-dev-233825",
       "StackId": "arn:aws:cloudformation:us-east-1:252624397627:stack/amplify-casestudies-dev-233825/2a787940-4916-11ed-b7a6-0aa3f9e5a307",
       "AmplifyAppId": "db2hpul3ubzs1"
+    },
+    "categories": {
+      "function": {
+        "iawav2658176f3PostConfirmation": {}
+      }
+    }
+  },
+  "casedev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-casestudies-casedev-131908-authRole",
+      "UnauthRoleArn": "arn:aws:iam::252624397627:role/amplify-casestudies-casedev-131908-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::252624397627:role/amplify-casestudies-casedev-131908-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-casestudies-casedev-131908-deployment",
+      "UnauthRoleName": "amplify-casestudies-casedev-131908-unauthRole",
+      "StackName": "amplify-casestudies-casedev-131908",
+      "StackId": "arn:aws:cloudformation:us-east-1:252624397627:stack/amplify-casestudies-casedev-131908/8f8068a0-b85d-11ed-9d86-0eb74ff543f9",
+      "AmplifyAppId": "dc0vk81did68d"
+    },
+    "categories": {
+      "auth": {
+        "iawav2658176f3": {},
+        "userPoolGroups": {}
+      },
+      "function": {
+        "iawav2658176f3PostConfirmation": {
+          "GROUP": "students",
+          "deploymentBucketName": "amplify-casestudies-casedev-131908-deployment",
+          "s3Key": "amplify-builds/iawav2658176f3PostConfirmation-52496544577068413152-build.zip"
+        }
+      },
+      "api": {
+        "collectionarchives": {}
+      },
+      "storage": {
+        "Collectionmap": {}
+      }
     }
   }
 }
