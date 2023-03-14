@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { API, Auth } from "aws-amplify";
 import * as mutations from "../../graphql/mutations";
-import { AmplifySignOut, withAuthenticator } from "@aws-amplify/ui-react";
+import { Authenticator, withAuthenticator } from "@aws-amplify/ui-react";
 import { Link } from "react-router-dom";
 import { getSite } from "../../lib/fetchTools";
 import SiteForm from "./SiteForm";
@@ -38,8 +38,11 @@ class SiteAdmin extends Component {
       this.setState({ groups: groups });
       this.setState({ userEmail: data.attributes.email });
       const repo_type = process.env.REACT_APP_REP_TYPE;
-      if (groups && groups.indexOf(repo_type) !== -1 && 
-        groups.indexOf("SiteAdmin") !== -1) {
+      if (
+        groups &&
+        groups.indexOf(repo_type) !== -1 &&
+        groups.indexOf("SiteAdmin") !== -1
+      ) {
         this.setAuthorized(true);
       } else {
         this.setAuthorized(false);
@@ -257,7 +260,15 @@ class SiteAdmin extends Component {
               </li>
             )}
           </ul>
-          <AmplifySignOut />
+          <hr className="auth-divider" />
+          <Authenticator>
+            {({ signOut, user }) => (
+              <div className="auth-dialog">
+                <p>{user.username} successfully logged in.</p>
+                <button onClick={signOut}>Sign out</button>
+              </div>
+            )}
+          </Authenticator>
         </div>
         <SiteContext.Provider
           value={{
