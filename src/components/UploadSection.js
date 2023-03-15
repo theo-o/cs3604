@@ -449,6 +449,16 @@ function UploadSection() {
     setAllCollections(collections);
   }
 
+  async function signOut() {
+    try {
+        await Auth.signOut();
+        setIsAuthorized(false);
+    } catch (error) {
+        console.log('error signing out: ', error);
+        setIsAuthorized(true);
+    }
+  }
+
   useEffect(() => {
     authUser();
     populateCollections();
@@ -509,7 +519,18 @@ function UploadSection() {
                 </Tooltip>
               </Form.Item>
             </Form.Item>
-
+            {/* Log Out Button */}
+            <Form.Item
+                style={{ display: "inline-block", width: "calc(25%)" }}
+              >
+                <Button
+                  onClick={signOut()}
+                  type="primary"
+                  htmlType="button"
+                >
+                  Logout
+                </Button>
+              </Form.Item>
             {/* Title Field */}
             <Form.Item
               name="Title"
