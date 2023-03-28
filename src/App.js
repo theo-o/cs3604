@@ -1,3 +1,4 @@
+import { Amplify, Auth } from "aws-amplify";
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import ScrollToTop from "./lib/ScrollToTop";
