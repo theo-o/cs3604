@@ -481,10 +481,7 @@ function UploadSection() {
           </div>
         ) : (
           <>
-            <Button onClick={signOut()} type="primary" htmlType="button">
-              Logout
-            </Button>
-
+            /* */
             <Spin spinning={uploading && uploading2} tip="Submitting...">
               <Form
                 name="validate_other"
@@ -660,6 +657,9 @@ function UploadSection() {
                       Submit
                     </Button>
                   </Form.Item>
+                  <Button onClick={signOut()} type="primary" htmlType="button">
+                    Logout
+                  </Button>
                   {/* Honor Code */}
                   <Form.Item
                     name="Honor Code"
