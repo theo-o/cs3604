@@ -21,6 +21,22 @@ import { getSite } from "./lib/fetchTools";
 
 import "./App.scss";
 
+Amplify.configure({
+  Auth: {
+    region: "us-east-1",
+    userPoolId: "us-east-1_DlT5uEm5N",
+    userPoolWebClientId: "5g55sg6e7pf4pruscudlg8oipv",
+    oauth: {
+      domain: "https://cs3604-casestudies.auth.us-east-1.amazoncognito.com",
+      scope: ["email", "openid", "aws.cognito.signin.user.admin", "profile"],
+      redirectSignIn:
+        "https://cs3604-casestudies.auth.us-east-1.amazoncognito.com/oauth2/idpresponse",
+      redirectSignOut: "https://casestudies.cs.vt.edu/",
+      responseType: "code"
+    }
+  }
+});
+
 class App extends Component {
   constructor(props) {
     super(props);

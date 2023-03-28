@@ -13,7 +13,7 @@ import {
   Tooltip,
   Spin
 } from "antd";
-import { withAuthenticator } from "@aws-amplify/ui-react";
+import { Authenticator } from "@aws-amplify/ui-react";
 import { getAllCollections } from "../lib/fetchTools";
 import { v4 as uuidv4 } from "uuid";
 import * as mutations from "../graphql/mutations";
@@ -119,9 +119,9 @@ function UploadSection() {
 
   const beforeUpload = (file, fList) => {
     for (let i = 0; i < fList.length; i++) {
-      if (!(fList[i].type === "application/pdf" ||
-        fList[i].type === "video/mp4")) {
-
+      if (
+        !(fList[i].type === "application/pdf" || fList[i].type === "video/mp4")
+      ) {
         message.error(`${fList[i].name} must be a pdf or mp4 file.`);
         return false;
       }
@@ -141,7 +141,15 @@ function UploadSection() {
     }
   }
 
-  function getNewArchive(id, title, desc, key, parent_collection, custom_key, associated_file) {
+  function getNewArchive(
+    id,
+    title,
+    desc,
+    key,
+    parent_collection,
+    custom_key,
+    associated_file
+  ) {
     const archive = new Object();
     const customKeyPrefix = "ark:/53696";
     const customKey = `${customKeyPrefix}/${custom_key}`;
@@ -166,8 +174,9 @@ function UploadSection() {
     archive.visibility = true;
     archive.title = title;
     archive.creator = [anonUpload ? "Anonymous" : creatorValue];
-    archive.thumbnail_path =
-      `https://collectionmap115006-dlpdev.s3.amazonaws.com/public/sitecontent/image/${process.env.REACT_APP_REP_TYPE.toLowerCase()}/${key.split(".")[0]}.jpg`;;
+    archive.thumbnail_path = `https://collectionmap115006-dlpdev.s3.amazonaws.com/public/sitecontent/image/${process.env.REACT_APP_REP_TYPE.toLowerCase()}/${
+      key.split(".")[0]
+    }.jpg`;
     archive.source = [""];
     archive.rights_holder = "";
     archive.rights_statement = "";
@@ -246,7 +255,6 @@ function UploadSection() {
           contentType: files[1].type,
           resumable: true,
           completeCallback: e => {
-
             console.log(e);
             setUploading2(false);
             notification.open({
@@ -455,213 +463,210 @@ function UploadSection() {
   }, []);
 
   return (
-    <>
-      {!isAuthorized ? (
-        <div>
-          <h1>You are not authorized to access this page.</h1>
-        </div>
-      ) : (
-        <Spin spinning={uploading && uploading2} tip="Submitting...">
-          <Form
-            name="validate_other"
-            labelCol={{ span: 6 }}
-            wrapperCol={{ span: 14 }}
-            onFinish={handleSubmit}
-            onFinishFailed={errorInfo => console.log("Failed:", errorInfo)}
-            autoComplete="off"
-          >
-            <Form.Item label="Name" style={{ marginBottom: 0 }}>
-              {/* Name Field */}
+    <Authenticator>
+      <>
+        {!isAuthorized ? (
+          <div>
+            <h1>You are not authorized to access this page.</h1>
+          </div>
+        ) : (
+          <Spin spinning={uploading && uploading2} tip="Submitting...">
+            <Form
+              name="validate_other"
+              labelCol={{ span: 6 }}
+              wrapperCol={{ span: 14 }}
+              onFinish={handleSubmit}
+              onFinishFailed={errorInfo => console.log("Failed:", errorInfo)}
+              autoComplete="off"
+            >
+              <Form.Item label="Name" style={{ marginBottom: 0 }}>
+                {/* Name Field */}
+                <Form.Item
+                  name="Name"
+                  style={{ display: "inline-block", width: "calc(50% - 50px)" }}
+                >
+                  <Input
+                    value={anonUpload ? "Anonymous" : creatorValue}
+                    placeholder="Enter Name"
+                    onChange={e => setCreatorValue(e.target.value)}
+                    disabled={anonUpload}
+                  />
+                </Form.Item>
+                <span
+                  style={{
+                    display: "inline-block",
+                    width: "100px",
+                    lineHeight: "32px",
+                    textAlign: "center"
+                  }}
+                >
+                  - Anonymous
+                </span>
+                {/* Anonymous Upload Switch */}
+                <Form.Item
+                  name="Anonymous"
+                  valuePropName="unchecked"
+                  style={{ display: "inline-block", width: "calc(50% - 50px)" }}
+                >
+                  <Tooltip title="Enable if you would like your submission to be Anonymous">
+                    <Switch
+                      checkedChildren={<CheckOutlined />}
+                      unCheckedChildren={<CloseOutlined />}
+                      onChange={e => setAnonUpload(e)}
+                      checked={anonUpload}
+                    />
+                  </Tooltip>
+                </Form.Item>
+              </Form.Item>
+
+              {/* Title Field */}
               <Form.Item
-                name="Name"
-                style={{ display: "inline-block", width: "calc(50% - 50px)" }}
+                name="Title"
+                label="Title"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please input the Case Study Title"
+                  },
+                  {
+                    min: TITLE_MIN_LENGTH,
+                    message: `Title must be at least ${TITLE_MIN_LENGTH} characters.`
+                  }
+                ]}
+                hasFeedback
               >
                 <Input
-                  value={anonUpload ? "Anonymous" : creatorValue}
-                  placeholder="Enter Name"
-                  onChange={e => setCreatorValue(e.target.value)}
-                  disabled={anonUpload}
+                  showCount
+                  maxLength={TITLE_MAX_LENGTH}
+                  value={titleTextValue}
+                  placeholder="Enter Title"
+                  onChange={e => setTitleTextValue(e.target.value)}
                 />
               </Form.Item>
-              <span
-                style={{
-                  display: "inline-block",
-                  width: "100px",
-                  lineHeight: "32px",
-                  textAlign: "center"
-                }}
-              >
-                - Anonymous
-              </span>
-              {/* Anonymous Upload Switch */}
+
+              {/* Description Field */}
               <Form.Item
-                name="Anonymous"
-                valuePropName="unchecked"
-                style={{ display: "inline-block", width: "calc(50% - 50px)" }}
+                name="Description"
+                label="Description"
+                hasFeedback
+                requiredMark="optional"
               >
-                <Tooltip title="Enable if you would like your submission to be Anonymous">
-                  <Switch
-                    checkedChildren={<CheckOutlined />}
-                    unCheckedChildren={<CloseOutlined />}
-                    onChange={e => setAnonUpload(e)}
-                    checked={anonUpload}
-                  />
-                </Tooltip>
+                <TextArea
+                  showCount
+                  maxLength={DESCRIPTION_MAX_LENGTH}
+                  value={descriptionTextValue}
+                  placeholder="Enter Description"
+                  onChange={e => setDescriptionTextValue(e.target.value)}
+                  style={{ height: 120 }}
+                  rows={4}
+                />
               </Form.Item>
-            </Form.Item>
 
-            {/* Title Field */}
-            <Form.Item
-              name="Title"
-              label="Title"
-              rules={[
-                {
-                  required: true,
-                  message: "Please input the Case Study Title"
-                },
-                {
-                  min: TITLE_MIN_LENGTH,
-                  message: `Title must be at least ${TITLE_MIN_LENGTH} characters.`
-                }
-              ]}
-              hasFeedback
-            >
-              <Input
-                showCount
-                maxLength={TITLE_MAX_LENGTH}
-                value={titleTextValue}
-                placeholder="Enter Title"
-                onChange={e => setTitleTextValue(e.target.value)}
-              />
-            </Form.Item>
-
-            {/* Description Field */}
-            <Form.Item
-              name="Description"
-              label="Description"
-              hasFeedback
-              requiredMark="optional"
-            >
-              <TextArea
-                showCount
-                maxLength={DESCRIPTION_MAX_LENGTH}
-                value={descriptionTextValue}
-                placeholder="Enter Description"
-                onChange={e => setDescriptionTextValue(e.target.value)}
-                style={{ height: 120 }}
-                rows={4}
-              />
-            </Form.Item>
-
-            {/* Course Topic Select */}
-            <Form.Item
-              label="Course Topic"
-              name="Topic"
-              rules={[
-                {
-                  required: true,
-                  message: "Please select a Course Topic"
-                },
-                {
-                  message: "Please select a valid Course Topic",
-                  validator: (_, value) => {
-                    if (value === COURSE_TOPICS[0]) {
-                      return Promise.reject();
+              {/* Course Topic Select */}
+              <Form.Item
+                label="Course Topic"
+                name="Topic"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please select a Course Topic"
+                  },
+                  {
+                    message: "Please select a valid Course Topic",
+                    validator: (_, value) => {
+                      if (value === COURSE_TOPICS[0]) {
+                        return Promise.reject();
+                      }
+                      return Promise.resolve();
                     }
-                    return Promise.resolve();
                   }
-                }
-              ]}
-              hasFeedback
-            >
-              <Select
-                defaultValue={COURSE_TOPICS[0]}
-                onChange={str => setParentCollectionValue(str)}
-                value={parentCollectionValue}
+                ]}
+                hasFeedback
               >
-                {COURSE_TOPICS.map(topic => (
-                  <Option value={topic}>{topic}</Option>
-                ))}
-              </Select>
-            </Form.Item>
-
-            {/* File Upload */}
-            <Form.Item
-              label="Case Study File(s)"
-              onChange={e => setCurrFile(e.target.files[0])}
-              rules={[
-                {
-                  required: true,
-                  message: "Please add file(s) for your case study"
-                }
-              ]}
-            >
-              <Upload
-                onRemove={onRemoveFile}
-                beforeUpload={beforeUpload}
-                name="file"
-                fileList={fileList}
-                maxCount={2}
-              >
-                <Button
-                  disabled={fileList.length > 1}
-                  icon={<UploadOutlined />}
+                <Select
+                  defaultValue={COURSE_TOPICS[0]}
+                  onChange={str => setParentCollectionValue(str)}
+                  value={parentCollectionValue}
                 >
-                  Select File(s) (Max: 2)
-                </Button>
-              </Upload>
-            </Form.Item>
+                  {COURSE_TOPICS.map(topic => (
+                    <Option value={topic}>{topic}</Option>
+                  ))}
+                </Select>
+              </Form.Item>
 
-
-            <Form.Item
-              label="&nbsp;"
-              className="nolabelitem"
-            >
-              {/* Submit */}
+              {/* File Upload */}
               <Form.Item
-                style={{ display: "inline-block", width: "calc(25%)" }}
-              >
-                <Button
-                  disabled={
-                    !honorCode ||
-                    fileList.length === 0 ||
-                    titleTextValue.length < TITLE_MIN_LENGTH ||
-                    parentCollectionValue === COURSE_TOPICS[0]
+                label="Case Study File(s)"
+                onChange={e => setCurrFile(e.target.files[0])}
+                rules={[
+                  {
+                    required: true,
+                    message: "Please add file(s) for your case study"
                   }
-                  type="primary"
-                  htmlType="submit"
-                >
-                  Submit
-                </Button>
-              </Form.Item>
-              {/* Honor Code */}
-              <Form.Item
-                name="Honor Code"
-                valuePropName="unchecked"
-                help={
-                  honorCode
-                    ? undefined
-                    : ""
-                }
-                style={{ display: "inline-block", width: "calc(75%)" }}
+                ]}
               >
-                <Checkbox
-                  checked={honorCode}
-                  onChange={e => setHonorCode(e.target.checked)}
+                <Upload
+                  onRemove={onRemoveFile}
+                  beforeUpload={beforeUpload}
+                  name="file"
+                  fileList={fileList}
+                  maxCount={2}
                 >
-                  I acknowledge that the information I provided is correct, accurate, adheres to the {" "}
-                  <a href="https://honorsystem.vt.edu/honor_code_policy_test.html">
-                    VT Honor Code
-                  </a>, and that I cannot alter this submission without contacting Professor Dunlap
-                  or the system administrator once it is submitted.
-                </Checkbox>
+                  <Button
+                    disabled={fileList.length > 1}
+                    icon={<UploadOutlined />}
+                  >
+                    Select File(s) (Max: 2)
+                  </Button>
+                </Upload>
               </Form.Item>
-            </Form.Item>
-          </Form>
-        </Spin>
-      )}
-    </>
+
+              <Form.Item label="&nbsp;" className="nolabelitem">
+                {/* Submit */}
+                <Form.Item
+                  style={{ display: "inline-block", width: "calc(25%)" }}
+                >
+                  <Button
+                    disabled={
+                      !honorCode ||
+                      fileList.length === 0 ||
+                      titleTextValue.length < TITLE_MIN_LENGTH ||
+                      parentCollectionValue === COURSE_TOPICS[0]
+                    }
+                    type="primary"
+                    htmlType="submit"
+                  >
+                    Submit
+                  </Button>
+                </Form.Item>
+                {/* Honor Code */}
+                <Form.Item
+                  name="Honor Code"
+                  valuePropName="unchecked"
+                  help={honorCode ? undefined : ""}
+                  style={{ display: "inline-block", width: "calc(75%)" }}
+                >
+                  <Checkbox
+                    checked={honorCode}
+                    onChange={e => setHonorCode(e.target.checked)}
+                  >
+                    I acknowledge that the information I provided is correct,
+                    accurate, adheres to the{" "}
+                    <a href="https://honorsystem.vt.edu/honor_code_policy_test.html">
+                      VT Honor Code
+                    </a>
+                    , and that I cannot alter this submission without contacting
+                    Professor Dunlap or the system administrator once it is
+                    submitted.
+                  </Checkbox>
+                </Form.Item>
+              </Form.Item>
+            </Form>
+          </Spin>
+        )}
+      </>
+    </Authenticator>
   );
 }
 
-export default withAuthenticator(UploadSection);
+export default UploadSection;
