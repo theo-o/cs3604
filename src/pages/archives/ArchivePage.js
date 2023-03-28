@@ -26,6 +26,7 @@ import Thumbnail from "../../components/Thumbnail";
 import MtlElement from "../../components/MtlElement";
 import X3DElement from "../../components/X3DElement";
 import SocialButtons from "../../components/SocialButtons";
+import Button from "antd";
 
 import "../../css/ArchivePage.scss";
 
@@ -372,6 +373,12 @@ class ArchivePage extends Component {
               {addNewlineInDesc(this.state.item.description)}
             </div>
             <div className="col-lg-6 details-section-metadata">
+              <Button
+                type="primary"
+                htmlType="button"
+              >
+                Edit
+              </Button>
               <SocialButtons
                 buttons={JSON.parse(this.props.site.siteOptions)}
                 url={window.location.href}
