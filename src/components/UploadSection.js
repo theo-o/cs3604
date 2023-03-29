@@ -657,9 +657,6 @@ function UploadSection() {
                       Submit
                     </Button>
                   </Form.Item>
-                  <Button onClick={signOut()} type="primary" htmlType="button">
-                    Logout
-                  </Button>
                   {/* Honor Code */}
                   <Form.Item
                     name="Honor Code"
