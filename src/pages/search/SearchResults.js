@@ -86,6 +86,7 @@ class SearchResults extends Component {
                 aria-rowcount={Object.keys(this.props.filters).length}
                 data-wrap-cols="true"
               >
+                
                 {Object.entries(this.props.filters).map(([key, value]) => {
                   if (Array.isArray(value)) {
                     return value.map((val, idx) => {

@@ -152,6 +152,7 @@ function UploadSection() {
     let year = date.getFullYear();
     const currentTime = `${year}/${month}/${day}`;
 
+    archive.user = Auth.currentAuthenticatedUser(); //this is the only new stuff, dont know what else it might need
     archive.id = id;
     archive.create_date = currentTime;
     archive.modified_date = currentTime;
