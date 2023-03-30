@@ -160,7 +160,8 @@ function UploadSection() {
     let year = date.getFullYear();
     const currentTime = `${year}/${month}/${day}`;
 
-    const s3_bucket_url = "https://collectionmap115006-dlpdev.s3.amazonaws.com";
+    const s3_bucket_url =
+      "https://collectionmap131908-casedev.s3.amazonaws.com";
 
     archive.id = id;
     archive.create_date = currentTime;
