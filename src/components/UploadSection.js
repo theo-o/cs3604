@@ -160,6 +160,8 @@ function UploadSection() {
     let year = date.getFullYear();
     const currentTime = `${year}/${month}/${day}`;
 
+    const s3_bucket_url = "https://collectionmap115006-dlpdev.s3.amazonaws.com";
+
     archive.id = id;
     archive.create_date = currentTime;
     archive.modified_date = currentTime;
@@ -170,11 +172,11 @@ function UploadSection() {
     archive.item_category = "Default";
     archive.language = ["en"];
     archive.parent_collection = [`${parent_collection.id}`];
-    archive.manifest_url = `https://collectionmap115006-dlpdev.s3.amazonaws.com/public/casestudies/${key}`;
+    archive.manifest_url = `${s3_bucket_url}/public/casestudies/${key}`;
     archive.visibility = true;
     archive.title = title;
     archive.creator = [anonUpload ? "Anonymous" : creatorValue];
-    archive.thumbnail_path = `https://collectionmap115006-dlpdev.s3.amazonaws.com/public/sitecontent/image/${process.env.REACT_APP_REP_TYPE.toLowerCase()}/${
+    archive.thumbnail_path = `${s3_bucket_url}/public/sitecontent/image/${process.env.REACT_APP_REP_TYPE.toLowerCase()}/${
       key.split(".")[0]
     }.jpg`;
     archive.source = [""];
@@ -481,7 +483,13 @@ function UploadSection() {
           </div>
         ) : (
           <>
-            /* */
+            {(signOut, user) => (
+              <div className="auth-dialog">
+                <button onClick={signOut}>Sign Out</button>
+                <p>User {user.username} is logged in</p>
+              </div>
+            )}
+
             <Spin spinning={uploading && uploading2} tip="Submitting...">
               <Form
                 name="validate_other"
