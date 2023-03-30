@@ -4,7 +4,7 @@ import UploadSection from "../components/UploadSection";
 import { getFile } from "../lib/fetchTools";
 
 import "../css/TermsPage.scss";
-class CaseStudyUploadPage extends Component {
+class CaseStudySignIn extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -44,7 +44,7 @@ class CaseStudyUploadPage extends Component {
               siteTitle={this.props.site.siteTitle}
               pageTitle="Permissions"
             />
-            <h1 id="permissions-heading">Case Study Student Upload</h1>
+            <h1 id="permissions-heading">Case Study Sign In</h1>
           </div>
           <div className="col-12 upload-section">
             <Button content="Signin" onClick={this.signIn} />
