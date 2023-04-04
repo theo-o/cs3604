@@ -7,16 +7,9 @@ import "../css/TermsPage.scss";
 class CaseStudySignIn extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      copy: ""
-    };
   }
 
-  componentDidMount() {
-    const htmlUrl = JSON.parse(this.props.site.sitePages)[this.props.parentKey]
-      .data_url;
-    getFile(htmlUrl, "html", this);
-  }
+  componentDidMount() {}
 
   signIn() {
     const authConfig = Auth.configure();
@@ -47,7 +40,10 @@ class CaseStudySignIn extends Component {
             <h1 id="permissions-heading">Case Study Sign In</h1>
           </div>
           <div className="col-12 upload-section">
-            <Button content="Signin" onClick={this.signIn} />
+            <Button
+              content="Signin"
+              onClick={Auth.federatedSignIn({ provider: "vt-gateway-prod" })}
+            />
           </div>
         </div>
       </>
