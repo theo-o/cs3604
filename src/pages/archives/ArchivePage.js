@@ -26,6 +26,7 @@ import Thumbnail from "../../components/Thumbnail";
 import MtlElement from "../../components/MtlElement";
 import X3DElement from "../../components/X3DElement";
 import SocialButtons from "../../components/SocialButtons";
+import { LikeOutlined } from "@ant-design/icons";
 
 import "../../css/ArchivePage.scss";
 
@@ -378,6 +379,10 @@ class ArchivePage extends Component {
                 title={this.state.item.title}
                 media={this.state.item.thumbnail_path}
               />
+              <div>2 Likes</div>
+              <Button disabled={fileList.length > 1} icon={<LikeOutlined />}>
+                Like Archive
+              </Button>
               <Citation item={this.state.item} site={this.props.site} />
               <table aria-label="Item Metadata">
                 <tbody>
