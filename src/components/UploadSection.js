@@ -82,6 +82,28 @@ const COURSE_TOPICS = [
   "Miscellaneous"
 ];
 
+// TODO: Link to dynamodb, and store the tags there so tags can be added by users to the database if necessary
+const METADATA_TAGS = [
+  "-- Select --",
+  "Court Cases",
+  "Video Games",
+  "Patents",
+  "Net Neutrality",
+  "Privacy in Public",
+  "Privacy in General",
+  "Internet History",
+  "Neuromarketing",
+  "Persuasive Design",
+  "Copyrights",
+  "Machine Learning",
+  "AI Algorithms",
+  "Miscellaneous",
+  "Social Media",
+  "Music",
+  "Video Streaming",
+  "VR/AR"
+];
+
 function UploadSection() {
   const [currFile, setCurrFile] = useState();
   const [isAuthorized, setIsAuthorized] = useState(false);
@@ -91,6 +113,7 @@ function UploadSection() {
   const [parentCollectionValue, setParentCollectionValue] = useState(
     COURSE_TOPICS[0]
   );
+  const [selectedDataTag, setSelectedDataTag] = useState(METADATA_TAGS[0]);
   const [selectedCollection, setSelectedCollection] = useState(null);
   const [allCollections, setAllCollections] = useState(null);
 
@@ -617,6 +640,37 @@ function UploadSection() {
                   >
                     {COURSE_TOPICS.map(topic => (
                       <Option value={topic}>{topic}</Option>
+                    ))}
+                  </Select>
+                </Form.Item>
+
+                {/* Metadata selection */}
+                <Form.Item
+                  label="Metadata Tags"
+                  name="Metadata"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please select metadata tags"
+                    },
+                    {
+                      message: "Please select a valid tag",
+                      validator: (_, value) => {
+                        if (value === METADATA_TAGS[0]) {
+                          return Promise.reject();
+                        }
+                        return Promise.resolve();
+                      }
+                    }
+                  ]}
+                >
+                  <Select
+                    defaultValue={METADATA_Tags[0]}
+                    onChange={str => setSelectedDataTag(str)}
+                    value={selectedDataTag}
+                  >
+                    {METADATA_TAGS.map(tag => (
+                      <Option value={tag}>{tag}</Option>
                     ))}
                   </Select>
                 </Form.Item>
