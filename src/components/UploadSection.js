@@ -665,7 +665,7 @@ function UploadSection() {
                   ]}
                 >
                   <Select
-                    defaultValue={METADATA_Tags[0]}
+                    defaultValue={METADATA_TAGS[0]}
                     onChange={str => setSelectedDataTag(str)}
                     value={selectedDataTag}
                   >
