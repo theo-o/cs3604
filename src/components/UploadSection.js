@@ -408,7 +408,7 @@ function UploadSection() {
             setUploading(false);
             setUploading2(false);
             notification.open({
-              message: "Case Study successfully uploaded!",
+              message: "Case Study Upload Error",
               description: (
                 <a
                   href={"/archive/" + archive.custom_key.substr(11)}
@@ -431,13 +431,19 @@ function UploadSection() {
           ""
         );
         console.log("archive: ", archive);
-        await API.graphql({
-          query: mutations.createArchive,
-          variables: {
-            input: archive
-          },
-          authMode: "AMAZON_COGNITO_USER_POOLS"
-        });
+        try{
+          await API.graphql({
+            query: mutations.createArchive,
+            variables: {
+              input: archive
+            },
+            authMode: "AMAZON_COGNITO_USER_POOLS"
+          });
+        } catch(err){
+          console.log("API.graphql  mutations.createArchive Error : ", err);
+        }
+        
+        console.log("After graphql call");
         // setUploading(false);
         // notification.open({
         //   message: "Case Study successfully uploaded!",
