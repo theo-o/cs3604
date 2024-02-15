@@ -270,18 +270,6 @@ class SiteAdmin extends Component {
             )}
           </Authenticator>
         </div>
-        <SiteContext.Provider
-          value={{
-            site: this.state.site,
-            updateSite: this.updateSiteHandler
-          }}
-        >
-          {this.state.authorized && this.state.site ? (
-            this.getForm()
-          ) : (
-            <h1>"Not authorized to access this page!"</h1>
-          )}
-        </SiteContext.Provider>
       </div>
     );
   }
