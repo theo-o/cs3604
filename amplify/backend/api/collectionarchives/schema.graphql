@@ -71,7 +71,7 @@ type Collection implements Object
   thumbnail_path: String
   title: String!
   visibility: Boolean!
-  collectionmap: Collectionmap @connection(name: "CollectionCollectionMap")
+  collectionmap: Collectionmap! @connection(name: "CollectionCollectionMap")
   archives: [Archive] @connection(name: "CollectionArchives")
 }
 
