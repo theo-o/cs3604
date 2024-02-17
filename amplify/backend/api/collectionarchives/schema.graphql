@@ -1,4 +1,4 @@
-interface Object @model {
+interface Object {
   belongs_to: [String!]
   bibliographic_citation: String
   circa: String
