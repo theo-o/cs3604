@@ -227,7 +227,7 @@ type Query {
 }
 
 type SearchableObjectConnection {
-  items: [Object]
+  items: [Object!]!
   nextToken: String
   total: Int
 }
