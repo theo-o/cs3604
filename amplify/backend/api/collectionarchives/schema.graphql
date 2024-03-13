@@ -1,9 +1,3 @@
-schema {
-  query: Query
-  mutation: Mutation
-  subscription: Subscription
-}
-
 interface Object {
   belongs_to: [String!]
   bibliographic_citation: String
@@ -33,15 +27,88 @@ interface Object {
   visibility: Boolean!
 }
 
-type Archive implements Object @aws_api_key @aws_cognito_user_pools {
+type Collection implements Object
+  @model
+  @searchable
+  @key(
+    fields: ["identifier"]
+    name: "Identifier"
+    queryField: "collectionByIdentifier"
+  )
+  @auth(rules: [
+    { allow: public, operations: [read] },
+    { allow: groups, groups: ["Admin", "Editor"] },
+    { allow: groups, groupsField: "collection_category" }
+  ]){
+  belongs_to: [String!]
+  bibliographic_citation: String
+  circa: String
+  collection_category: String!
+  collectionmap_id: String
+  collectionOptions: AWSJSON
+  create_date: String
+  creator: [String!]
+  custom_key: String
+  description: String
+  display_date: String
+  end_date: String
+  explicit_content: Boolean
+  heirarchy_path: [String!]
+  id: ID!
+  identifier: String!
+  language: [String!]
+  location: [String!]
+  modified_date: String
+  ownerinfo: AWSJSON
+  parent_collection: [String!]
+  provenance: [String!]
+  related_url: [String!]
+  rights_holder: String
+  rights_statement: String
+  source: [String!]
+  start_date: String
+  subject: [String!]
+  thumbnail_path: String
+  title: String!
+  visibility: Boolean!
+  collectionmap: Collectionmap! @connection(name: "CollectionCollectionMap")
+  archives: [Archive] @connection(name: "CollectionArchives")
+}
+
+type Collectionmap
+  @model@auth(rules: [
+    { allow: public, operations: [read] },
+    { allow: groups, groups: ["Admin", "Editor"] },
+    { allow: groups, groupsField: "collectionmap_category" }
+  ]){
+    collectionmap_category: String!
+    collection_id: String!
+    create_date: String
+    id: ID!
+    map_object: String!
+    modified_date: String
+    collection: Collection @connection(name: "CollectionCollectionMap")
+  }
+
+type Archive implements Object
+  @model
+  @searchable
+  @key(
+    fields: ["identifier"]
+    name: "Identifier"
+    queryField: "archiveByIdentifier"
+  )
+  @auth(rules: [
+    { allow: public, operations: [read] },
+    { allow: groups, groups: ["Admin", "Editor"] },
+    { allow: groups, groupsField: "item_category" }
+  ]){
   archiveOptions: AWSJSON
   belongs_to: [String!]
   bibliographic_citation: String
   circa: String
-  collection: Collection @aws_api_key @aws_cognito_user_pools
   contributor: [String!]
   create_date: String
-  createdAt: AWSDateTime!
   creator: [String!]
   custom_key: String
   description: String
@@ -74,690 +141,130 @@ type Archive implements Object @aws_api_key @aws_cognito_user_pools {
   tags: [String!]
   thumbnail_path: String
   title: String!
-  updatedAt: AWSDateTime!
   visibility: Boolean!
+  collection: Collection @connection(name: "CollectionArchives")
 }
 
-type Collection implements Object @aws_api_key @aws_cognito_user_pools {
-  archives(filter: ModelArchiveFilterInput, limit: Int, nextToken: String, sortDirection: ModelSortDirection): ModelArchiveConnection @aws_api_key @aws_cognito_user_pools
-  belongs_to: [String!]
-  bibliographic_citation: String
-  circa: String
-  collectionOptions: AWSJSON
-  collection_category: String!
-  collectionmap: Collectionmap! @aws_api_key @aws_cognito_user_pools
-  collectionmap_id: String
-  create_date: String
-  createdAt: AWSDateTime!
-  creator: [String!]
-  custom_key: String
-  description: String
-  display_date: String
-  end_date: String
-  explicit_content: Boolean
-  heirarchy_path: [String!]
+type Embargo
+@model
+@key(fields: ["start_date"], name: "start_date_index")
+@key(fields: ["end_date"], name: "end_date_index")
+@auth(rules: [
+    { allow: public, operations: [read] },
+    { allow: groups, groups: ["Admin", "Editor"] },
+    { allow: groups, groupsField: "groups", operations: [read, create] }
+  ])
+{
   id: ID!
   identifier: String!
-  language: [String!]
-  location: [String!]
-  modified_date: String
-  ownerinfo: AWSJSON
-  parent_collection: [String!]
-  provenance: [String!]
-  related_url: [String!]
-  rights_holder: String
-  rights_statement: String
-  source: [String!]
-  start_date: String
-  subject: [String!]
-  thumbnail_path: String
-  title: String!
-  updatedAt: AWSDateTime!
-  visibility: Boolean!
-}
-
-type Collectionmap @aws_api_key @aws_cognito_user_pools {
-  collection: Collection @aws_api_key @aws_cognito_user_pools
-  collection_id: String!
-  collectionmap_category: String!
-  create_date: String
-  createdAt: AWSDateTime!
-  id: ID!
-  map_object: String!
-  modified_date: String
-  updatedAt: AWSDateTime!
-}
-
-type Embargo @aws_api_key @aws_cognito_user_pools {
-  createdAt: AWSDateTime!
+  start_date: AWSDate
   end_date: AWSDate
-  id: ID!
-  identifier: String!
   note: String
   record_type: String!
-  start_date: AWSDate
-  updatedAt: AWSDateTime!
 }
 
-type History @aws_cognito_user_pools {
-  createdAt: AWSDateTime!
+type Site
+  @model
+  @key(fields: ["siteId"], name: "SiteId", queryField: "siteBySiteId")
+  @auth(rules: [
+    { allow: public, operations: [read] },
+    { allow: groups, groupsField: "groups" }
+    ]) {
+  analyticsID: String
+  assetBasePath: String
+  browseCollections: AWSJSON!
+  contact: [AWSJSON!]!
+  displayedAttributes: AWSJSON!
+  groups: [String]!
+  homePage: AWSJSON!
+  id: ID!
+  lang: String
+  miradorOptions: AWSJSON
+  searchPage: AWSJSON!
+  siteColor: String
+  siteId: String!
+  siteName: String!
+  siteOptions: AWSJSON
+  sitePages: AWSJSON
+  siteTitle: String!
+}
+
+type History
+  @model
+  @auth(rules: [
+    { allow: groups, groups: ["Admin"] },
+    { allow: groups, groupsField: "groups", operations: [read, create] }
+  ]) {
   event: AWSJSON!
   groups: [String]!
   id: ID!
   siteID: ID!
-  updatedAt: AWSDateTime!
   userEmail: AWSEmail!
-}
-
-type ModelArchiveConnection @aws_api_key @aws_cognito_user_pools {
-  items: [Archive]!
-  nextToken: String
-}
-
-type ModelCollectionConnection @aws_api_key @aws_cognito_user_pools {
-  items: [Collection]!
-  nextToken: String
-}
-
-type ModelCollectionmapConnection @aws_api_key @aws_cognito_user_pools {
-  items: [Collectionmap]!
-  nextToken: String
-}
-
-type ModelEmbargoConnection @aws_api_key @aws_cognito_user_pools {
-  items: [Embargo]!
-  nextToken: String
-}
-
-type ModelHistoryConnection @aws_cognito_user_pools {
-  items: [History]!
-  nextToken: String
-}
-
-type ModelSiteConnection @aws_api_key @aws_cognito_user_pools {
-  items: [Site]!
-  nextToken: String
-}
-
-type Mutation {
-  createArchive(input: CreateArchiveInput!): Archive @aws_cognito_user_pools
-  createCollection(input: CreateCollectionInput!): Collection @aws_cognito_user_pools
-  createCollectionmap(input: CreateCollectionmapInput!): Collectionmap @aws_cognito_user_pools
-  createEmbargo(input: CreateEmbargoInput!): Embargo @aws_cognito_user_pools
-  createHistory(input: CreateHistoryInput!): History @aws_cognito_user_pools
-  createSite(input: CreateSiteInput!): Site @aws_cognito_user_pools
-  deleteArchive(input: DeleteArchiveInput!): Archive @aws_cognito_user_pools
-  deleteCollection(input: DeleteCollectionInput!): Collection @aws_cognito_user_pools
-  deleteCollectionmap(input: DeleteCollectionmapInput!): Collectionmap @aws_cognito_user_pools
-  deleteEmbargo(input: DeleteEmbargoInput!): Embargo @aws_cognito_user_pools
-  deleteHistory(input: DeleteHistoryInput!): History @aws_cognito_user_pools
-  deleteSite(input: DeleteSiteInput!): Site @aws_cognito_user_pools
-  updateArchive(input: UpdateArchiveInput!): Archive @aws_cognito_user_pools
-  updateCollection(input: UpdateCollectionInput!): Collection @aws_cognito_user_pools
-  updateCollectionmap(input: UpdateCollectionmapInput!): Collectionmap @aws_cognito_user_pools
-  updateEmbargo(input: UpdateEmbargoInput!): Embargo @aws_cognito_user_pools
-  updateHistory(input: UpdateHistoryInput!): History @aws_cognito_user_pools
-  updateSite(input: UpdateSiteInput!): Site @aws_cognito_user_pools
 }
 
 type Query {
-  archiveByIdentifier(filter: ModelArchiveFilterInput, identifier: String, limit: Int, nextToken: String, sortDirection: ModelSortDirection): ModelArchiveConnection @aws_api_key @aws_cognito_user_pools
-  collectionByIdentifier(filter: ModelCollectionFilterInput, identifier: String, limit: Int, nextToken: String, sortDirection: ModelSortDirection): ModelCollectionConnection @aws_api_key @aws_cognito_user_pools
-  fulltextArchives(allFields: String, filter: SearchableArchiveFilterInput, limit: Int, nextToken: String, sort: SearchableArchiveSortInput): SearchableArchiveConnection
-  fulltextCollections(allFields: String, filter: SearchableCollectionFilterInput, limit: Int, nextToken: String, sort: SearchableCollectionSortInput): SearchableCollectionConnection
-  getArchive(id: ID!): Archive @aws_api_key @aws_cognito_user_pools
-  getCollection(id: ID!): Collection @aws_api_key @aws_cognito_user_pools
-  getCollectionmap(id: ID!): Collectionmap @aws_api_key @aws_cognito_user_pools
-  getEmbargo(id: ID!): Embargo @aws_api_key @aws_cognito_user_pools
-  getHistory(id: ID!): History @aws_cognito_user_pools
-  getSite(id: ID!): Site @aws_api_key @aws_cognito_user_pools
-  listArchives(filter: ModelArchiveFilterInput, limit: Int, nextToken: String): ModelArchiveConnection @aws_api_key @aws_cognito_user_pools
-  listCollectionmaps(filter: ModelCollectionmapFilterInput, limit: Int, nextToken: String): ModelCollectionmapConnection @aws_api_key @aws_cognito_user_pools
-  listCollections(filter: ModelCollectionFilterInput, limit: Int, nextToken: String): ModelCollectionConnection @aws_api_key @aws_cognito_user_pools
-  listEmbargos(filter: ModelEmbargoFilterInput, limit: Int, nextToken: String): ModelEmbargoConnection @aws_api_key @aws_cognito_user_pools
-  listHistorys(filter: ModelHistoryFilterInput, limit: Int, nextToken: String): ModelHistoryConnection @aws_cognito_user_pools
-  listSites(filter: ModelSiteFilterInput, limit: Int, nextToken: String): ModelSiteConnection @aws_api_key @aws_cognito_user_pools
-  searchArchives(filter: SearchableArchiveFilterInput, from: Int, limit: Int, nextToken: String, sort: SearchableArchiveSortInput): SearchableArchiveConnection @aws_api_key @aws_cognito_user_pools
-  searchCollections(filter: SearchableCollectionFilterInput, from: Int, limit: Int, nextToken: String, sort: SearchableCollectionSortInput): SearchableCollectionConnection @aws_api_key @aws_cognito_user_pools
-  searchObjects(allFields: String, filter: SearchableObjectFilterInput, limit: Int, nextToken: String, sort: SearchableObjectSortInput): SearchableObjectConnection
-  siteBySiteId(filter: ModelSiteFilterInput, limit: Int, nextToken: String, siteId: String, sortDirection: ModelSortDirection): ModelSiteConnection @aws_api_key @aws_cognito_user_pools
-}
-
-type SearchableArchiveConnection @aws_api_key @aws_cognito_user_pools {
-  items: [Archive]
-  nextToken: String
-  total: Int
-}
-
-type SearchableCollectionConnection @aws_api_key @aws_cognito_user_pools {
-  items: [Collection]
-  nextToken: String
-  total: Int
+  searchObjects(
+    allFields: String
+    sort: SearchableObjectSortInput
+    filter: SearchableObjectFilterInput
+    limit: Int
+    nextToken: String
+  ): SearchableObjectConnection
+  fulltextCollections(
+    allFields: String
+    filter: SearchableCollectionFilterInput
+    sort: SearchableCollectionSortInput
+    limit: Int
+    nextToken: String
+  ): SearchableCollectionConnection
+  fulltextArchives(
+    allFields: String
+    filter: SearchableArchiveFilterInput
+    sort: SearchableArchiveSortInput
+    limit: Int
+    nextToken: String
+  ): SearchableArchiveConnection
 }
 
 type SearchableObjectConnection {
-  items: [Object]
+  items: [Object!]!
   nextToken: String
   total: Int
 }
 
-type Site @aws_api_key @aws_cognito_user_pools {
-  analyticsID: String
-  assetBasePath: String
-  browseCollections: AWSJSON!
-  contact: [AWSJSON!]!
-  createdAt: AWSDateTime!
-  displayedAttributes: AWSJSON!
-  groups: [String]!
-  homePage: AWSJSON!
-  id: ID!
-  lang: String
-  miradorOptions: AWSJSON
-  searchPage: AWSJSON!
-  siteColor: String
-  siteId: String!
-  siteName: String!
-  siteOptions: AWSJSON
-  sitePages: AWSJSON
-  siteTitle: String!
-  updatedAt: AWSDateTime!
-}
-
-type Subscription {
-  onCreateArchive: Archive @aws_api_key @aws_cognito_user_pools @aws_subscribe(mutations : ["createArchive"])
-  onCreateCollection: Collection @aws_api_key @aws_cognito_user_pools @aws_subscribe(mutations : ["createCollection"])
-  onCreateCollectionmap: Collectionmap @aws_api_key @aws_cognito_user_pools @aws_subscribe(mutations : ["createCollectionmap"])
-  onCreateEmbargo: Embargo @aws_api_key @aws_cognito_user_pools @aws_subscribe(mutations : ["createEmbargo"])
-  onCreateHistory: History @aws_cognito_user_pools @aws_subscribe(mutations : ["createHistory"])
-  onCreateSite: Site @aws_api_key @aws_cognito_user_pools @aws_subscribe(mutations : ["createSite"])
-  onDeleteArchive: Archive @aws_api_key @aws_cognito_user_pools @aws_subscribe(mutations : ["deleteArchive"])
-  onDeleteCollection: Collection @aws_api_key @aws_cognito_user_pools @aws_subscribe(mutations : ["deleteCollection"])
-  onDeleteCollectionmap: Collectionmap @aws_api_key @aws_cognito_user_pools @aws_subscribe(mutations : ["deleteCollectionmap"])
-  onDeleteEmbargo: Embargo @aws_api_key @aws_cognito_user_pools @aws_subscribe(mutations : ["deleteEmbargo"])
-  onDeleteHistory: History @aws_cognito_user_pools @aws_subscribe(mutations : ["deleteHistory"])
-  onDeleteSite: Site @aws_api_key @aws_cognito_user_pools @aws_subscribe(mutations : ["deleteSite"])
-  onUpdateArchive: Archive @aws_api_key @aws_cognito_user_pools @aws_subscribe(mutations : ["updateArchive"])
-  onUpdateCollection: Collection @aws_api_key @aws_cognito_user_pools @aws_subscribe(mutations : ["updateCollection"])
-  onUpdateCollectionmap: Collectionmap @aws_api_key @aws_cognito_user_pools @aws_subscribe(mutations : ["updateCollectionmap"])
-  onUpdateEmbargo: Embargo @aws_api_key @aws_cognito_user_pools @aws_subscribe(mutations : ["updateEmbargo"])
-  onUpdateHistory: History @aws_cognito_user_pools @aws_subscribe(mutations : ["updateHistory"])
-  onUpdateSite: Site @aws_api_key @aws_cognito_user_pools @aws_subscribe(mutations : ["updateSite"])
-}
-
-enum ModelSortDirection {
-  ASC
-  DESC
-}
-
-enum SearchableArchiveSortableFields {
-  belongs_to
-  bibliographic_citation
-  circa
-  contributor
-  create_date
-  creator
-  custom_key
-  description
-  end_date
-  format
-  heirarchy_path
-  id
-  identifier
-  item_category
-  language
-  location
-  manifest_url
-  medium
-  modified_date
-  parent_collection
-  provenance
-  reference
-  related_url
-  repository
-  resource_type
-  rights_holder
-  rights_statement
-  source
-  start_date
-  subject
-  tags
-  thumbnail_path
-  title
-  visibility
-}
-
-enum SearchableCollectionSortableFields {
-  belongs_to
-  bibliographic_citation
-  circa
-  collection_category
-  create_date
-  creator
-  custom_key
-  description
-  end_date
-  heirarchy_path
-  id
-  identifier
-  language
-  location
-  modified_date
-  parent_collection
-  provenance
-  related_url
-  rights_holder
-  rights_statement
-  source
-  start_date
-  subject
-  thumbnail_path
-  title
-  visibility
-}
-
-enum SearchableObjectSortableFields {
-  creator
-  custom_key
-  description
-  end_date
-  id
-  identifier
-  language
-  location
-  source
-  start_date
-  subject
-  title
-}
-
-enum SearchableSortDirection {
-  asc
-  desc
-}
-
-input CreateArchiveInput {
-  archiveCollectionId: ID
-  archiveOptions: AWSJSON
-  belongs_to: [String!]
-  bibliographic_citation: String
-  circa: String
-  contributor: [String!]
-  create_date: String
-  creator: [String!]
-  custom_key: String
-  description: String
-  display_date: String
-  end_date: String
-  explicit: Boolean
-  extent: String
-  format: [String!]
-  heirarchy_path: [String!]
-  id: ID
-  identifier: String!
-  item_category: String!
-  language: [String!]
-  location: [String!]
-  manifest_file_characterization: AWSJSON
-  manifest_url: String!
-  medium: [String!]
-  modified_date: String
-  parent_collection: [String!]
-  provenance: [String!]
-  reference: [String!]
-  related_url: [String!]
-  repository: [String!]
-  resource_type: [String!]
-  rights_holder: String
-  rights_statement: String
-  source: [String!]
-  start_date: String
-  subject: [String!]
-  tags: [String!]
-  thumbnail_path: String
-  title: String!
-  visibility: Boolean!
-}
-
-input CreateCollectionInput {
-  belongs_to: [String!]
-  bibliographic_citation: String
-  circa: String
-  collectionCollectionmapId: ID!
-  collectionOptions: AWSJSON
-  collection_category: String!
-  collectionmap_id: String
-  create_date: String
-  creator: [String!]
-  custom_key: String
-  description: String
-  display_date: String
-  end_date: String
-  explicit_content: Boolean
-  heirarchy_path: [String!]
-  id: ID
-  identifier: String!
-  language: [String!]
-  location: [String!]
-  modified_date: String
-  ownerinfo: AWSJSON
-  parent_collection: [String!]
-  provenance: [String!]
-  related_url: [String!]
-  rights_holder: String
-  rights_statement: String
-  source: [String!]
-  start_date: String
-  subject: [String!]
-  thumbnail_path: String
-  title: String!
-  visibility: Boolean!
-}
-
-input CreateCollectionmapInput {
-  collection_id: String!
-  collectionmapCollectionId: ID
-  collectionmap_category: String!
-  create_date: String
-  id: ID
-  map_object: String!
-  modified_date: String
-}
-
-input CreateEmbargoInput {
-  end_date: AWSDate
-  id: ID
-  identifier: String!
-  note: String
-  record_type: String!
-  start_date: AWSDate
-}
-
-input CreateHistoryInput {
-  event: AWSJSON!
-  groups: [String]!
-  id: ID
-  siteID: ID!
-  userEmail: AWSEmail!
-}
-
-input CreateSiteInput {
-  analyticsID: String
-  assetBasePath: String
-  browseCollections: AWSJSON!
-  contact: [AWSJSON!]!
-  displayedAttributes: AWSJSON!
-  groups: [String]!
-  homePage: AWSJSON!
-  id: ID
-  lang: String
-  miradorOptions: AWSJSON
-  searchPage: AWSJSON!
-  siteColor: String
-  siteId: String!
-  siteName: String!
-  siteOptions: AWSJSON
-  sitePages: AWSJSON
-  siteTitle: String!
-}
-
-input DeleteArchiveInput {
-  id: ID!
-}
-
-input DeleteCollectionInput {
-  id: ID!
-}
-
-input DeleteCollectionmapInput {
-  id: ID!
-}
-
-input DeleteEmbargoInput {
-  id: ID!
-}
-
-input DeleteHistoryInput {
-  id: ID!
-}
-
-input DeleteSiteInput {
-  id: ID!
-}
-
-input ModelArchiveFilterInput {
-  and: [ModelArchiveFilterInput]
-  archiveOptions: ModelStringFilterInput
-  belongs_to: ModelStringFilterInput
-  bibliographic_citation: ModelStringFilterInput
-  circa: ModelStringFilterInput
-  contributor: ModelStringFilterInput
-  create_date: ModelStringFilterInput
-  creator: ModelStringFilterInput
-  custom_key: ModelStringFilterInput
-  description: ModelStringFilterInput
-  display_date: ModelStringFilterInput
-  end_date: ModelStringFilterInput
-  explicit: ModelBooleanFilterInput
-  extent: ModelStringFilterInput
-  format: ModelStringFilterInput
-  heirarchy_path: ModelStringFilterInput
-  id: ModelIDFilterInput
-  identifier: ModelStringFilterInput
-  item_category: ModelStringFilterInput
-  language: ModelStringFilterInput
-  location: ModelStringFilterInput
-  manifest_file_characterization: ModelStringFilterInput
-  manifest_url: ModelStringFilterInput
-  medium: ModelStringFilterInput
-  modified_date: ModelStringFilterInput
-  not: ModelArchiveFilterInput
-  or: [ModelArchiveFilterInput]
-  parent_collection: ModelStringFilterInput
-  provenance: ModelStringFilterInput
-  reference: ModelStringFilterInput
-  related_url: ModelStringFilterInput
-  repository: ModelStringFilterInput
-  resource_type: ModelStringFilterInput
-  rights_holder: ModelStringFilterInput
-  rights_statement: ModelStringFilterInput
-  source: ModelStringFilterInput
-  start_date: ModelStringFilterInput
-  subject: ModelStringFilterInput
-  tags: ModelStringFilterInput
-  thumbnail_path: ModelStringFilterInput
-  title: ModelStringFilterInput
-  visibility: ModelBooleanFilterInput
-}
-
-input ModelBooleanFilterInput {
-  eq: Boolean
-  ne: Boolean
-}
-
-input ModelCollectionFilterInput {
-  and: [ModelCollectionFilterInput]
-  belongs_to: ModelStringFilterInput
-  bibliographic_citation: ModelStringFilterInput
-  circa: ModelStringFilterInput
-  collectionOptions: ModelStringFilterInput
-  collection_category: ModelStringFilterInput
-  collectionmap_id: ModelStringFilterInput
-  create_date: ModelStringFilterInput
-  creator: ModelStringFilterInput
-  custom_key: ModelStringFilterInput
-  description: ModelStringFilterInput
-  display_date: ModelStringFilterInput
-  end_date: ModelStringFilterInput
-  explicit_content: ModelBooleanFilterInput
-  heirarchy_path: ModelStringFilterInput
-  id: ModelIDFilterInput
-  identifier: ModelStringFilterInput
-  language: ModelStringFilterInput
-  location: ModelStringFilterInput
-  modified_date: ModelStringFilterInput
-  not: ModelCollectionFilterInput
-  or: [ModelCollectionFilterInput]
-  ownerinfo: ModelStringFilterInput
-  parent_collection: ModelStringFilterInput
-  provenance: ModelStringFilterInput
-  related_url: ModelStringFilterInput
-  rights_holder: ModelStringFilterInput
-  rights_statement: ModelStringFilterInput
-  source: ModelStringFilterInput
-  start_date: ModelStringFilterInput
-  subject: ModelStringFilterInput
-  thumbnail_path: ModelStringFilterInput
-  title: ModelStringFilterInput
-  visibility: ModelBooleanFilterInput
-}
-
-input ModelCollectionmapFilterInput {
-  and: [ModelCollectionmapFilterInput]
-  collection_id: ModelStringFilterInput
-  collectionmap_category: ModelStringFilterInput
-  create_date: ModelStringFilterInput
-  id: ModelIDFilterInput
-  map_object: ModelStringFilterInput
-  modified_date: ModelStringFilterInput
-  not: ModelCollectionmapFilterInput
-  or: [ModelCollectionmapFilterInput]
-}
-
-input ModelEmbargoFilterInput {
-  and: [ModelEmbargoFilterInput]
-  end_date: ModelStringFilterInput
-  id: ModelIDFilterInput
-  identifier: ModelStringFilterInput
-  not: ModelEmbargoFilterInput
-  note: ModelStringFilterInput
-  or: [ModelEmbargoFilterInput]
-  record_type: ModelStringFilterInput
-  start_date: ModelStringFilterInput
-}
-
-input ModelFloatFilterInput {
-  between: [Float]
-  eq: Float
-  ge: Float
-  gt: Float
-  le: Float
-  lt: Float
-  ne: Float
-}
-
-input ModelHistoryFilterInput {
-  and: [ModelHistoryFilterInput]
-  event: ModelStringFilterInput
-  groups: ModelStringFilterInput
-  id: ModelIDFilterInput
-  not: ModelHistoryFilterInput
-  or: [ModelHistoryFilterInput]
-  siteID: ModelIDFilterInput
-  userEmail: ModelStringFilterInput
-}
-
-input ModelIDFilterInput {
-  beginsWith: ID
-  between: [ID]
-  contains: ID
-  eq: ID
-  ge: ID
-  gt: ID
-  le: ID
-  lt: ID
-  ne: ID
-  notContains: ID
-}
-
-input ModelIntFilterInput {
-  between: [Int]
-  eq: Int
-  ge: Int
-  gt: Int
-  le: Int
-  lt: Int
-  ne: Int
-}
-
-input ModelSiteFilterInput {
-  analyticsID: ModelStringFilterInput
-  and: [ModelSiteFilterInput]
-  assetBasePath: ModelStringFilterInput
-  browseCollections: ModelStringFilterInput
-  contact: ModelStringFilterInput
-  displayedAttributes: ModelStringFilterInput
-  groups: ModelStringFilterInput
-  homePage: ModelStringFilterInput
-  id: ModelIDFilterInput
-  lang: ModelStringFilterInput
-  miradorOptions: ModelStringFilterInput
-  not: ModelSiteFilterInput
-  or: [ModelSiteFilterInput]
-  searchPage: ModelStringFilterInput
-  siteColor: ModelStringFilterInput
-  siteId: ModelStringFilterInput
-  siteName: ModelStringFilterInput
-  siteOptions: ModelStringFilterInput
-  sitePages: ModelStringFilterInput
-  siteTitle: ModelStringFilterInput
-}
-
-input ModelStringFilterInput {
-  beginsWith: String
-  between: [String]
-  contains: String
-  eq: String
-  ge: String
-  gt: String
-  le: String
-  lt: String
-  ne: String
-  notContains: String
-}
-
-input SearchableArchiveFilterInput {
-  and: [SearchableArchiveFilterInput]
-  belongs_to: SearchableStringFilterInput
-  bibliographic_citation: SearchableStringFilterInput
-  circa: SearchableStringFilterInput
-  contributor: SearchableStringFilterInput
-  create_date: SearchableStringFilterInput
-  creator: SearchableStringFilterInput
-  custom_key: SearchableStringFilterInput
-  description: SearchableStringFilterInput
-  end_date: SearchableStringFilterInput
-  format: SearchableStringFilterInput
-  heirarchy_path: SearchableStringFilterInput
+input SearchableObjectFilterInput {
   id: SearchableIDFilterInput
-  identifier: SearchableStringFilterInput
-  item_category: SearchableStringFilterInput
-  language: SearchableStringFilterInput
-  location: SearchableStringFilterInput
-  manifest_url: SearchableStringFilterInput
-  medium: SearchableStringFilterInput
-  modified_date: SearchableStringFilterInput
-  not: SearchableArchiveFilterInput
-  or: [SearchableArchiveFilterInput]
-  parent_collection: SearchableStringFilterInput
-  provenance: SearchableStringFilterInput
-  reference: SearchableStringFilterInput
-  related_url: SearchableStringFilterInput
-  repository: SearchableStringFilterInput
-  resource_type: SearchableStringFilterInput
-  rights_holder: SearchableStringFilterInput
-  rights_statement: SearchableStringFilterInput
-  source: SearchableStringFilterInput
-  start_date: SearchableStringFilterInput
-  subject: SearchableStringFilterInput
-  tags: SearchableStringFilterInput
-  thumbnail_path: SearchableStringFilterInput
   title: SearchableStringFilterInput
+  identifier: SearchableStringFilterInput
+  description: SearchableStringFilterInput
+  tags: SearchableStringFilterInput
+  creator: SearchableStringFilterInput
+  source: SearchableStringFilterInput
+  circa: SearchableStringFilterInput
+  start_date: SearchableStringFilterInput
+  end_date: SearchableStringFilterInput
+  subject: SearchableStringFilterInput
+  belongs_to: SearchableStringFilterInput
+  location: SearchableStringFilterInput
+  medium: SearchableStringFilterInput
+  rights_statement: SearchableStringFilterInput
+  language: SearchableStringFilterInput
+  resource_type: SearchableStringFilterInput
+  bibliographic_citation: SearchableStringFilterInput
+  rights_holder: SearchableStringFilterInput
+  format: SearchableStringFilterInput
+  custom_key: SearchableStringFilterInput
   visibility: SearchableBooleanFilterInput
-}
-
-input SearchableArchiveSortInput {
-  direction: SearchableSortDirection
-  field: SearchableArchiveSortableFields
+  heirarchy_path: SearchableStringFilterInput
+  thumbnail_path: SearchableStringFilterInput
+  parent_collection: SearchableStringFilterInput
+  create_date: SearchableStringFilterInput
+  modified_date: SearchableStringFilterInput
+  collection_category: SearchableStringFilterInput
+  item_category: SearchableStringFilterInput
+  and: [SearchableObjectFilterInput]
+  or: [SearchableObjectFilterInput]
+  not: SearchableObjectFilterInput
 }
 
 input SearchableBooleanFilterInput {
@@ -765,256 +272,219 @@ input SearchableBooleanFilterInput {
   ne: Boolean
 }
 
+input SearchableObjectSortInput {
+  field: SearchableObjectSortableFields
+  direction: SearchableSortDirection
+}
+
+enum SearchableObjectSortableFields {
+  id
+  title
+  identifier
+  description
+  creator
+  source
+  start_date
+  end_date
+  subject
+  location
+  language
+  custom_key
+}
+
+type SearchableCollectionConnection {
+  items: [Collection]
+  nextToken: String
+  total: Int
+}
+
 input SearchableCollectionFilterInput {
-  and: [SearchableCollectionFilterInput]
+  id: SearchableIDFilterInput
+  title: SearchableStringFilterInput
+  identifier: SearchableStringFilterInput
+  description: SearchableStringFilterInput
+  creator: SearchableStringFilterInput
+  source: SearchableStringFilterInput
+  circa: SearchableStringFilterInput
+  start_date: SearchableStringFilterInput
+  end_date: SearchableStringFilterInput
+  subject: SearchableStringFilterInput
+  location: SearchableStringFilterInput
+  rights_statement: SearchableStringFilterInput
+  language: SearchableStringFilterInput
+  related_url: SearchableStringFilterInput
+  provenance: SearchableStringFilterInput
   belongs_to: SearchableStringFilterInput
   bibliographic_citation: SearchableStringFilterInput
-  circa: SearchableStringFilterInput
-  collection_category: SearchableStringFilterInput
-  create_date: SearchableStringFilterInput
-  creator: SearchableStringFilterInput
-  custom_key: SearchableStringFilterInput
-  description: SearchableStringFilterInput
-  end_date: SearchableStringFilterInput
-  heirarchy_path: SearchableStringFilterInput
-  id: SearchableIDFilterInput
-  identifier: SearchableStringFilterInput
-  language: SearchableStringFilterInput
-  location: SearchableStringFilterInput
-  modified_date: SearchableStringFilterInput
-  not: SearchableCollectionFilterInput
-  or: [SearchableCollectionFilterInput]
-  parent_collection: SearchableStringFilterInput
-  provenance: SearchableStringFilterInput
-  related_url: SearchableStringFilterInput
   rights_holder: SearchableStringFilterInput
-  rights_statement: SearchableStringFilterInput
-  source: SearchableStringFilterInput
-  start_date: SearchableStringFilterInput
-  subject: SearchableStringFilterInput
-  thumbnail_path: SearchableStringFilterInput
-  title: SearchableStringFilterInput
+  custom_key: SearchableStringFilterInput
+  collection_category: SearchableStringFilterInput
   visibility: SearchableBooleanFilterInput
+  thumbnail_path: SearchableStringFilterInput
+  parent_collection: SearchableStringFilterInput
+  heirarchy_path: SearchableStringFilterInput
+  create_date: SearchableStringFilterInput
+  modified_date: SearchableStringFilterInput
+  and: [SearchableCollectionFilterInput]
+  or: [SearchableCollectionFilterInput]
+  not: SearchableCollectionFilterInput
 }
 
 input SearchableCollectionSortInput {
-  direction: SearchableSortDirection
   field: SearchableCollectionSortableFields
+  direction: SearchableSortDirection
 }
 
-input SearchableFloatFilterInput {
-  eq: Float
-  gt: Float
-  gte: Float
-  lt: Float
-  lte: Float
-  ne: Float
-  range: [Float]
+enum SearchableCollectionSortableFields {
+  id
+  title
+  identifier
+  description
+  creator
+  source
+  circa
+  start_date
+  end_date
+  subject
+  location
+  rights_statement
+  language
+  related_url
+  provenance
+  belongs_to
+  bibliographic_citation
+  rights_holder
+  custom_key
+  collection_category
+  visibility
+  heirarchy_path
+  thumbnail_path
+  parent_collection
+  create_date
+  modified_date
+}
+
+type SearchableArchiveConnection {
+  items: [Archive]
+  nextToken: String
+  total: Int
+}
+
+input SearchableArchiveFilterInput {
+  id: SearchableIDFilterInput
+  title: SearchableStringFilterInput
+  identifier: SearchableStringFilterInput
+  description: SearchableStringFilterInput
+  tags: SearchableStringFilterInput
+  creator: SearchableStringFilterInput
+  source: SearchableStringFilterInput
+  circa: SearchableStringFilterInput
+  start_date: SearchableStringFilterInput
+  end_date: SearchableStringFilterInput
+  subject: SearchableStringFilterInput
+  rights_statement: SearchableStringFilterInput
+  language: SearchableStringFilterInput
+  resource_type: SearchableStringFilterInput
+  belongs_to: SearchableStringFilterInput
+  location: SearchableStringFilterInput
+  medium: SearchableStringFilterInput
+  bibliographic_citation: SearchableStringFilterInput
+  rights_holder: SearchableStringFilterInput
+  format: SearchableStringFilterInput
+  related_url: SearchableStringFilterInput
+  provenance: SearchableStringFilterInput
+  repository: SearchableStringFilterInput
+  reference: SearchableStringFilterInput
+  contributor: SearchableStringFilterInput
+  custom_key: SearchableStringFilterInput
+  parent_collection: SearchableStringFilterInput
+  item_category: SearchableStringFilterInput
+  visibility: SearchableBooleanFilterInput
+  thumbnail_path: SearchableStringFilterInput
+  manifest_url: SearchableStringFilterInput
+  create_date: SearchableStringFilterInput
+  modified_date: SearchableStringFilterInput
+  heirarchy_path: SearchableStringFilterInput
+  and: [SearchableArchiveFilterInput]
+  or: [SearchableArchiveFilterInput]
+  not: SearchableArchiveFilterInput
+}
+
+input SearchableArchiveSortInput {
+  field: SearchableArchiveSortableFields
+  direction: SearchableSortDirection
+}
+
+enum SearchableArchiveSortableFields {
+  id
+  title
+  identifier
+  description
+  tags
+  creator
+  source
+  circa
+  start_date
+  end_date
+  subject
+  rights_statement
+  language
+  resource_type
+  belongs_to
+  location
+  medium
+  bibliographic_citation
+  rights_holder
+  format
+  related_url
+  provenance
+  repository
+  reference
+  contributor
+  custom_key
+  parent_collection
+  item_category
+  visibility
+  heirarchy_path
+  thumbnail_path
+  manifest_url
+  create_date
+  modified_date
 }
 
 input SearchableIDFilterInput {
-  eq: ID
-  exists: Boolean
+  ne: ID
   gt: ID
-  gte: ID
   lt: ID
+  gte: ID
   lte: ID
+  eq: ID
   match: ID
   matchPhrase: ID
   matchPhrasePrefix: ID
   multiMatch: ID
-  ne: ID
-  regexp: ID
+  exists: Boolean
   wildcard: ID
+  regexp: ID
 }
 
-input SearchableIntFilterInput {
-  eq: Int
-  gt: Int
-  gte: Int
-  lt: Int
-  lte: Int
-  ne: Int
-  range: [Int]
-}
-
-input SearchableObjectFilterInput {
-  and: [SearchableObjectFilterInput]
-  belongs_to: SearchableStringFilterInput
-  bibliographic_citation: SearchableStringFilterInput
-  circa: SearchableStringFilterInput
-  collection_category: SearchableStringFilterInput
-  create_date: SearchableStringFilterInput
-  creator: SearchableStringFilterInput
-  custom_key: SearchableStringFilterInput
-  description: SearchableStringFilterInput
-  end_date: SearchableStringFilterInput
-  format: SearchableStringFilterInput
-  heirarchy_path: SearchableStringFilterInput
-  id: SearchableIDFilterInput
-  identifier: SearchableStringFilterInput
-  item_category: SearchableStringFilterInput
-  language: SearchableStringFilterInput
-  location: SearchableStringFilterInput
-  medium: SearchableStringFilterInput
-  modified_date: SearchableStringFilterInput
-  not: SearchableObjectFilterInput
-  or: [SearchableObjectFilterInput]
-  parent_collection: SearchableStringFilterInput
-  resource_type: SearchableStringFilterInput
-  rights_holder: SearchableStringFilterInput
-  rights_statement: SearchableStringFilterInput
-  source: SearchableStringFilterInput
-  start_date: SearchableStringFilterInput
-  subject: SearchableStringFilterInput
-  tags: SearchableStringFilterInput
-  thumbnail_path: SearchableStringFilterInput
-  title: SearchableStringFilterInput
-  visibility: SearchableBooleanFilterInput
-}
-
-input SearchableObjectSortInput {
-  direction: SearchableSortDirection
-  field: SearchableObjectSortableFields
+enum SearchableSortDirection {
+  asc
+  desc
 }
 
 input SearchableStringFilterInput {
-  eq: String
-  exists: Boolean
+  ne: String
   gt: String
-  gte: String
   lt: String
+  gte: String
   lte: String
+  eq: String
   match: String
   matchPhrase: String
   matchPhrasePrefix: String
   multiMatch: String
-  ne: String
-  regexp: String
+  exists: Boolean
   wildcard: String
-}
-
-input UpdateArchiveInput {
-  archiveCollectionId: ID
-  archiveOptions: AWSJSON
-  belongs_to: [String!]
-  bibliographic_citation: String
-  circa: String
-  contributor: [String!]
-  create_date: String
-  creator: [String!]
-  custom_key: String
-  description: String
-  display_date: String
-  end_date: String
-  explicit: Boolean
-  extent: String
-  format: [String!]
-  heirarchy_path: [String!]
-  id: ID!
-  identifier: String
-  item_category: String
-  language: [String!]
-  location: [String!]
-  manifest_file_characterization: AWSJSON
-  manifest_url: String
-  medium: [String!]
-  modified_date: String
-  parent_collection: [String!]
-  provenance: [String!]
-  reference: [String!]
-  related_url: [String!]
-  repository: [String!]
-  resource_type: [String!]
-  rights_holder: String
-  rights_statement: String
-  source: [String!]
-  start_date: String
-  subject: [String!]
-  tags: [String!]
-  thumbnail_path: String
-  title: String
-  visibility: Boolean
-}
-
-input UpdateCollectionInput {
-  belongs_to: [String!]
-  bibliographic_citation: String
-  circa: String
-  collectionCollectionmapId: ID
-  collectionOptions: AWSJSON
-  collection_category: String
-  collectionmap_id: String
-  create_date: String
-  creator: [String!]
-  custom_key: String
-  description: String
-  display_date: String
-  end_date: String
-  explicit_content: Boolean
-  heirarchy_path: [String!]
-  id: ID!
-  identifier: String
-  language: [String!]
-  location: [String!]
-  modified_date: String
-  ownerinfo: AWSJSON
-  parent_collection: [String!]
-  provenance: [String!]
-  related_url: [String!]
-  rights_holder: String
-  rights_statement: String
-  source: [String!]
-  start_date: String
-  subject: [String!]
-  thumbnail_path: String
-  title: String
-  visibility: Boolean
-}
-
-input UpdateCollectionmapInput {
-  collection_id: String
-  collectionmapCollectionId: ID
-  collectionmap_category: String
-  create_date: String
-  id: ID!
-  map_object: String
-  modified_date: String
-}
-
-input UpdateEmbargoInput {
-  end_date: AWSDate
-  id: ID!
-  identifier: String
-  note: String
-  record_type: String
-  start_date: AWSDate
-}
-
-input UpdateHistoryInput {
-  event: AWSJSON
-  groups: [String]
-  id: ID!
-  siteID: ID
-  userEmail: AWSEmail
-}
-
-input UpdateSiteInput {
-  analyticsID: String
-  assetBasePath: String
-  browseCollections: AWSJSON
-  contact: [AWSJSON!]
-  displayedAttributes: AWSJSON
-  groups: [String]
-  homePage: AWSJSON
-  id: ID!
-  lang: String
-  miradorOptions: AWSJSON
-  searchPage: AWSJSON
-  siteColor: String
-  siteId: String
-  siteName: String
-  siteOptions: AWSJSON
-  sitePages: AWSJSON
-  siteTitle: String
+  regexp: String
 }
