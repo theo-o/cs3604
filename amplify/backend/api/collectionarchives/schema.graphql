@@ -203,13 +203,6 @@ type History
 }
 
 type Query {
-  searchObjects(
-    allFields: String
-    sort: SearchableObjectSortInput
-    filter: SearchableObjectFilterInput
-    limit: Int
-    nextToken: String
-  ): SearchableObjectConnection
   fulltextCollections(
     allFields: String
     filter: SearchableCollectionFilterInput
@@ -224,12 +217,6 @@ type Query {
     limit: Int
     nextToken: String
   ): SearchableArchiveConnection
-}
-
-type SearchableObjectConnection {
-  items: [Object!]!
-  nextToken: String
-  total: Int
 }
 
 input SearchableObjectFilterInput {
